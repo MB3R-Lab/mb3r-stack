@@ -1,0 +1,32 @@
+{
+  "title": "Sheaft Gate Overview",
+  "tags": ["mb3r", "sheaft"],
+  "timezone": "browser",
+  "schemaVersion": 39,
+  "version": 1,
+  "refresh": "30s",
+  "panels": [
+    {
+      "type": "timeseries",
+      "title": "Gate Decisions",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 0 },
+      "targets": [
+        {
+          "expr": "sum by (decision) (rate(sheaft_gate_decisions_total[5m]))",
+          "legendFormat": "{{decision}}"
+        }
+      ]
+    },
+    {
+      "type": "stat",
+      "title": "Open Reviews",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 0 },
+      "targets": [
+        {
+          "expr": "sum(sheaft_gate_decisions_total{decision=\"review\"})",
+          "legendFormat": "review"
+        }
+      ]
+    }
+  ]
+}

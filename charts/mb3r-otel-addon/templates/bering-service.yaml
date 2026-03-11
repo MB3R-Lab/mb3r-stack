@@ -1,0 +1,33 @@
+{{- if .Values.bering.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "mb3r-otel-addon.fullname" . }}-bering
+  labels:
+    {{- include "mb3r-otel-addon.labels" . | nindent 4 }}
+    app.kubernetes.io/component: bering
+  annotations:
+    {{- if .Values.prometheusScrapeHooks.enabled }}
+    prometheus.io/scrape: "true"
+    prometheus.io/path: /metrics
+    prometheus.io/port: {{ .Values.bering.service.metricsPort | quote }}
+    {{- end }}
+    {{- with .Values.bering.prometheus.annotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+    {{- with .Values.bering.service.annotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  type: {{ .Values.bering.service.type }}
+  selector:
+    {{- include "mb3r-otel-addon.selectorLabels" . | nindent 4 }}
+    app.kubernetes.io/component: bering
+  ports:
+    - name: otlp-grpc
+      port: {{ .Values.bering.service.port }}
+      targetPort: otlp-grpc
+    - name: metrics
+      port: {{ .Values.bering.service.metricsPort }}
+      targetPort: metrics
+{{- end }}

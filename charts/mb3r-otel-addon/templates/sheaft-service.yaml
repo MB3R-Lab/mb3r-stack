@@ -1,0 +1,33 @@
+{{- if .Values.sheaft.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "mb3r-otel-addon.fullname" . }}-sheaft
+  labels:
+    {{- include "mb3r-otel-addon.labels" . | nindent 4 }}
+    app.kubernetes.io/component: sheaft
+  annotations:
+    {{- if .Values.prometheusScrapeHooks.enabled }}
+    prometheus.io/scrape: "true"
+    prometheus.io/path: /metrics
+    prometheus.io/port: {{ .Values.sheaft.service.metricsPort | quote }}
+    {{- end }}
+    {{- with .Values.sheaft.prometheus.annotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+    {{- with .Values.sheaft.service.annotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  type: {{ .Values.sheaft.service.type }}
+  selector:
+    {{- include "mb3r-otel-addon.selectorLabels" . | nindent 4 }}
+    app.kubernetes.io/component: sheaft
+  ports:
+    - name: http
+      port: {{ .Values.sheaft.service.port }}
+      targetPort: http
+    - name: metrics
+      port: {{ .Values.sheaft.service.metricsPort }}
+      targetPort: metrics
+{{- end }}

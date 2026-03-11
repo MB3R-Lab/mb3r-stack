@@ -1,0 +1,59 @@
+{{- if and .Values.collector.snippets.enabled (or .Values.collector.targetEndpoint .Values.bering.enabled) }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ default (printf "%s-collector-snippets" (include "mb3r-otel-addon.fullname" .)) .Values.collector.snippets.name }}
+  labels:
+    {{- include "mb3r-otel-addon.labels" . | nindent 4 }}
+    app.kubernetes.io/component: collector-overlay
+data:
+  exporter.yaml: |
+    exporters:
+      otlp/bering:
+        endpoint: {{ include "mb3r-otel-addon.beringEndpoint" . }}
+        tls:
+          insecure: {{ .Values.collector.snippets.tlsInsecure }}
+  traces-pipeline-patch.yaml: |
+{{ if .Values.collector.snippets.includeTracesPipeline }}
+    service:
+      pipelines:
+        traces:
+          exporters:
+            - otlp/bering
+{{ else }}
+    # Disabled by values.collector.snippets.includeTracesPipeline=false
+{{ end }}
+  metrics-pipeline-patch.yaml: |
+{{ if .Values.collector.snippets.includeMetricsPipeline }}
+    service:
+      pipelines:
+        metrics:
+          exporters:
+            - otlp/bering
+{{ else }}
+    # Disabled by values.collector.snippets.includeMetricsPipeline=false
+{{ end }}
+  logs-pipeline-patch.yaml: |
+{{ if .Values.collector.snippets.includeLogsPipeline }}
+    service:
+      pipelines:
+        logs:
+          exporters:
+            - otlp/bering
+{{ else }}
+    # Disabled by values.collector.snippets.includeLogsPipeline=false
+{{ end }}
+  prometheus-receiver.yaml: |
+{{ if .Values.collector.snippets.includePrometheusReceiver }}
+    receivers:
+      prometheus/mb3r:
+        config:
+          scrape_configs:
+            - job_name: {{ .Values.prometheusScrapeHooks.jobNames.bering | quote }}
+              static_configs:
+                - targets:
+                    - {{ printf "%s-bering:%v" (include "mb3r-otel-addon.fullname" .) (.Values.bering.service.metricsPort | int) | quote }}
+{{ else }}
+    # Disabled by values.collector.snippets.includePrometheusReceiver=false
+{{ end }}
+{{- end }}

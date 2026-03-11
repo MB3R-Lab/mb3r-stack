@@ -1,0 +1,41 @@
+{{- if and .Values.bering.enabled .Values.bering.serviceMonitor.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ include "mb3r-otel-addon.fullname" . }}-bering
+  labels:
+    {{- include "mb3r-otel-addon.labels" . | nindent 4 }}
+    app.kubernetes.io/component: bering
+    {{- with .Values.bering.serviceMonitor.labels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "mb3r-otel-addon.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: bering
+  endpoints:
+    - port: metrics
+      interval: {{ .Values.bering.serviceMonitor.interval }}
+---
+{{- end }}
+{{- if and .Values.sheaft.enabled .Values.sheaft.serviceMonitor.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ include "mb3r-otel-addon.fullname" . }}-sheaft
+  labels:
+    {{- include "mb3r-otel-addon.labels" . | nindent 4 }}
+    app.kubernetes.io/component: sheaft
+    {{- with .Values.sheaft.serviceMonitor.labels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "mb3r-otel-addon.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: sheaft
+  endpoints:
+    - port: metrics
+      interval: {{ .Values.sheaft.serviceMonitor.interval }}
+{{- end }}

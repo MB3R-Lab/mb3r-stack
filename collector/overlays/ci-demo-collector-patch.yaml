@@ -1,0 +1,15 @@
+apiVersion: opentelemetry.io/v1beta1
+kind: OpenTelemetryCollector
+metadata:
+  name: ci-eval
+spec:
+  config: |
+    exporters:
+      otlp/bering:
+        endpoint: mb3r-otel-addon-bering:4317
+        tls:
+          insecure: true
+    service:
+      pipelines:
+        traces:
+          exporters: [otlp/bering]

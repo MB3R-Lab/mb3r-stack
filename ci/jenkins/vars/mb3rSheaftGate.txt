@@ -1,0 +1,1 @@
+Runs the MB3R Sheaft gate adapter and returns decision metadata.

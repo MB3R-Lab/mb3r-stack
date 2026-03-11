@@ -1,0 +1,23 @@
+collector:
+  snippets:
+    enabled: true
+    includePrometheusReceiver: true
+
+bering:
+  enabled: true
+  image:
+    tag: "TODO-SET-BERING-TAG"
+
+sheaft:
+  enabled: true
+  image:
+    tag: "TODO-SET-SHEAFT-TAG"
+
+prometheusScrapeHooks:
+  enabled: true
+
+grafanaDashboards:
+  enabled: true
+  existingConfigMaps:
+    - mb3r-bering-dashboard-v1-0-0
+    - mb3r-sheaft-dashboard-v1-0-0

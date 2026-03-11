@@ -1,0 +1,48 @@
+{{- if .Values.bering.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "mb3r-otel-addon.fullname" . }}-bering
+  labels:
+    {{- include "mb3r-otel-addon.labels" . | nindent 4 }}
+    app.kubernetes.io/component: bering
+spec:
+  replicas: {{ .Values.bering.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "mb3r-otel-addon.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: bering
+  template:
+    metadata:
+      labels:
+        {{- include "mb3r-otel-addon.selectorLabels" . | nindent 8 }}
+        app.kubernetes.io/component: bering
+      {{- with .Values.global.commonAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    spec:
+      {{- with .Values.global.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: bering
+          image: {{ include "mb3r-otel-addon.resolveImage" (dict "root" . "image" .Values.bering.image) | quote }}
+          imagePullPolicy: {{ .Values.bering.image.pullPolicy }}
+          ports:
+            - name: otlp-grpc
+              containerPort: {{ .Values.bering.service.port }}
+            - name: metrics
+              containerPort: {{ .Values.bering.service.metricsPort }}
+          {{- with .Values.bering.extraArgs }}
+          args:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.bering.env }}
+          env:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          resources:
+            {{- toYaml .Values.bering.resources | nindent 12 }}
+{{- end }}

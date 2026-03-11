@@ -1,0 +1,136 @@
+name: mb3r-report
+
+on:
+  workflow_call:
+    inputs:
+      discovery-artifact-name:
+        type: string
+        default: "mb3r-bering-discovery"
+      gate-artifact-name:
+        type: string
+        default: "mb3r-sheaft-gate"
+      discovery-report-path:
+        type: string
+        default: ".mb3r/bering/bering-discovery.json"
+      gate-report-path:
+        type: string
+        default: ".mb3r/sheaft/sheaft-gate.json"
+      output-dir:
+        type: string
+        default: ".mb3r/report"
+      artifact-name:
+        type: string
+        default: "mb3r-report"
+      upload-artifact:
+        type: boolean
+        default: true
+    outputs:
+      report-json:
+        description: Combined report JSON path within the artifact.
+        value: ${{ jobs.mb3r-report.outputs.report-json }}
+      report-markdown:
+        description: Combined report markdown path within the artifact.
+        value: ${{ jobs.mb3r-report.outputs.report-markdown }}
+      artifact-name:
+        description: Uploaded artifact name.
+        value: ${{ jobs.mb3r-report.outputs.artifact-name }}
+      overall-decision:
+        description: Overall stack decision from the merged report.
+        value: ${{ jobs.mb3r-report.outputs.overall-decision }}
+
+jobs:
+  mb3r-report:
+    runs-on: ubuntu-latest
+    outputs:
+      report-json: ${{ steps.report.outputs.report-json }}
+      report-markdown: ${{ steps.report.outputs.report-markdown }}
+      artifact-name: ${{ steps.report.outputs.artifact-name }}
+      overall-decision: ${{ steps.report.outputs.overall-decision }}
+    steps:
+      - if: ${{ inputs.discovery-artifact-name != '' }}
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ inputs.discovery-artifact-name }}
+          path: .mb3r/input-discovery
+
+      - if: ${{ inputs.gate-artifact-name != '' }}
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ inputs.gate-artifact-name }}
+          path: .mb3r/input-gate
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Build combined report
+        id: report
+        shell: bash
+        env:
+          DISCOVERY_REPORT_PATH: ${{ inputs.discovery-report-path }}
+          GATE_REPORT_PATH: ${{ inputs.gate-report-path }}
+          OUTPUT_DIR: ${{ inputs.output-dir }}
+          ARTIFACT_NAME: ${{ inputs.artifact-name }}
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          from datetime import datetime, timezone
+          from pathlib import Path
+
+          output_dir = Path(os.environ["OUTPUT_DIR"])
+          output_dir.mkdir(parents=True, exist_ok=True)
+
+          discovery_report = Path(".mb3r/input-discovery") / Path(os.environ["DISCOVERY_REPORT_PATH"]).name
+          gate_report = Path(".mb3r/input-gate") / Path(os.environ["GATE_REPORT_PATH"]).name
+          report_json = output_dir / "mb3r-report.json"
+          report_md = output_dir / "mb3r-report.md"
+
+          discovery = json.loads(discovery_report.read_text(encoding="utf-8"))
+          gate = json.loads(gate_report.read_text(encoding="utf-8"))
+
+          overall_decision = gate.get("decision", "review")
+          combined = {
+              "schemaVersion": "v1alpha1",
+              "kind": "mb3r.stack.report",
+              "adapter": "github-reusable-workflow",
+              "generatedAt": datetime.now(timezone.utc).replace(microsecond=0).isoformat(),
+              "overallDecision": overall_decision,
+              "discovery": {
+                  "status": discovery.get("status"),
+                  "path": discovery_report.as_posix(),
+                  "artifactName": discovery.get("artifactName"),
+              },
+              "gate": {
+                  "decision": gate.get("decision"),
+                  "status": gate.get("status"),
+                  "path": gate_report.as_posix(),
+                  "artifactName": gate.get("artifactName"),
+              },
+          }
+          report_json.write_text(json.dumps(combined, indent=2) + "\n", encoding="utf-8")
+
+          markdown = "\n".join(
+              [
+                  "# MB3R Report",
+                  "",
+                  f"- Generated at: {combined['generatedAt']}",
+                  f"- Discovery status: {combined['discovery']['status']}",
+                  f"- Gate status: {combined['gate']['status']}",
+                  f"- Overall decision: {combined['overallDecision']}",
+              ]
+          )
+          report_md.write_text(markdown + "\n", encoding="utf-8")
+
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as handle:
+              handle.write(f"report-json={report_json.as_posix()}\n")
+              handle.write(f"report-markdown={report_md.as_posix()}\n")
+              handle.write(f"artifact-name={os.environ['ARTIFACT_NAME']}\n")
+              handle.write(f"overall-decision={overall_decision}\n")
+          PY
+
+      - if: ${{ inputs.upload-artifact }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.report.outputs.artifact-name }}
+          path: ${{ inputs.output-dir }}

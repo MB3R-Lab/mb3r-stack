@@ -1,0 +1,1 @@
+Runs the MB3R Bering discovery adapter and returns report metadata.

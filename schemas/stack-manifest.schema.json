@@ -1,0 +1,254 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mb3r.example/schemas/stack-manifest.schema.json",
+  "title": "MB3R Stack Manifest",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "stack",
+    "artifacts",
+    "components",
+    "compatibilityMatrixRef",
+    "ownership"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "schemaVersion": {
+      "$ref": "#/$defs/versionOrTodo"
+    },
+    "stack": {
+      "type": "object",
+      "required": [
+        "name",
+        "version",
+        "status",
+        "releaseDate",
+        "notes"
+      ],
+      "properties": {
+        "name": {
+          "const": "mb3r-stack"
+        },
+        "version": {
+          "$ref": "#/$defs/versionOrTodo"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "draft",
+            "candidate",
+            "ga",
+            "deprecated"
+          ]
+        },
+        "releaseDate": {
+          "$ref": "#/$defs/dateString"
+        },
+        "notes": {
+          "$ref": "#/$defs/stringArray"
+        }
+      },
+      "additionalProperties": false
+    },
+    "artifacts": {
+      "type": "object",
+      "required": [
+        "chart",
+        "assetPack",
+        "dashboards",
+        "configPacks"
+      ],
+      "properties": {
+        "chart": {
+          "type": "object",
+          "required": [
+            "name",
+            "version",
+            "ociRepository",
+            "package"
+          ],
+          "properties": {
+            "name": {
+              "const": "mb3r-otel-addon"
+            },
+            "version": {
+              "$ref": "#/$defs/versionOrTodo"
+            },
+            "ociRepository": {
+              "type": "string",
+              "minLength": 1
+            },
+            "package": {
+              "type": "string",
+              "pattern": "^mb3r-otel-addon-.*\\.tgz$"
+            }
+          },
+          "additionalProperties": false
+        },
+        "assetPack": {
+          "type": "object",
+          "required": [
+            "version",
+            "archive",
+            "includes"
+          ],
+          "properties": {
+            "version": {
+              "type": "string",
+              "minLength": 1
+            },
+            "archive": {
+              "type": "string",
+              "pattern": "^mb3r-assets-.*\\.tgz$"
+            },
+            "includes": {
+              "$ref": "#/$defs/stringArray"
+            }
+          },
+          "additionalProperties": false
+        },
+        "dashboards": {
+          "type": "object",
+          "required": [
+            "bering",
+            "sheaft"
+          ],
+          "properties": {
+            "bering": {
+              "$ref": "#/$defs/versionOrTodo"
+            },
+            "sheaft": {
+              "$ref": "#/$defs/versionOrTodo"
+            }
+          },
+          "additionalProperties": false
+        },
+        "configPacks": {
+          "type": "object",
+          "required": [
+            "collector",
+            "examples"
+          ],
+          "properties": {
+            "collector": {
+              "$ref": "#/$defs/versionOrTodo"
+            },
+            "examples": {
+              "$ref": "#/$defs/versionOrTodo"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "components": {
+      "type": "object",
+      "required": [
+        "bering",
+        "sheaft"
+      ],
+      "properties": {
+        "bering": {
+          "$ref": "#/$defs/componentPin"
+        },
+        "sheaft": {
+          "$ref": "#/$defs/componentPin"
+        }
+      },
+      "additionalProperties": false
+    },
+    "compatibilityMatrixRef": {
+      "type": "string",
+      "pattern": "^compat/compatibility-matrix\\.json$"
+    },
+    "ownership": {
+      "type": "object",
+      "required": [
+        "scope",
+        "notInScope"
+      ],
+      "properties": {
+        "scope": {
+          "$ref": "#/$defs/stringArray"
+        },
+        "notInScope": {
+          "$ref": "#/$defs/stringArray"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "versionOrTodo": {
+      "type": "string",
+      "pattern": "^(?:\\d+\\.\\d+\\.\\d+(?:[-+][A-Za-z0-9.-]+)?|TODO-[A-Za-z0-9._-]+|v\\d+alpha\\d+)$"
+    },
+    "digestOrTodo": {
+      "type": "string",
+      "pattern": "^(?:sha256:[A-Fa-f0-9]{64}|TODO-[A-Za-z0-9._-]+)$"
+    },
+    "dateString": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "stringArray": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1
+    },
+    "contracts": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/versionOrTodo"
+      }
+    },
+    "imagePin": {
+      "type": "object",
+      "required": [
+        "repository",
+        "tag",
+        "digest"
+      ],
+      "properties": {
+        "repository": {
+          "type": "string",
+          "minLength": 1
+        },
+        "tag": {
+          "$ref": "#/$defs/versionOrTodo"
+        },
+        "digest": {
+          "$ref": "#/$defs/digestOrTodo"
+        }
+      },
+      "additionalProperties": false
+    },
+    "componentPin": {
+      "type": "object",
+      "required": [
+        "version",
+        "image",
+        "contracts"
+      ],
+      "properties": {
+        "version": {
+          "$ref": "#/$defs/versionOrTodo"
+        },
+        "image": {
+          "$ref": "#/$defs/imagePin"
+        },
+        "contracts": {
+          "$ref": "#/$defs/contracts"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

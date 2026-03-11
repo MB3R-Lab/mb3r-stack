@@ -1,0 +1,59 @@
+@Library('mb3r-stack@v0.1.0') _
+
+pipeline {
+  agent any
+
+  stages {
+    stage('Bering Discover') {
+      steps {
+        script {
+          beringResult = mb3rBeringDiscover(
+            command: '''
+python - <<'PY'
+import json
+import os
+from pathlib import Path
+Path(os.environ["MB3R_PAYLOAD_JSON"]).write_text(
+    json.dumps({"summary": "consumer discovery", "findings": 0}),
+    encoding="utf-8",
+)
+PY
+'''.trim()
+          )
+        }
+      }
+    }
+
+    stage('Sheaft Gate') {
+      steps {
+        script {
+          sheaftResult = mb3rSheaftGate(
+            discoveryReport: beringResult.reportPath,
+            command: '''
+python - <<'PY'
+import json
+import os
+from pathlib import Path
+Path(os.environ["MB3R_PAYLOAD_JSON"]).write_text(
+    json.dumps({"decision": "review", "summary": "consumer gate"}),
+    encoding="utf-8",
+)
+PY
+'''.trim()
+          )
+        }
+      }
+    }
+
+    stage('Publish MB3R Report') {
+      steps {
+        script {
+          mb3rPublishReport(
+            discoveryReport: beringResult.reportPath,
+            gateReport: sheaftResult.reportPath
+          )
+        }
+      }
+    }
+  }
+}

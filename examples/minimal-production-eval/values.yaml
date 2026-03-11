@@ -1,0 +1,37 @@
+global:
+  imageRegistry: "registry.example.com/observability"
+
+collector:
+  existingDeployment: "otel-collector"
+  targetEndpoint: "bering.observability.svc.cluster.local:4317"
+  snippets:
+    enabled: true
+    tlsInsecure: false
+
+bering:
+  enabled: true
+  image:
+    repository: "mb3r/bering"
+    tag: "TODO-SET-BERING-TAG"
+    digest: "TODO-SET-BERING-DIGEST"
+  serviceMonitor:
+    enabled: true
+
+sheaft:
+  enabled: true
+  image:
+    repository: "mb3r/sheaft"
+    tag: "TODO-SET-SHEAFT-TAG"
+    digest: "TODO-SET-SHEAFT-DIGEST"
+  serviceMonitor:
+    enabled: true
+
+prometheusScrapeHooks:
+  enabled: true
+
+grafanaDashboards:
+  enabled: true
+  providerName: "mb3r-prod"
+  existingConfigMaps:
+    - mb3r-bering-dashboard-v1-0-0
+    - mb3r-sheaft-dashboard-v1-0-0

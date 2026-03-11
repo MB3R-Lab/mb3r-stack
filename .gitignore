@@ -1,0 +1,8 @@
+dist/
+build/
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.mb3r/
+*.tgz

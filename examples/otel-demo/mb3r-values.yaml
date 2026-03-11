@@ -1,0 +1,18 @@
+collector:
+  snippets:
+    enabled: true
+    includePrometheusReceiver: true
+
+bering:
+  enabled: true
+
+sheaft:
+  enabled: false
+
+prometheusScrapeHooks:
+  enabled: true
+
+grafanaDashboards:
+  enabled: true
+  existingConfigMaps:
+    - mb3r-bering-dashboard-v1-0-0

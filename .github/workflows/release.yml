@@ -1,0 +1,51 @@
+name: release
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  packages: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - uses: azure/setup-helm@v4
+        with:
+          version: v3.15.4
+
+      - name: Install dependencies
+        run: python -m pip install -r requirements.txt
+
+      - name: Build release assets
+        run: make release-dry-run
+
+      - name: Log in to GHCR
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | helm registry login ghcr.io -u "${{ github.actor }}" --password-stdin
+
+      - name: Push OCI chart
+        shell: bash
+        run: |
+          chart_file=$(find dist/charts -maxdepth 1 -name '*.tgz' | head -n 1)
+          helm push "$chart_file" "oci://ghcr.io/${{ github.repository_owner }}/charts"
+
+      - name: Publish GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            dist/charts/*.tgz
+            dist/assets/*.tgz
+            dist/stack-manifest.json
+            dist/compatibility-matrix.json
+            dist/SHA256SUMS.txt
+            dist/sbom.cdx.json

@@ -1,0 +1,29 @@
+{
+  "$schema": "../schemas/compatibility-matrix.schema.json",
+  "schemaVersion": "1.0.0",
+  "generatedAt": "2026-03-11",
+  "entries": [
+    {
+      "stackVersion": "0.1.0",
+      "beringVersion": "TODO-SET-BERING-VERSION",
+      "sheaftVersion": "TODO-SET-SHEAFT-VERSION",
+      "chartVersion": "0.1.0",
+      "compatibilityState": "todo-verify",
+      "evidence": "TODO-ADD-UPSTREAM-RELEASE-EVIDENCE",
+      "contracts": {
+        "collectorExport": "v1alpha1",
+        "discoveryReport": "v1alpha1",
+        "gateDecision": "v1alpha1",
+        "reportPayload": "v1alpha1"
+      },
+      "dashboards": {
+        "bering": "1.0.0",
+        "sheaft": "1.0.0"
+      },
+      "notes": [
+        "No compatibility claim is made until the upstream Bering and Sheaft releases are validated together.",
+        "Use this entry as a conservative candidate bundle definition, not as a verified support statement."
+      ]
+    }
+  ]
+}

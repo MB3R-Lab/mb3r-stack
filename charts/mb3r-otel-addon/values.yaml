@@ -1,0 +1,87 @@
+nameOverride: ""
+fullnameOverride: ""
+
+global:
+  imageRegistry: ""
+  imagePullSecrets: []
+  commonLabels: {}
+  commonAnnotations: {}
+
+bundleMetadata:
+  enabled: true
+
+collector:
+  existingDeployment: ""
+  targetEndpoint: ""
+  snippets:
+    enabled: false
+    name: ""
+    includeMetricsPipeline: true
+    includeLogsPipeline: true
+    includeTracesPipeline: true
+    includePrometheusReceiver: false
+    tlsInsecure: true
+
+bering:
+  enabled: false
+  replicaCount: 1
+  image:
+    registry: ""
+    repository: "ghcr.io/TODO-SET-ORG/bering"
+    tag: "TODO-SET-BERING-TAG"
+    digest: ""
+    pullPolicy: IfNotPresent
+  extraArgs: []
+  env: []
+  resources: {}
+  service:
+    type: ClusterIP
+    port: 4317
+    metricsPort: 9464
+    annotations: {}
+  prometheus:
+    annotations: {}
+  serviceMonitor:
+    enabled: false
+    interval: 30s
+    labels: {}
+
+sheaft:
+  enabled: false
+  replicaCount: 1
+  image:
+    registry: ""
+    repository: "ghcr.io/TODO-SET-ORG/sheaft"
+    tag: "TODO-SET-SHEAFT-TAG"
+    digest: ""
+    pullPolicy: IfNotPresent
+  extraArgs: []
+  env: []
+  resources: {}
+  service:
+    type: ClusterIP
+    port: 8080
+    metricsPort: 9465
+    annotations: {}
+  prometheus:
+    annotations: {}
+  serviceMonitor:
+    enabled: false
+    interval: 30s
+    labels: {}
+
+prometheusScrapeHooks:
+  enabled: false
+  renderConfigMap: true
+  additionalLabels: {}
+  jobNames:
+    bering: "mb3r-bering"
+    sheaft: "mb3r-sheaft"
+
+grafanaDashboards:
+  enabled: false
+  providerName: "mb3r-stack"
+  folder: "MB3R"
+  labelKey: "grafana_dashboard"
+  labelValue: "1"
+  existingConfigMaps: []

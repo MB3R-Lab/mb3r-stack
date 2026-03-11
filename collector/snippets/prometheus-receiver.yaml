@@ -1,0 +1,12 @@
+receivers:
+  prometheus/mb3r:
+    config:
+      scrape_configs:
+        - job_name: "mb3r-bering"
+          static_configs:
+            - targets:
+                - ${BERING_METRICS_TARGET:mb3r-otel-addon-bering:9464}
+        - job_name: "mb3r-sheaft"
+          static_configs:
+            - targets:
+                - ${SHEAFT_METRICS_TARGET:mb3r-otel-addon-sheaft:9465}

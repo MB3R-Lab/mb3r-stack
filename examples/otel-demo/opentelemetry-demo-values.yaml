@@ -1,0 +1,18 @@
+opentelemetry-collector:
+  enabled: true
+  config:
+    exporters:
+      otlp/bering:
+        endpoint: mb3r-otel-addon-bering.observability.svc.cluster.local:4317
+        tls:
+          insecure: true
+    service:
+      pipelines:
+        traces:
+          exporters:
+            - otlp
+            - otlp/bering
+        metrics:
+          exporters:
+            - prometheus
+            - otlp/bering

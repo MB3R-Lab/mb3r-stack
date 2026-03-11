@@ -1,0 +1,44 @@
+name: mb3r-example
+
+on:
+  workflow_dispatch:
+
+jobs:
+  bering:
+    uses: ORG/mb3r-stack/.github/workflows/bering-discover.yml@v0.1.0
+    with:
+      command: |
+        python - <<'PY'
+        import json
+        import os
+        from pathlib import Path
+        Path(os.environ["MB3R_PAYLOAD_JSON"]).write_text(
+            json.dumps({"summary": "consumer discovery", "findings": 0}),
+            encoding="utf-8",
+        )
+        PY
+
+  sheaft:
+    needs: bering
+    uses: ORG/mb3r-stack/.github/workflows/sheaft-gate.yml@v0.1.0
+    with:
+      discovery-artifact-name: ${{ needs.bering.outputs.artifact-name }}
+      command: |
+        python - <<'PY'
+        import json
+        import os
+        from pathlib import Path
+        Path(os.environ["MB3R_PAYLOAD_JSON"]).write_text(
+            json.dumps({"decision": "review", "summary": "consumer gate"}),
+            encoding="utf-8",
+        )
+        PY
+
+  report:
+    needs:
+      - bering
+      - sheaft
+    uses: ORG/mb3r-stack/.github/workflows/mb3r-report.yml@v0.1.0
+    with:
+      discovery-artifact-name: ${{ needs.bering.outputs.artifact-name }}
+      gate-artifact-name: ${{ needs.sheaft.outputs.artifact-name }}

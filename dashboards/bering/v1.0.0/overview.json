@@ -1,0 +1,32 @@
+{
+  "title": "Bering Overview",
+  "tags": ["mb3r", "bering"],
+  "timezone": "browser",
+  "schemaVersion": 39,
+  "version": 1,
+  "refresh": "30s",
+  "panels": [
+    {
+      "type": "timeseries",
+      "title": "Discoveries Per Minute",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 0 },
+      "targets": [
+        {
+          "expr": "sum(rate(bering_discoveries_total[5m]))",
+          "legendFormat": "discoveries/min"
+        }
+      ]
+    },
+    {
+      "type": "stat",
+      "title": "Collector Export Errors",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 0 },
+      "targets": [
+        {
+          "expr": "sum(rate(otelcol_exporter_send_failed_spans{exporter=\"otlp/bering\"}[5m]))",
+          "legendFormat": "errors"
+        }
+      ]
+    }
+  ]
+}

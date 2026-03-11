@@ -1,0 +1,89 @@
+spec:
+  inputs:
+    stage:
+      default: report
+    runner_image:
+      default: python:3.13
+    discovery_report_path:
+      default: ".mb3r/bering/bering-discovery.json"
+    gate_report_path:
+      default: ".mb3r/sheaft/sheaft-gate.json"
+    output_dir:
+      default: ".mb3r/report"
+    artifact_name:
+      default: "mb3r-report"
+---
+mb3r:report:
+  stage: $[[ inputs.stage ]]
+  image: $[[ inputs.runner_image ]]
+  script:
+    - |
+      python - <<'PY'
+      import json
+      from datetime import datetime, timezone
+      from pathlib import Path
+
+      output_dir = Path("$[[ inputs.output_dir ]]")
+      output_dir.mkdir(parents=True, exist_ok=True)
+
+      discovery_report = Path("$[[ inputs.discovery_report_path ]]")
+      gate_report = Path("$[[ inputs.gate_report_path ]]")
+      report_json = output_dir / "mb3r-report.json"
+      report_md = output_dir / "mb3r-report.md"
+
+      discovery = json.loads(discovery_report.read_text(encoding="utf-8"))
+      gate = json.loads(gate_report.read_text(encoding="utf-8"))
+      overall_decision = gate.get("decision", "review")
+
+      report = {
+          "schemaVersion": "v1alpha1",
+          "kind": "mb3r.stack.report",
+          "adapter": "gitlab-component",
+          "generatedAt": datetime.now(timezone.utc).replace(microsecond=0).isoformat(),
+          "overallDecision": overall_decision,
+          "discovery": {
+              "status": discovery.get("status"),
+              "path": discovery_report.as_posix(),
+              "artifactName": discovery.get("artifactName"),
+          },
+          "gate": {
+              "decision": gate.get("decision"),
+              "status": gate.get("status"),
+              "path": gate_report.as_posix(),
+              "artifactName": gate.get("artifactName"),
+          },
+      }
+      report_json.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
+      report_md.write_text(
+          "\n".join(
+              [
+                  "# MB3R Report",
+                  "",
+                  f"- Generated at: {report['generatedAt']}",
+                  f"- Discovery status: {report['discovery']['status']}",
+                  f"- Gate status: {report['gate']['status']}",
+                  f"- Overall decision: {report['overallDecision']}",
+              ]
+          )
+          + "\n",
+          encoding="utf-8",
+      )
+      (output_dir / "mb3r-report.env").write_text(
+          "\n".join(
+              [
+                  f"MB3R_REPORT_JSON={report_json.as_posix()}",
+                  f"MB3R_REPORT_MARKDOWN={report_md.as_posix()}",
+                  f"MB3R_REPORT_ARTIFACT=$[[ inputs.artifact_name ]]",
+                  f"MB3R_OVERALL_DECISION={overall_decision}",
+              ]
+          )
+          + "\n",
+          encoding="utf-8",
+      )
+      PY
+  artifacts:
+    when: always
+    paths:
+      - $[[ inputs.output_dir ]]
+    reports:
+      dotenv: $[[ inputs.output_dir ]]/mb3r-report.env

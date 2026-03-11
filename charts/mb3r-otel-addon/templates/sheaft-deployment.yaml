@@ -1,0 +1,48 @@
+{{- if .Values.sheaft.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "mb3r-otel-addon.fullname" . }}-sheaft
+  labels:
+    {{- include "mb3r-otel-addon.labels" . | nindent 4 }}
+    app.kubernetes.io/component: sheaft
+spec:
+  replicas: {{ .Values.sheaft.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "mb3r-otel-addon.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: sheaft
+  template:
+    metadata:
+      labels:
+        {{- include "mb3r-otel-addon.selectorLabels" . | nindent 8 }}
+        app.kubernetes.io/component: sheaft
+      {{- with .Values.global.commonAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    spec:
+      {{- with .Values.global.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: sheaft
+          image: {{ include "mb3r-otel-addon.resolveImage" (dict "root" . "image" .Values.sheaft.image) | quote }}
+          imagePullPolicy: {{ .Values.sheaft.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.sheaft.service.port }}
+            - name: metrics
+              containerPort: {{ .Values.sheaft.service.metricsPort }}
+          {{- with .Values.sheaft.extraArgs }}
+          args:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.sheaft.env }}
+          env:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          resources:
+            {{- toYaml .Values.sheaft.resources | nindent 12 }}
+{{- end }}
