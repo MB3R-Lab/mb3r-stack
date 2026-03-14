@@ -46,6 +46,11 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euo pipefail
+          if [[ "${GITHUB_REF_NAME}" == v0.* ]]; then
+            prerelease_args=(--prerelease)
+          else
+            prerelease_args=()
+          fi
           title="$(python - <<'PY'
           import json
           from pathlib import Path
@@ -59,11 +64,16 @@ jobs:
           done
           if gh release view "${GITHUB_REF_NAME}" >/dev/null 2>&1; then
             gh release upload "${GITHUB_REF_NAME}" "${args[@]}" --clobber
-            gh release edit "${GITHUB_REF_NAME}" --prerelease=false --title "${title}" --notes-file dist/release-notes.md
+            gh release edit "${GITHUB_REF_NAME}" "${prerelease_args[@]}" --title "${title}" --notes-file dist/release-notes.md
+            if [[ "${GITHUB_REF_NAME}" != v0.* ]]; then
+              release_id="$(gh release view "${GITHUB_REF_NAME}" --json databaseId --jq .databaseId)"
+              gh api "repos/${GITHUB_REPOSITORY}/releases/${release_id}" -X PATCH -F prerelease=false >/dev/null
+            fi
           else
             gh release create "${GITHUB_REF_NAME}" \
               --verify-tag \
               --title "${title}" \
               --notes-file dist/release-notes.md \
+              "${prerelease_args[@]}" \
               "${args[@]}"
           fi
