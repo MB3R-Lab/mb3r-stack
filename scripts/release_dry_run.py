@@ -16,7 +16,7 @@ def write_checksums() -> Path:
     checksum_path = DIST / "SHA256SUMS.txt"
     lines = []
     for path in sorted(DIST.rglob("*")):
-        if not path.is_file() or path.name == checksum_path.name:
+        if not path.is_file() or path.name in {checksum_path.name, "release-manifest.json", "release-assets.txt"}:
             continue
         lines.append(f"{sha256_file(path)}  {path.relative_to(DIST).as_posix()}")
     checksum_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
@@ -33,11 +33,13 @@ def main() -> int:
         "generate_stack_manifest.py",
         "package_chart.py",
         "package_assets.py",
+        "stage_release_metadata.py",
     ):
         run_script(script)
 
     run_script("generate_sbom.py")
     write_checksums()
+    run_script("generate_release_manifest.py")
     print(DIST.relative_to(ROOT))
     return 0
 

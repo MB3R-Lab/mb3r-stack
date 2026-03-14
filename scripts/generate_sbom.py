@@ -10,9 +10,13 @@ from common import DIST, ROOT, sha256_file, stack_manifest, write_json
 
 def generate_sbom(output_path: Path) -> Path:
     manifest = stack_manifest()
+    excluded = {
+        output_path.name,
+        "release-assets.txt",
+    }
     components = []
     for path in sorted(DIST.rglob("*")):
-        if not path.is_file() or path == output_path:
+        if not path.is_file() or path.name in excluded:
             continue
         components.append(
             {

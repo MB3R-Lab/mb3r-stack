@@ -41,13 +41,31 @@ jobs:
           helm push "$chart_file" "oci://ghcr.io/${repo_owner}/charts"
 
       - name: Publish GitHub release
-        uses: softprops/action-gh-release@v2
-        with:
-          prerelease: ${{ startsWith(github.ref_name, 'v0.') }}
-          files: |
-            dist/charts/*.tgz
-            dist/assets/*.tgz
-            dist/stack-manifest.json
-            dist/compatibility-matrix.json
-            dist/SHA256SUMS.txt
-            dist/sbom.cdx.json
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          title="$(python - <<'PY'
+          import json
+          from pathlib import Path
+          print(json.loads(Path("dist/release-manifest.json").read_text(encoding="utf-8"))["title"])
+          PY
+          )"
+          mapfile -t assets < dist/release-assets.txt
+          args=()
+          for asset in "${assets[@]}"; do
+            args+=("dist/${asset}")
+          done
+          if gh release view "${GITHUB_REF_NAME}" >/dev/null 2>&1; then
+            gh release upload "${GITHUB_REF_NAME}" "${args[@]}" --clobber
+            gh release edit "${GITHUB_REF_NAME}" --title "${title}" --notes-file dist/release-notes.md
+          else
+            gh release create "${GITHUB_REF_NAME}" \
+              --verify-tag \
+              --title "${title}" \
+              --notes-file dist/release-notes.md \
+              "${args[@]}"
+          fi
+          release_id="$(gh release view "${GITHUB_REF_NAME}" --json id --jq .id)"
+          gh api "repos/${GITHUB_REPOSITORY}/releases/${release_id}" -X PATCH -F prerelease=false -F draft=false >/dev/null

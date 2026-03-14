@@ -18,6 +18,9 @@ A stack release publishes:
 - a packaged asset archive with `collector/`, `dashboards/`, and `examples/`
 - `stack-manifest.json`
 - `compatibility-matrix.json`
+- `release-manifest.json`
+- `release-manifest.schema.json`
+- `release-notes.md`
 - `SHA256SUMS.txt`
 - a CycloneDX SBOM for the packaged release assets
 
@@ -75,3 +78,7 @@ python scripts/tasks.py release-dry-run
 ## Compatibility Notes
 
 The compatibility files in `compat/` are the source of truth for stack-level assertions. The current `0.1.0` bundle is recorded as a `candidate` integration statement backed by upstream release manifests and Sheaft's published compatibility manifest, not as a broader verified operations guarantee.
+
+## License
+
+MIT, see [LICENSE](LICENSE).

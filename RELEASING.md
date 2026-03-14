@@ -2,6 +2,8 @@
 
 This repository releases integration artifacts, not application binaries.
 
+The canonical source of truth is the local `dist/` payload plus `dist/release-manifest.json`. GitHub Releases and OCI chart publication are publishing surfaces around that payload.
+
 ## Release Outputs
 
 Each stack release is expected to publish:
@@ -10,6 +12,9 @@ Each stack release is expected to publish:
 - `mb3r-assets-<version>.tgz`
 - `stack-manifest.json`
 - `compatibility-matrix.json`
+- `release-manifest.json`
+- `release-manifest.schema.json`
+- `release-notes.md`
 - `SHA256SUMS.txt`
 - `sbom.cdx.json`
 
