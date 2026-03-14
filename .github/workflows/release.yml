@@ -36,8 +36,9 @@ jobs:
       - name: Push OCI chart
         shell: bash
         run: |
+          repo_owner=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
           chart_file=$(find dist/charts -maxdepth 1 -name '*.tgz' | head -n 1)
-          helm push "$chart_file" "oci://ghcr.io/${{ github.repository_owner }}/charts"
+          helm push "$chart_file" "oci://ghcr.io/${repo_owner}/charts"
 
       - name: Publish GitHub release
         uses: softprops/action-gh-release@v2
