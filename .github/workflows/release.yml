@@ -43,6 +43,7 @@ jobs:
       - name: Publish GitHub release
         uses: softprops/action-gh-release@v2
         with:
+          prerelease: ${{ startsWith(github.ref_name, 'v0.') }}
           files: |
             dist/charts/*.tgz
             dist/assets/*.tgz
