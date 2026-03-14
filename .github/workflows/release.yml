@@ -59,7 +59,7 @@ jobs:
           done
           if gh release view "${GITHUB_REF_NAME}" >/dev/null 2>&1; then
             gh release upload "${GITHUB_REF_NAME}" "${args[@]}" --clobber
-            gh release edit "${GITHUB_REF_NAME}" --title "${title}" --notes-file dist/release-notes.md
+            gh release edit "${GITHUB_REF_NAME}" --prerelease=false --title "${title}" --notes-file dist/release-notes.md
           else
             gh release create "${GITHUB_REF_NAME}" \
               --verify-tag \
@@ -67,5 +67,3 @@ jobs:
               --notes-file dist/release-notes.md \
               "${args[@]}"
           fi
-          release_id="$(gh release view "${GITHUB_REF_NAME}" --json id --jq .id)"
-          gh api "repos/${GITHUB_REPOSITORY}/releases/${release_id}" -X PATCH -F prerelease=false -F draft=false >/dev/null
