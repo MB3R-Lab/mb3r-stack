@@ -11,7 +11,7 @@ spec:
     command:
       default: ""
     image_ref:
-      default: "TODO-SET-SHEAFT-IMAGE"
+      default: "ghcr.io/mb3r-lab/sheaft@sha256:eb1ebf9d96c55c5bb29e226e07496d152eb3a66b52dd9d34ba799fa4aef70624"
     artifact_name:
       default: "mb3r-sheaft-gate"
     default_decision:

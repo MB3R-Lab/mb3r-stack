@@ -27,9 +27,9 @@ bering:
   replicaCount: 1
   image:
     registry: ""
-    repository: "ghcr.io/TODO-SET-ORG/bering"
-    tag: "TODO-SET-BERING-TAG"
-    digest: ""
+    repository: "ghcr.io/mb3r-lab/bering"
+    tag: "v0.1.0"
+    digest: "sha256:8e8ce6599b43477b0653617e829d41c62a3189d16b60ecb424cca718fc0e2674"
     pullPolicy: IfNotPresent
   extraArgs: []
   env: []
@@ -51,9 +51,9 @@ sheaft:
   replicaCount: 1
   image:
     registry: ""
-    repository: "ghcr.io/TODO-SET-ORG/sheaft"
-    tag: "TODO-SET-SHEAFT-TAG"
-    digest: ""
+    repository: "ghcr.io/mb3r-lab/sheaft"
+    tag: "v0.1.1"
+    digest: "sha256:eb1ebf9d96c55c5bb29e226e07496d152eb3a66b52dd9d34ba799fa4aef70624"
     pullPolicy: IfNotPresent
   extraArgs: []
   env: []

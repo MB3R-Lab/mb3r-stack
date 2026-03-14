@@ -10,8 +10,8 @@ keywords:
   - observability
   - bering
   - sheaft
-home: https://example.invalid/mb3r-stack
+home: https://github.com/MB3R-Lab/mb3r-stack
 sources:
-  - https://example.invalid/mb3r-stack
+  - https://github.com/MB3R-Lab/mb3r-stack
 annotations:
   artifacthub.io/prerelease: "true"

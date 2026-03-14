@@ -17,8 +17,9 @@ Each stack release is expected to publish:
 
 1. Update `compat/stack-manifest.json`.
 2. Update `compat/compatibility-matrix.json`.
-3. Confirm dashboard and collector asset versions match the manifest.
-4. Run:
+3. Confirm upstream release manifests, chart references, and image digests match the chosen Bering and Sheaft releases.
+4. Confirm dashboard and collector asset versions match the manifest.
+5. Run:
 
 ```bash
 python -m pip install -r requirements.txt
@@ -26,7 +27,7 @@ make validate
 make release-dry-run
 ```
 
-5. Review the generated files in `dist/`.
+6. Review the generated files in `dist/`.
 
 ## Publishing
 

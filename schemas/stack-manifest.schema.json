@@ -222,13 +222,17 @@
           "minLength": 1
         },
         "tag": {
-          "$ref": "#/$defs/versionOrTodo"
+          "$ref": "#/$defs/imageTagOrTodo"
         },
         "digest": {
           "$ref": "#/$defs/digestOrTodo"
         }
       },
       "additionalProperties": false
+    },
+    "imageTagOrTodo": {
+      "type": "string",
+      "pattern": "^(?:v?\\d+\\.\\d+\\.\\d+(?:[-+][A-Za-z0-9.-]+)?|TODO-[A-Za-z0-9._-]+|v\\d+alpha\\d+)$"
     },
     "componentPin": {
       "type": "object",

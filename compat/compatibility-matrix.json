@@ -1,15 +1,15 @@
 {
   "$schema": "../schemas/compatibility-matrix.schema.json",
   "schemaVersion": "1.0.0",
-  "generatedAt": "2026-03-11",
+  "generatedAt": "2026-03-14",
   "entries": [
     {
       "stackVersion": "0.1.0",
-      "beringVersion": "TODO-SET-BERING-VERSION",
-      "sheaftVersion": "TODO-SET-SHEAFT-VERSION",
+      "beringVersion": "0.1.0",
+      "sheaftVersion": "0.1.1",
       "chartVersion": "0.1.0",
-      "compatibilityState": "todo-verify",
-      "evidence": "TODO-ADD-UPSTREAM-RELEASE-EVIDENCE",
+      "compatibilityState": "candidate",
+      "evidence": "Pinned to https://github.com/MB3R-Lab/Bering/releases/download/v0.1.0/release-manifest.json plus https://github.com/MB3R-Lab/Sheaft/releases/download/v0.1.1/release-manifest.json and https://github.com/MB3R-Lab/Sheaft/releases/download/v0.1.1/compatibility-manifest.json.",
       "contracts": {
         "collectorExport": "v1alpha1",
         "discoveryReport": "v1alpha1",
@@ -21,8 +21,8 @@
         "sheaft": "1.0.0"
       },
       "notes": [
-        "No compatibility claim is made until the upstream Bering and Sheaft releases are validated together.",
-        "Use this entry as a conservative candidate bundle definition, not as a verified support statement."
+        "Bering v0.1.0 release contracts and Sheaft v0.1.1 compatibility pins align on io.mb3r.bering.model@1.0.0 and io.mb3r.bering.snapshot@1.0.0 digests.",
+        "This is a candidate integration statement backed by published upstream release metadata, not a broader verified operations guarantee."
       ]
     }
   ]

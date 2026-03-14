@@ -11,7 +11,7 @@ spec:
     command:
       default: ""
     image_ref:
-      default: "TODO-SET-BERING-IMAGE"
+      default: "ghcr.io/mb3r-lab/bering@sha256:8e8ce6599b43477b0653617e829d41c62a3189d16b60ecb424cca718fc0e2674"
     artifact_name:
       default: "mb3r-bering-discovery"
 ---

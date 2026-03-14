@@ -13,7 +13,7 @@ The machine-readable compatibility contract is split across:
 - Pin image tags and digests explicitly.
 - Pin chart, dashboard, and config pack versions explicitly.
 - Do not invent compatibility statements.
-- Use `TODO-*` placeholders until upstream releases are verified together.
+- Use `TODO-*` placeholders only when a required upstream pin or digest is not yet available.
 
 ## Conservative Status Values
 
@@ -21,3 +21,12 @@ The machine-readable compatibility contract is split across:
 - `candidate`: internally staged and awaiting broader verification
 - `verified`: supported integration statement
 - `deprecated`: retained for history but no longer the preferred bundle
+
+## Current Bundle
+
+`mb3r-stack` `0.1.0` currently tracks:
+
+- Bering `0.1.0`
+- Sheaft `0.1.1`
+
+That bundle is marked `candidate` because the pins are backed by published upstream release metadata and strict contract alignment, while broader operational verification remains outside this repository's release contract.

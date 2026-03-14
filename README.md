@@ -28,7 +28,7 @@ A stack release publishes:
 - application business logic
 - the canonical release cadence of upstream Bering or Sheaft artifacts
 
-Upstream Bering and Sheaft releases are pinned here conservatively through manifests and placeholders until the integration contract is verified against released upstream artifacts.
+Current bundle candidate pins published upstream artifacts explicitly: Bering `0.1.0` and Sheaft `0.1.1`, including immutable image digests and contract evidence in `compat/`.
 
 ## Repository Layout
 
@@ -74,4 +74,4 @@ python scripts/tasks.py release-dry-run
 
 ## Compatibility Notes
 
-The compatibility files in `compat/` are the source of truth for stack-level assertions. Where upstream certainty is not yet established, fields are kept as explicit `TODO-*` placeholders instead of inventing unsupported compatibility claims.
+The compatibility files in `compat/` are the source of truth for stack-level assertions. The current `0.1.0` bundle is recorded as a `candidate` integration statement backed by upstream release manifests and Sheaft's published compatibility manifest, not as a broader verified operations guarantee.

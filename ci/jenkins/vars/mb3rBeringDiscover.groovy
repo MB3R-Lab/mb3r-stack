@@ -15,7 +15,7 @@ def call(Map config = [:]) {
         [
             "MB3R_TARGET_PATH=${config.targetPath ?: '.'}",
             "MB3R_PAYLOAD_JSON=${payloadPath}",
-            "MB3R_IMAGE_REF=${config.imageRef ?: 'TODO-SET-BERING-IMAGE'}"
+            "MB3R_IMAGE_REF=${config.imageRef ?: 'ghcr.io/mb3r-lab/bering@sha256:8e8ce6599b43477b0653617e829d41c62a3189d16b60ecb424cca718fc0e2674'}"
         ]
     )
 
@@ -34,7 +34,7 @@ def call(Map config = [:]) {
         adapter: 'jenkins-shared-library',
         generatedAt: AdapterSupport.now(),
         targetPath: config.targetPath ?: '.',
-        imageRef: config.imageRef ?: 'TODO-SET-BERING-IMAGE',
+        imageRef: config.imageRef ?: 'ghcr.io/mb3r-lab/bering@sha256:8e8ce6599b43477b0653617e829d41c62a3189d16b60ecb424cca718fc0e2674',
         command: config.command ?: '',
         status: status,
         exitCode: exitCode,

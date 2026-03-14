@@ -4,22 +4,23 @@
   "stack": {
     "name": "mb3r-stack",
     "version": "0.1.0",
-    "status": "draft",
-    "releaseDate": "2026-03-11",
+    "status": "candidate",
+    "releaseDate": "2026-03-14",
     "notes": [
       "Integration and distribution layer only. No upstream Bering or Sheaft source code is vendored here.",
-      "Upstream version and digest pins remain explicit TODO placeholders until validated against released artifacts."
+      "Candidate bundle pinned to released Bering v0.1.0 and Sheaft v0.1.1 artifacts with immutable GHCR digests.",
+      "Compatibility claims are limited to published contract alignment and packaged integration assets."
     ]
   },
   "artifacts": {
     "chart": {
       "name": "mb3r-otel-addon",
       "version": "0.1.0",
-      "ociRepository": "oci://ghcr.io/TODO-SET-ORG/mb3r/charts",
+      "ociRepository": "oci://ghcr.io/mb3r-lab/charts",
       "package": "mb3r-otel-addon-0.1.0.tgz"
     },
     "assetPack": {
-      "version": "1.0.0",
+      "version": "0.1.0",
       "archive": "mb3r-assets-0.1.0.tgz",
       "includes": [
         "collector/",
@@ -32,17 +33,17 @@
       "sheaft": "1.0.0"
     },
     "configPacks": {
-      "collector": "1.0.0",
-      "examples": "1.0.0"
+      "collector": "0.1.0",
+      "examples": "0.1.0"
     }
   },
   "components": {
     "bering": {
-      "version": "TODO-SET-BERING-VERSION",
+      "version": "0.1.0",
       "image": {
-        "repository": "ghcr.io/TODO-SET-ORG/bering",
-        "tag": "TODO-SET-BERING-TAG",
-        "digest": "TODO-SET-BERING-DIGEST"
+        "repository": "ghcr.io/mb3r-lab/bering",
+        "tag": "v0.1.0",
+        "digest": "sha256:8e8ce6599b43477b0653617e829d41c62a3189d16b60ecb424cca718fc0e2674"
       },
       "contracts": {
         "collectorExport": "v1alpha1",
@@ -50,11 +51,11 @@
       }
     },
     "sheaft": {
-      "version": "TODO-SET-SHEAFT-VERSION",
+      "version": "0.1.1",
       "image": {
-        "repository": "ghcr.io/TODO-SET-ORG/sheaft",
-        "tag": "TODO-SET-SHEAFT-TAG",
-        "digest": "TODO-SET-SHEAFT-DIGEST"
+        "repository": "ghcr.io/mb3r-lab/sheaft",
+        "tag": "v0.1.1",
+        "digest": "sha256:eb1ebf9d96c55c5bb29e226e07496d152eb3a66b52dd9d34ba799fa4aef70624"
       },
       "contracts": {
         "gateDecision": "v1alpha1",
