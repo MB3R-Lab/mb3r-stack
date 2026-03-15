@@ -65,6 +65,7 @@ make lint
 make validate
 make smoke-generic
 make e2e-generic
+make k8s-smoke-generic
 make smoke-otel-demo
 make e2e-otel-demo
 make stack-manifest

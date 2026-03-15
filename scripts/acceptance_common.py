@@ -18,6 +18,7 @@ from common import ROOT
 
 HELM_VERSION = "v3.16.4"
 OTEL_DEMO_CHART_VERSION = "0.40.5"
+KIND_VERSION = "v0.31.0"
 BERING_VERSION = "0.1.0"
 SHEAFT_VERSION = "0.1.1"
 
@@ -42,6 +43,8 @@ def run(
         cwd=cwd,
         env=env,
         text=True,
+        encoding="utf-8",
+        errors="replace",
         capture_output=capture,
         check=False,
     )
@@ -122,8 +125,7 @@ def ensure_helm() -> Path:
     return binary_path
 
 
-def ensure_release_binary(product: str, version: str) -> Path:
-    os_name, arch = current_platform()
+def ensure_release_binary_for_platform(product: str, version: str, os_name: str, arch: str) -> Path:
     extension = "zip" if os_name == "windows" else "tar.gz"
     archive_name = f"{product}_{version}_{os_name}_{arch}.{extension}"
     archive_path = TOOLS_DIR / archive_name
@@ -147,6 +149,41 @@ def ensure_release_binary(product: str, version: str) -> Path:
     matches = list(extract_dir.rglob(binary_name))
     check(matches, f"{product} binary not found after extract")
     return matches[0]
+
+
+def ensure_release_binary(product: str, version: str) -> Path:
+    os_name, arch = current_platform()
+    return ensure_release_binary_for_platform(product, version, os_name, arch)
+
+
+def ensure_kind() -> Path:
+    explicit = os_environ().get("KIND_BIN")
+    if explicit:
+        kind = Path(explicit)
+        check(kind.exists(), f"KIND_BIN does not exist: {kind}")
+        return kind
+
+    found = shutil.which("kind")
+    if found:
+        return Path(found)
+
+    os_name, arch = current_platform()
+    asset_name = f"kind-{os_name}-{arch}"
+    if os_name != "windows":
+        binary_name = "kind"
+    else:
+        binary_name = "kind.exe"
+    destination_dir = TOOLS_DIR / f"kind-{KIND_VERSION}-{os_name}-{arch}"
+    binary_path = destination_dir / binary_name
+    if binary_path.exists():
+        return binary_path
+    destination_dir.mkdir(parents=True, exist_ok=True)
+    print(f"[download] kind {KIND_VERSION}", flush=True)
+    download(f"https://github.com/kubernetes-sigs/kind/releases/download/{KIND_VERSION}/{asset_name}", binary_path)
+    if os_name != "windows":
+        binary_path.chmod(0o755)
+    check(binary_path.exists(), f"kind binary not found after download: {binary_path}")
+    return binary_path
 
 
 def helm_env(helm_root: Path) -> dict[str, str]:
