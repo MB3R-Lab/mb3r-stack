@@ -45,10 +45,51 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end -}}
 {{- end -}}
 
+{{- define "mb3r-otel-addon.beringConfigMapName" -}}
+{{- if .Values.bering.config.existingConfigMap -}}
+{{- .Values.bering.config.existingConfigMap -}}
+{{- else -}}
+{{- printf "%s-bering-config" (include "mb3r-otel-addon.fullname" .) -}}
+{{- end -}}
+{{- end -}}
+
+{{- define "mb3r-otel-addon.sheaftConfigMapName" -}}
+{{- if .Values.sheaft.config.existingConfigMap -}}
+{{- .Values.sheaft.config.existingConfigMap -}}
+{{- else -}}
+{{- printf "%s-sheaft-config" (include "mb3r-otel-addon.fullname" .) -}}
+{{- end -}}
+{{- end -}}
+
+{{- define "mb3r-otel-addon.artifactPVCName" -}}
+{{- printf "%s-artifacts" (include "mb3r-otel-addon.fullname" .) -}}
+{{- end -}}
+
+{{- define "mb3r-otel-addon.artifactVolumeSource" -}}
+{{- if eq .Values.artifacts.volume.type "persistentVolumeClaim" -}}
+persistentVolumeClaim:
+  claimName: {{ default (include "mb3r-otel-addon.artifactPVCName" .) .Values.artifacts.volume.existingClaim }}
+{{- else -}}
+emptyDir: {}
+{{- end -}}
+{{- end -}}
+
+{{- define "mb3r-otel-addon.beringHttpListenAddress" -}}
+{{- default (printf ":%v" (.Values.bering.service.ports.http.targetPort | int)) .Values.bering.config.server.listenAddress -}}
+{{- end -}}
+
+{{- define "mb3r-otel-addon.beringGrpcListenAddress" -}}
+{{- if .Values.bering.service.ports.grpc.enabled -}}
+{{- default (printf ":%v" (.Values.bering.service.ports.grpc.targetPort | int)) .Values.bering.config.server.grpcListenAddress -}}
+{{- else -}}
+{{- default "" .Values.bering.config.server.grpcListenAddress -}}
+{{- end -}}
+{{- end -}}
+
 {{- define "mb3r-otel-addon.beringEndpoint" -}}
 {{- if .Values.collector.targetEndpoint -}}
 {{ .Values.collector.targetEndpoint }}
 {{- else -}}
-{{ printf "%s-bering:%v" (include "mb3r-otel-addon.fullname" .) (.Values.bering.service.port | int) }}
+{{ printf "http://%s-bering:%v" (include "mb3r-otel-addon.fullname" .) (.Values.bering.service.ports.http.port | int) }}
 {{- end -}}
 {{- end -}}

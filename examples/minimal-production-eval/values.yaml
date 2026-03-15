@@ -3,10 +3,10 @@ global:
 
 collector:
   existingDeployment: "otel-collector"
-  targetEndpoint: "bering.observability.svc.cluster.local:4317"
+  targetEndpoint: "http://bering.observability.svc.cluster.local:4318"
   snippets:
     enabled: true
-    tlsInsecure: false
+    tlsInsecure: true
 
 bering:
   enabled: true

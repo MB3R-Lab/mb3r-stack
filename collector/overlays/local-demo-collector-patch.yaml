@@ -5,13 +5,11 @@ metadata:
 spec:
   config: |
     exporters:
-      otlp/bering:
-        endpoint: mb3r-otel-addon-bering:4317
+      otlphttp/bering:
+        endpoint: http://mb3r-otel-addon-bering:4318
         tls:
           insecure: true
     service:
       pipelines:
         traces:
-          exporters: [debug, otlp/bering]
-        metrics:
-          exporters: [debug, otlp/bering]
+          exporters: [debug, otlphttp/bering]

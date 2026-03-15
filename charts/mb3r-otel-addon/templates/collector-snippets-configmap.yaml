@@ -9,7 +9,7 @@ metadata:
 data:
   exporter.yaml: |
     exporters:
-      otlp/bering:
+      otlphttp/bering:
         endpoint: {{ include "mb3r-otel-addon.beringEndpoint" . }}
         tls:
           insecure: {{ .Values.collector.snippets.tlsInsecure }}
@@ -19,7 +19,7 @@ data:
       pipelines:
         traces:
           exporters:
-            - otlp/bering
+            - otlphttp/bering
 {{ else }}
     # Disabled by values.collector.snippets.includeTracesPipeline=false
 {{ end }}
@@ -29,7 +29,7 @@ data:
       pipelines:
         metrics:
           exporters:
-            - otlp/bering
+            - otlphttp/bering
 {{ else }}
     # Disabled by values.collector.snippets.includeMetricsPipeline=false
 {{ end }}
@@ -39,7 +39,7 @@ data:
       pipelines:
         logs:
           exporters:
-            - otlp/bering
+            - otlphttp/bering
 {{ else }}
     # Disabled by values.collector.snippets.includeLogsPipeline=false
 {{ end }}
@@ -52,7 +52,13 @@ data:
             - job_name: {{ .Values.prometheusScrapeHooks.jobNames.bering | quote }}
               static_configs:
                 - targets:
-                    - {{ printf "%s-bering:%v" (include "mb3r-otel-addon.fullname" .) (.Values.bering.service.metricsPort | int) | quote }}
+                    - {{ printf "%s-bering:%v" (include "mb3r-otel-addon.fullname" .) (.Values.bering.service.ports.http.port | int) | quote }}
+{{- if .Values.sheaft.enabled }}
+            - job_name: {{ .Values.prometheusScrapeHooks.jobNames.sheaft | quote }}
+              static_configs:
+                - targets:
+                    - {{ printf "%s-sheaft:%v" (include "mb3r-otel-addon.fullname" .) (.Values.sheaft.service.port | int) | quote }}
+{{- end }}
 {{ else }}
     # Disabled by values.collector.snippets.includePrometheusReceiver=false
 {{ end }}

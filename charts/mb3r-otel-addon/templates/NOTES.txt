@@ -1,8 +1,9 @@
 mb3r-stack installs integration-layer assets only.
 
 - It does not vendor or replace upstream Bering or Sheaft source code.
-- Use values to enable Bering and Sheaft deployments explicitly.
-- Use collector snippets only when you want to patch an existing collector deployment.
+- Bering runs in upstream `serve --config` mode with an explicit config file and snapshot sink.
+- When both Bering and Sheaft are enabled, Sheaft is co-located with Bering by default and watches the shared artifact volume automatically.
+- Collector snippets are OTLP/HTTP-first and default to traces-only wiring.
 
 {{- if and .Values.collector.snippets.enabled (or .Values.collector.targetEndpoint .Values.bering.enabled) }}
 Collector snippets ConfigMap:

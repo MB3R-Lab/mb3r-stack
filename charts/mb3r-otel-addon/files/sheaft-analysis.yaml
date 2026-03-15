@@ -1,0 +1,17 @@
+schema_version: "1.0"
+seed: 42
+trials: 6000
+sampling_mode: independent_service
+failure_probability: 0.03
+profiles:
+  - name: steady-state
+    sampling_mode: independent_replica
+    failure_probability: 0.02
+  - name: service-fault
+    sampling_mode: independent_service
+    failure_probability: 0.05
+gate:
+  mode: warn
+  default_action: warn
+  evaluation_rule: all_profiles
+  global_threshold: 0.94

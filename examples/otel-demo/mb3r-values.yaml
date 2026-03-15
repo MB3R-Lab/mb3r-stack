@@ -1,3 +1,5 @@
+fullnameOverride: mb3r-otel-addon
+
 collector:
   snippets:
     enabled: true
@@ -7,7 +9,8 @@ bering:
   enabled: true
 
 sheaft:
-  enabled: false
+  enabled: true
+  coLocateWithBering: true
 
 prometheusScrapeHooks:
   enabled: true
@@ -16,3 +19,4 @@ grafanaDashboards:
   enabled: true
   existingConfigMaps:
     - mb3r-bering-dashboard-v1-0-0
+    - mb3r-sheaft-dashboard-v1-0-0

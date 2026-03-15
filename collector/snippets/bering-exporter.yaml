@@ -1,5 +1,5 @@
 exporters:
-  otlp/bering:
+  otlphttp/bering:
     endpoint: ${BERING_ENDPOINT}
     tls:
       insecure: ${BERING_TLS_INSECURE:true}
@@ -8,10 +8,4 @@ service:
   pipelines:
     traces:
       exporters:
-        - otlp/bering
-    metrics:
-      exporters:
-        - otlp/bering
-    logs:
-      exporters:
-        - otlp/bering
+        - otlphttp/bering

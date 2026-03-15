@@ -5,15 +5,11 @@ metadata:
 spec:
   config: |
     exporters:
-      otlp/bering:
-        endpoint: bering.observability.svc.cluster.local:4317
+      otlphttp/bering:
+        endpoint: http://bering.observability.svc.cluster.local:4318
         tls:
-          insecure: false
+          insecure: true
     service:
       pipelines:
         traces:
-          exporters: [otlp/bering]
-        metrics:
-          exporters: [otlp/bering]
-        logs:
-          exporters: [otlp/bering]
+          exporters: [otlphttp/bering]

@@ -1,0 +1,33 @@
+{{- if and .Values.sheaft.enabled (not .Values.sheaft.config.existingConfigMap) }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "mb3r-otel-addon.sheaftConfigMapName" . }}
+  labels:
+    {{- include "mb3r-otel-addon.labels" . | nindent 4 }}
+    app.kubernetes.io/component: sheaft
+data:
+  {{ .Values.sheaft.config.fileNames.analysis }}: |
+{{- if .Values.sheaft.config.analysis }}
+{{ .Values.sheaft.config.analysis | nindent 4 }}
+{{- else }}
+{{ .Files.Get "files/sheaft-analysis.yaml" | nindent 4 }}
+{{- end }}
+  {{ .Values.sheaft.config.fileNames.serve }}: |
+{{- if .Values.sheaft.config.serve }}
+{{ .Values.sheaft.config.serve | nindent 4 }}
+{{- else }}
+    schema_version: "1.0"
+    listen: {{ .Values.sheaft.serve.listen | quote }}
+    artifact:
+      path: {{ .Values.sheaft.serve.artifact.path | quote }}
+      mode: {{ .Values.sheaft.serve.artifact.mode | quote }}
+    analysis_file: {{ .Values.sheaft.config.fileNames.analysis | quote }}
+    poll_interval: {{ .Values.sheaft.serve.pollInterval | quote }}
+    watch_fs: {{ .Values.sheaft.serve.watchFS }}
+    watch_polling: {{ .Values.sheaft.serve.watchPolling }}
+    history:
+      max_items: {{ .Values.sheaft.serve.history.maxItems }}
+      disk_dir: {{ .Values.sheaft.serve.history.diskDir | quote }}
+{{- end }}
+{{- end }}

@@ -13,10 +13,12 @@ spec:
   selector:
     matchLabels:
       {{- include "mb3r-otel-addon.selectorLabels" . | nindent 6 }}
-      app.kubernetes.io/component: bering
+      mb3r.io/has-bering: "true"
   endpoints:
-    - port: metrics
+    - port: http
+      path: /metrics
       interval: {{ .Values.bering.serviceMonitor.interval }}
+      scrapeTimeout: {{ .Values.bering.serviceMonitor.scrapeTimeout }}
 ---
 {{- end }}
 {{- if and .Values.sheaft.enabled .Values.sheaft.serviceMonitor.enabled }}
@@ -34,8 +36,10 @@ spec:
   selector:
     matchLabels:
       {{- include "mb3r-otel-addon.selectorLabels" . | nindent 6 }}
-      app.kubernetes.io/component: sheaft
+      mb3r.io/has-sheaft: "true"
   endpoints:
-    - port: metrics
+    - port: http
+      path: /metrics
       interval: {{ .Values.sheaft.serviceMonitor.interval }}
+      scrapeTimeout: {{ .Values.sheaft.serviceMonitor.scrapeTimeout }}
 {{- end }}

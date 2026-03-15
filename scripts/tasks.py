@@ -11,6 +11,7 @@ SCRIPTS = ROOT / "scripts"
 TASK_MAP = {
     "lint": ["validate.py"],
     "validate": ["validate.py"],
+    "smoke-otel-demo": ["smoke_oteldemo.py"],
     "package-assets": ["package_assets.py"],
     "chart-package": ["package_chart.py"],
     "release-dry-run": ["release_dry_run.py"],
