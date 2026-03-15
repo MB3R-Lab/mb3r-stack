@@ -1,5 +1,9 @@
 name: ci
 
+permissions:
+  contents: read
+  packages: read
+
 on:
   pull_request:
   push:
@@ -29,6 +33,12 @@ jobs:
 
       - name: Adapter end-to-end contracts
         run: make e2e-adapters
+
+      - name: Generic live smoke with pinned GHCR images
+        env:
+          GITHUB_ACTOR: ${{ github.actor }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: make k8s-smoke-generic-pinned
 
       - name: Package chart
         run: make chart-package

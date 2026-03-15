@@ -66,6 +66,7 @@ make validate
 make smoke-generic
 make e2e-generic
 make k8s-smoke-generic
+make k8s-smoke-generic-pinned
 make e2e-adapters
 make smoke-otel-demo
 make e2e-otel-demo
@@ -80,9 +81,12 @@ Direct Python equivalents are also available:
 ```bash
 python scripts/tasks.py validate
 python scripts/tasks.py e2e-generic
+python scripts/tasks.py k8s-smoke-generic-pinned
 python scripts/tasks.py e2e-adapters
 python scripts/tasks.py release-dry-run
 ```
+
+`make k8s-smoke-generic` verifies the live generic runtime contract with locally rebuilt images from the pinned release binaries. `make k8s-smoke-generic-pinned` verifies the clean-cluster startup path for the chart's default pinned `ghcr.io/mb3r-lab/bering` and `ghcr.io/mb3r-lab/sheaft` images, using anonymous pull by default and a temporary `imagePullSecret` when `MB3R_GHCR_USERNAME` and `MB3R_GHCR_TOKEN` are set. Repository CI wires that pinned-image smoke through `GITHUB_TOKEN` with `packages:read` so pull/auth regressions fail on push.
 
 ## Compatibility Notes
 

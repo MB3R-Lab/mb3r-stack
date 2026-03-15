@@ -186,6 +186,34 @@ def ensure_kind() -> Path:
     return binary_path
 
 
+def ensure_kubectl() -> Path:
+    explicit = os_environ().get("KUBECTL_BIN")
+    if explicit:
+        kubectl = Path(explicit)
+        check(kubectl.exists(), f"KUBECTL_BIN does not exist: {kubectl}")
+        return kubectl
+
+    found = shutil.which("kubectl")
+    if found:
+        return Path(found)
+
+    os_name, arch = current_platform()
+    binary_name = "kubectl.exe" if os_name == "windows" else "kubectl"
+    destination_dir = TOOLS_DIR / f"kubectl-{os_name}-{arch}"
+    binary_path = destination_dir / binary_name
+    if binary_path.exists():
+        return binary_path
+
+    destination_dir.mkdir(parents=True, exist_ok=True)
+    print("[download] kubectl stable", flush=True)
+    stable_version = urllib.request.urlopen("https://dl.k8s.io/release/stable.txt").read().decode("utf-8").strip()
+    download(f"https://dl.k8s.io/release/{stable_version}/bin/{os_name}/{arch}/{binary_name}", binary_path)
+    if os_name != "windows":
+        binary_path.chmod(0o755)
+    check(binary_path.exists(), f"kubectl binary not found after download: {binary_path}")
+    return binary_path
+
+
 def helm_env(helm_root: Path) -> dict[str, str]:
     env = os_environ()
     repo_dir = helm_root.parent / "helm-repo"
