@@ -24,11 +24,11 @@ The machine-readable compatibility contract is split across:
 
 ## Current Bundle
 
-`mb3r-stack` `0.2.0` currently tracks:
+`mb3r-stack` `0.2.1` currently tracks:
 
 - Bering `0.1.0`
 - Sheaft `0.1.1`
 
-That bundle is marked `candidate` because the pins are backed by published upstream release metadata and strict contract alignment, while broader operational verification remains outside this repository's release contract.
+That bundle is marked `candidate` because the pins are backed by published upstream release metadata and strict contract alignment, while broader operational verification remains outside this repository's release contract. A pinned-image live smoke now exists for clean-cluster startup checks, but proving cross-repo GHCR pullability still depends on explicit external credentials or public package access.
 
 OpenTelemetry Demo can be used as one profile and one acceptance scenario, but it does not widen the formal compatibility statement on its own.

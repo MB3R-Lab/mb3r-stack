@@ -90,7 +90,7 @@ python scripts/tasks.py release-dry-run
 
 ## Compatibility Notes
 
-The compatibility files in `compat/` are the source of truth for stack-level assertions. The current `0.2.0` bundle is recorded as a `candidate` integration statement backed by upstream release manifests, live generic smoke evidence, and Sheaft's published compatibility manifest, not as a broader verified operations guarantee. OpenTelemetry Demo remains one example profile and one acceptance scenario, not the design center of the core bundle.
+The compatibility files in `compat/` are the source of truth for stack-level assertions. The current `0.2.1` bundle is recorded as a `candidate` integration statement backed by upstream release manifests, live generic smoke evidence, and Sheaft's published compatibility manifest, not as a broader verified operations guarantee. OpenTelemetry Demo remains one example profile and one acceptance scenario, not the design center of the core bundle.
 
 ## License
 

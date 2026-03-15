@@ -1,4 +1,4 @@
-@Library('mb3r-stack@v0.2.0') _
+@Library('mb3r-stack@v0.2.1') _
 
 pipeline {
   agent any
