@@ -137,11 +137,16 @@ def configure_ghcr_pull_secret(kubectl_bin: Path, credentials: tuple[str, str] |
 
 
 def enrich_failure_message(message: str) -> str:
-    if "401 Unauthorized" in message or "failed to authorize" in message:
+    if (
+        "401 Unauthorized" in message
+        or "403 Forbidden" in message
+        or "failed to authorize" in message
+    ):
         return (
             f"{message} "
             "Set MB3R_GHCR_USERNAME/MB3R_GHCR_TOKEN or GITHUB_ACTOR/GITHUB_TOKEN "
-            "to validate authenticated pulls for pinned GHCR images."
+            "to validate authenticated pulls for pinned GHCR images. "
+            "A 403 usually means the provided token does not have pull access to the upstream package."
         )
     return message
 

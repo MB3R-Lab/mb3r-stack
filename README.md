@@ -86,7 +86,7 @@ python scripts/tasks.py e2e-adapters
 python scripts/tasks.py release-dry-run
 ```
 
-`make k8s-smoke-generic` verifies the live generic runtime contract with locally rebuilt images from the pinned release binaries. `make k8s-smoke-generic-pinned` verifies the clean-cluster startup path for the chart's default pinned `ghcr.io/mb3r-lab/bering` and `ghcr.io/mb3r-lab/sheaft` images, using anonymous pull by default and a temporary `imagePullSecret` when `MB3R_GHCR_USERNAME` and `MB3R_GHCR_TOKEN` are set. Repository CI wires that pinned-image smoke through `GITHUB_TOKEN` with `packages:read` so pull/auth regressions fail on push.
+`make k8s-smoke-generic` verifies the live generic runtime contract with locally rebuilt images from the pinned release binaries. `make k8s-smoke-generic-pinned` verifies the clean-cluster startup path for the chart's default pinned `ghcr.io/mb3r-lab/bering` and `ghcr.io/mb3r-lab/sheaft` images, using anonymous pull by default and a temporary `imagePullSecret` when `MB3R_GHCR_USERNAME` and `MB3R_GHCR_TOKEN` are set. Repository CI runs that pinned-image smoke only when those explicit cross-repo GHCR credentials are configured; the repo-scoped `GITHUB_TOKEN` is not treated as sufficient proof of upstream package pullability.
 
 ## Compatibility Notes
 
