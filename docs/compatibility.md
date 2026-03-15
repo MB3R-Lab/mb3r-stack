@@ -24,7 +24,7 @@ The machine-readable compatibility contract is split across:
 
 ## Current Bundle
 
-`mb3r-stack` `0.1.0` currently tracks:
+`mb3r-stack` `0.2.0` currently tracks:
 
 - Bering `0.1.0`
 - Sheaft `0.1.1`

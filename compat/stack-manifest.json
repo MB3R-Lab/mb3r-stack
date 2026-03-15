@@ -3,25 +3,26 @@
   "schemaVersion": "1.0.0",
   "stack": {
     "name": "mb3r-stack",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "status": "candidate",
     "releaseDate": "2026-03-15",
     "notes": [
       "Generic integration and distribution layer only. No upstream Bering or Sheaft source code is vendored here.",
       "Candidate bundle pinned to released Bering v0.1.0 and Sheaft v0.1.1 artifacts with immutable GHCR digests.",
-      "Compatibility claims are limited to published contract alignment and packaged integration assets. OpenTelemetry Demo is packaged as an example profile, not as the core contract."
+      "OpenTelemetry Demo is packaged as an example profile, not as the core contract.",
+      "This release adds separate generic and profile-specific acceptance paths, including a live Kubernetes smoke for the generic synthetic profile and end-to-end adapter contract verification."
     ]
   },
   "artifacts": {
     "chart": {
       "name": "mb3r-stack",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "ociRepository": "oci://ghcr.io/mb3r-lab/charts",
-      "package": "mb3r-stack-0.1.0.tgz"
+      "package": "mb3r-stack-0.2.0.tgz"
     },
     "assetPack": {
-      "version": "0.1.0",
-      "archive": "mb3r-assets-0.1.0.tgz",
+      "version": "0.2.0",
+      "archive": "mb3r-assets-0.2.0.tgz",
       "includes": [
         "collector/",
         "dashboards/",
@@ -33,8 +34,8 @@
       "sheaft": "1.0.0"
     },
     "configPacks": {
-      "collector": "0.1.0",
-      "examples": "0.1.0"
+      "collector": "0.2.0",
+      "examples": "0.2.0"
     }
   },
   "components": {

@@ -14,6 +14,7 @@ TASK_MAP = {
     "smoke-generic": [["acceptance_generic.py", "--mode", "smoke"]],
     "e2e-generic": [["acceptance_generic.py", "--mode", "e2e"]],
     "k8s-smoke-generic": [["live_k8s_smoke.py"]],
+    "e2e-adapters": [["adapter_e2e.py"]],
     "smoke-otel-demo": [["acceptance_otel_demo.py", "--mode", "smoke"]],
     "e2e-otel-demo": [["acceptance_otel_demo.py", "--mode", "e2e"]],
     "package-assets": [["package_assets.py"]],

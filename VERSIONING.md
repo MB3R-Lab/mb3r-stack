@@ -36,6 +36,6 @@ If a pin is unknown, keep it explicit with `TODO-*` placeholders and mark the co
 
 ## Tagging
 
-Repository tags should use `v<semver>`, for example `v0.1.0`.
+Repository tags should use `v<semver>`, for example `v0.2.0`.
 
-The initial bundle is `0.1.0`, which should be treated as pre-GA integration packaging.
+The current bundle line is still pre-GA integration packaging and remains conservative about formal maturity even as validation depth increases.
