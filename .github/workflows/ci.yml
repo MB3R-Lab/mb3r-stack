@@ -42,7 +42,7 @@ jobs:
         run: make k8s-smoke-generic-pinned
 
       - name: Note pinned GHCR smoke precondition
-        if: ${{ !(secrets.MB3R_GHCR_USERNAME != '' && secrets.MB3R_GHCR_TOKEN != '') }}
+        if: ${{ secrets.MB3R_GHCR_USERNAME == '' || secrets.MB3R_GHCR_TOKEN == '' }}
         run: |
           echo "::warning::Pinned GHCR smoke skipped because MB3R_GHCR_USERNAME and MB3R_GHCR_TOKEN are not configured."
           echo "::warning::Repo-scoped GITHUB_TOKEN does not currently prove cross-repo pull access to upstream Bering/Sheaft GHCR packages."
