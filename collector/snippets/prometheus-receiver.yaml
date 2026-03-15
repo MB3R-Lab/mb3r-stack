@@ -6,9 +6,9 @@ receivers:
           metrics_path: /metrics
           static_configs:
             - targets:
-                - ${BERING_METRICS_TARGET:mb3r-otel-addon-bering:4318}
+                - ${BERING_METRICS_TARGET}
         - job_name: "mb3r-sheaft"
           metrics_path: /metrics
           static_configs:
             - targets:
-                - ${SHEAFT_METRICS_TARGET:mb3r-otel-addon-sheaft:8080}
+                - ${SHEAFT_METRICS_TARGET}

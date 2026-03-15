@@ -17,10 +17,10 @@ def stage_stack_metadata(output_dir: Path) -> list[Path]:
     validate_schema(matrix_path, matrix_schema)
 
     manifest = stack_manifest()
-    chart = chart_metadata(ROOT / "charts" / "mb3r-otel-addon")
+    chart = chart_metadata(ROOT / "charts" / "mb3r-stack")
     check(
         manifest["artifacts"]["chart"]["version"] == chart["version"],
-        "stack-manifest chart version must match charts/mb3r-otel-addon/Chart.yaml",
+        "stack-manifest chart version must match charts/mb3r-stack/Chart.yaml",
     )
     check(
         manifest["stack"]["version"] == chart["version"],

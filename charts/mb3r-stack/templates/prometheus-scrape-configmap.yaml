@@ -1,0 +1,40 @@
+{{- if and .Values.prometheusScrapeHooks.enabled .Values.prometheusScrapeHooks.renderConfigMap (or .Values.bering.enabled .Values.sheaft.enabled) }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "mb3r-stack.fullname" . }}-prometheus-scrape
+  labels:
+    {{- include "mb3r-stack.labels" . | nindent 4 }}
+    app.kubernetes.io/component: prometheus-hook
+    {{- with .Values.prometheusScrapeHooks.additionalLabels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+data:
+  additional-scrape-configs.yaml: |
+{{ if .Values.bering.enabled }}
+    - job_name: {{ .Values.prometheusScrapeHooks.jobNames.bering | quote }}
+      kubernetes_sd_configs:
+        - role: endpoints
+      metrics_path: /metrics
+      relabel_configs:
+        - source_labels: [__meta_kubernetes_service_name]
+          action: keep
+          regex: {{ include "mb3r-stack.beringServiceName" . | quote }}
+        - source_labels: [__meta_kubernetes_endpoint_port_name]
+          action: keep
+          regex: http
+{{ end }}
+{{ if .Values.sheaft.enabled }}
+    - job_name: {{ .Values.prometheusScrapeHooks.jobNames.sheaft | quote }}
+      kubernetes_sd_configs:
+        - role: endpoints
+      metrics_path: /metrics
+      relabel_configs:
+        - source_labels: [__meta_kubernetes_service_name]
+          action: keep
+          regex: {{ include "mb3r-stack.sheaftServiceName" . | quote }}
+        - source_labels: [__meta_kubernetes_endpoint_port_name]
+          action: keep
+          regex: http
+{{ end }}
+{{- end }}

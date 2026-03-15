@@ -30,3 +30,5 @@ The machine-readable compatibility contract is split across:
 - Sheaft `0.1.1`
 
 That bundle is marked `candidate` because the pins are backed by published upstream release metadata and strict contract alignment, while broader operational verification remains outside this repository's release contract.
+
+OpenTelemetry Demo can be used as one profile and one acceptance scenario, but it does not widen the formal compatibility statement on its own.

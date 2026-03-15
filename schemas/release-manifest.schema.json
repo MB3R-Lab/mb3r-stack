@@ -237,7 +237,7 @@
       ],
       "properties": {
         "name": {
-          "const": "mb3r-otel-addon"
+          "const": "mb3r-stack"
         },
         "version": {
           "$ref": "#/$defs/version"

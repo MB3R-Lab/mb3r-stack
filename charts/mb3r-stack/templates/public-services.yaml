@@ -1,0 +1,56 @@
+{{- $beringPrimary := include "mb3r-stack.beringServiceName" . -}}
+{{- if and .Values.bering.enabled .Values.bering.service.publicName (ne .Values.bering.service.publicName $beringPrimary) }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.bering.service.publicName }}
+  labels:
+    {{- include "mb3r-stack.labels" . | nindent 4 }}
+    app.kubernetes.io/component: bering
+    mb3r.io/has-bering: "true"
+    mb3r.io/service-role: public-contract
+  {{- with .Values.bering.service.publicAnnotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  type: ClusterIP
+  selector:
+    {{- include "mb3r-stack.selectorLabels" . | nindent 4 }}
+    mb3r.io/has-bering: "true"
+  ports:
+    - name: http
+      port: {{ .Values.bering.service.ports.http.port }}
+      targetPort: http
+    {{- if .Values.bering.service.ports.grpc.enabled }}
+    - name: otlp-grpc
+      port: {{ .Values.bering.service.ports.grpc.port }}
+      targetPort: otlp-grpc
+    {{- end }}
+---
+{{- end }}
+{{- $sheaftPrimary := include "mb3r-stack.sheaftServiceName" . -}}
+{{- if and .Values.sheaft.enabled .Values.sheaft.service.publicName (ne .Values.sheaft.service.publicName $sheaftPrimary) }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.sheaft.service.publicName }}
+  labels:
+    {{- include "mb3r-stack.labels" . | nindent 4 }}
+    app.kubernetes.io/component: sheaft
+    mb3r.io/has-sheaft: "true"
+    mb3r.io/service-role: public-contract
+  {{- with .Values.sheaft.service.publicAnnotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  type: ClusterIP
+  selector:
+    {{- include "mb3r-stack.selectorLabels" . | nindent 4 }}
+    mb3r.io/has-sheaft: "true"
+  ports:
+    - name: http
+      port: {{ .Values.sheaft.service.port }}
+      targetPort: {{ ternary "sheaft-http" "http" (and .Values.bering.enabled .Values.sheaft.coLocateWithBering) }}
+{{- end }}

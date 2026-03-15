@@ -1,0 +1,167 @@
+nameOverride: ""
+fullnameOverride: ""
+
+global:
+  imageRegistry: ""
+  imagePullSecrets: []
+  commonLabels: {}
+  commonAnnotations: {}
+
+bundleMetadata:
+  enabled: true
+
+collector:
+  existingDeployment: ""
+  # Full OTLP/HTTP endpoint for Bering, for example http://bering-discovery:4318.
+  targetEndpoint: ""
+  snippets:
+    enabled: false
+    name: ""
+    includeMetricsPipeline: false
+    includeLogsPipeline: false
+    includeTracesPipeline: true
+    includePrometheusReceiver: false
+    tlsInsecure: true
+
+artifacts:
+  volume:
+    # Supported values: emptyDir, persistentVolumeClaim
+    type: emptyDir
+    existingClaim: ""
+    accessModes:
+      - ReadWriteOnce
+    size: 10Gi
+    storageClassName: ""
+
+bering:
+  enabled: false
+  replicaCount: 1
+  image:
+    registry: ""
+    repository: "ghcr.io/mb3r-lab/bering"
+    tag: "v0.1.0"
+    digest: "sha256:8e8ce6599b43477b0653617e829d41c62a3189d16b60ecb424cca718fc0e2674"
+    pullPolicy: IfNotPresent
+  podLabels: {}
+  podAnnotations: {}
+  podSecurityContext:
+    fsGroup: 65532
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 65532
+    runAsGroup: 65532
+    allowPrivilegeEscalation: false
+    readOnlyRootFilesystem: true
+    capabilities:
+      drop:
+        - ALL
+  extraArgs: []
+  env: []
+  envFrom: []
+  resources: {}
+  service:
+    type: ClusterIP
+    publicName: ""
+    publicAnnotations: {}
+    annotations: {}
+    ports:
+      http:
+        port: 4318
+        targetPort: 4318
+      grpc:
+        enabled: false
+        port: 4317
+        targetPort: 4317
+  config:
+    existingConfigMap: ""
+    fileName: serve.yaml
+    server:
+      listenAddress: ""
+      grpcListenAddress: ""
+      maxRequestBytes: 5242880
+    runtime:
+      flushInterval: 5s
+      windowSize: 30s
+      maxInMemorySpans: 10000
+      lateSpanPolicy: drop
+    sink:
+      directory: /var/lib/mb3r/bering/snapshots
+      latestPath: /var/lib/mb3r/bering/latest.json
+    logging:
+      structured: true
+    overlays: []
+  prometheus:
+    annotations: {}
+  serviceMonitor:
+    enabled: false
+    interval: 30s
+    scrapeTimeout: 10s
+    labels: {}
+
+sheaft:
+  enabled: false
+  # Co-locate Sheaft with Bering by default so the automatic artifact handoff
+  # uses a shared pod volume instead of assuming RWX storage on the cluster.
+  coLocateWithBering: true
+  replicaCount: 1
+  image:
+    registry: ""
+    repository: "ghcr.io/mb3r-lab/sheaft"
+    tag: "v0.1.1"
+    digest: "sha256:eb1ebf9d96c55c5bb29e226e07496d152eb3a66b52dd9d34ba799fa4aef70624"
+    pullPolicy: IfNotPresent
+  podLabels: {}
+  podAnnotations: {}
+  podSecurityContext: {}
+  securityContext: {}
+  extraArgs: []
+  env: []
+  envFrom: []
+  resources: {}
+  service:
+    type: ClusterIP
+    publicName: ""
+    publicAnnotations: {}
+    port: 8080
+    annotations: {}
+  config:
+    existingConfigMap: ""
+    fileNames:
+      analysis: analysis.yaml
+      serve: sheaft.yaml
+    analysis: ""
+    serve: ""
+  serve:
+    listen: ":8080"
+    artifact:
+      path: /var/lib/mb3r/bering/latest.json
+      mode: file
+    pollInterval: 15s
+    watchFS: true
+    watchPolling: true
+    history:
+      maxItems: 20
+      diskDir: /var/lib/mb3r/sheaft/history
+  prometheus:
+    annotations: {}
+  serviceMonitor:
+    enabled: false
+    interval: 30s
+    scrapeTimeout: 10s
+    labels: {}
+
+prometheusScrapeHooks:
+  enabled: false
+  renderConfigMap: true
+  additionalLabels: {}
+  jobNames:
+    bering: "mb3r-bering"
+    sheaft: "mb3r-sheaft"
+
+grafanaDashboards:
+  enabled: false
+  providerName: "mb3r-stack"
+  folder: "MB3R"
+  labelKey: "grafana_dashboard"
+  labelValue: "1"
+  existingConfigMaps: []

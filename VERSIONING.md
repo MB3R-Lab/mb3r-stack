@@ -6,7 +6,7 @@
 
 The `mb3r-stack` version covers:
 
-- the `mb3r-otel-addon` chart version
+- the `mb3r-stack` chart version
 - the stack manifest contract
 - the compatibility matrix format and assertions
 - the packaged collector, dashboard, and example asset packs

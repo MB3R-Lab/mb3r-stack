@@ -24,7 +24,7 @@ def validate_json_contracts() -> None:
 
 
 def validate_chart() -> None:
-    chart_dir = ROOT / "charts" / "mb3r-otel-addon"
+    chart_dir = ROOT / "charts" / "mb3r-stack"
     required = [
         chart_dir / "Chart.yaml",
         chart_dir / "values.yaml",
@@ -32,19 +32,28 @@ def validate_chart() -> None:
         chart_dir / "templates" / "collector-snippets-configmap.yaml",
         chart_dir / "templates" / "bering-deployment.yaml",
         chart_dir / "templates" / "sheaft-deployment.yaml",
+        chart_dir / "templates" / "public-services.yaml",
         chart_dir / "templates" / "NOTES.txt",
     ]
     for path in required:
         check(path.exists(), f"Missing chart file {path.relative_to(ROOT)}")
 
     metadata = load_yaml(chart_dir / "Chart.yaml")
-    check(metadata["name"] == "mb3r-otel-addon", "Chart name must be mb3r-otel-addon")
+    check(metadata["name"] == "mb3r-stack", "Chart name must be mb3r-stack")
     load_yaml(chart_dir / "values.yaml")
 
     if shutil.which("helm"):
         result = maybe_run_command(["helm", "lint", str(chart_dir)])
         if result.returncode != 0:
             raise ValueError((result.stdout + result.stderr).strip())
+        for values_path in (
+            ROOT / "examples" / "profiles" / "synthetic-otlp" / "values.yaml",
+            ROOT / "examples" / "profiles" / "minimal-production-eval" / "values.yaml",
+            ROOT / "examples" / "profiles" / "otel-demo" / "mb3r-values.yaml",
+        ):
+            render = maybe_run_command(["helm", "template", "mb3r", str(chart_dir), "-f", str(values_path)])
+            if render.returncode != 0:
+                raise ValueError((render.stdout + render.stderr).strip())
 
     with tempfile.TemporaryDirectory() as tempdir:
         result = maybe_run_command(
@@ -60,16 +69,15 @@ def validate_yaml_files() -> None:
         ROOT / ".github" / "workflows" / "release.yml",
         ROOT / ".github" / "workflows" / "example-consumer.yml",
         ROOT / ".gitlab-ci.yml",
-        ROOT / "examples" / "local-demo" / "values.yaml",
-        ROOT / "examples" / "ci-demo" / "values.yaml",
-        ROOT / "examples" / "minimal-production-eval" / "values.yaml",
-        ROOT / "examples" / "otel-demo" / "mb3r-values.yaml",
-        ROOT / "examples" / "otel-demo" / "opentelemetry-demo-values.yaml",
+        ROOT / "examples" / "profiles" / "synthetic-otlp" / "values.yaml",
+        ROOT / "examples" / "profiles" / "synthetic-otlp" / "collector-patch.yaml",
+        ROOT / "examples" / "profiles" / "minimal-production-eval" / "values.yaml",
+        ROOT / "examples" / "profiles" / "minimal-production-eval" / "collector-patch.yaml",
+        ROOT / "examples" / "profiles" / "otel-demo" / "mb3r-values.yaml",
+        ROOT / "examples" / "profiles" / "otel-demo" / "collector-patch.yaml",
+        ROOT / "examples" / "profiles" / "otel-demo" / "opentelemetry-demo-values.yaml",
         ROOT / "collector" / "snippets" / "bering-exporter.yaml",
         ROOT / "collector" / "snippets" / "prometheus-receiver.yaml",
-        ROOT / "collector" / "overlays" / "local-demo-collector-patch.yaml",
-        ROOT / "collector" / "overlays" / "ci-demo-collector-patch.yaml",
-        ROOT / "collector" / "overlays" / "minimal-production-eval-patch.yaml",
     ]
     for path in yaml_paths:
         load_yaml(path)

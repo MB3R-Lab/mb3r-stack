@@ -16,13 +16,14 @@ def validate_chart_structure(chart_dir: Path) -> dict[str, str]:
         chart_dir / "templates" / "collector-snippets-configmap.yaml",
         chart_dir / "templates" / "bering-deployment.yaml",
         chart_dir / "templates" / "sheaft-deployment.yaml",
+        chart_dir / "templates" / "public-services.yaml",
         chart_dir / "templates" / "NOTES.txt",
     ]
     for path in required_files:
         check(path.exists(), f"Missing required chart file: {path.relative_to(ROOT)}")
 
     metadata = chart_metadata(chart_dir)
-    check(metadata.get("name") == "mb3r-otel-addon", "Chart name must be mb3r-otel-addon")
+    check(metadata.get("name") == "mb3r-stack", "Chart name must be mb3r-stack")
     check("version" in metadata, "Chart.yaml must define version")
 
     values = load_yaml(chart_dir / "values.yaml")
@@ -31,7 +32,7 @@ def validate_chart_structure(chart_dir: Path) -> dict[str, str]:
 
 
 def package_chart(output_dir: Path) -> Path:
-    chart_dir = ROOT / "charts" / "mb3r-otel-addon"
+    chart_dir = ROOT / "charts" / "mb3r-stack"
     metadata = validate_chart_structure(chart_dir)
     ensure_dir(output_dir)
     target = output_dir / f"{metadata['name']}-{metadata['version']}.tgz"
@@ -46,7 +47,7 @@ def package_chart(output_dir: Path) -> Path:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Package the mb3r-otel-addon Helm chart.")
+    parser = argparse.ArgumentParser(description="Package the mb3r-stack Helm chart.")
     parser.add_argument("--output-dir", default=str(DIST / "charts"))
     args = parser.parse_args()
     package_path = package_chart(Path(args.output_dir))

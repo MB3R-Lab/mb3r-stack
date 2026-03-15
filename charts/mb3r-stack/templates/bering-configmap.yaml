@@ -1,0 +1,31 @@
+{{- if and .Values.bering.enabled (not .Values.bering.config.existingConfigMap) }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "mb3r-stack.beringConfigMapName" . }}
+  labels:
+    {{- include "mb3r-stack.labels" . | nindent 4 }}
+    app.kubernetes.io/component: bering
+data:
+  {{ .Values.bering.config.fileName }}: |
+    server:
+      listen_address: {{ include "mb3r-stack.beringHttpListenAddress" . | quote }}
+      grpc_listen_address: {{ include "mb3r-stack.beringGrpcListenAddress" . | quote }}
+      max_request_bytes: {{ .Values.bering.config.server.maxRequestBytes | int }}
+    runtime:
+      flush_interval: {{ .Values.bering.config.runtime.flushInterval | quote }}
+      window_size: {{ .Values.bering.config.runtime.windowSize | quote }}
+      max_in_memory_spans: {{ .Values.bering.config.runtime.maxInMemorySpans }}
+      late_span_policy: {{ .Values.bering.config.runtime.lateSpanPolicy | quote }}
+    sink:
+      directory: {{ .Values.bering.config.sink.directory | quote }}
+      latest_path: {{ .Values.bering.config.sink.latestPath | quote }}
+    logging:
+      structured: {{ .Values.bering.config.logging.structured }}
+{{- if .Values.bering.config.overlays }}
+    overlays:
+{{ toYaml .Values.bering.config.overlays | nindent 6 }}
+{{- else }}
+    overlays: []
+{{- end }}
+{{- end }}

@@ -5,19 +5,19 @@
     "name": "mb3r-stack",
     "version": "0.1.0",
     "status": "candidate",
-    "releaseDate": "2026-03-14",
+    "releaseDate": "2026-03-15",
     "notes": [
-      "Integration and distribution layer only. No upstream Bering or Sheaft source code is vendored here.",
+      "Generic integration and distribution layer only. No upstream Bering or Sheaft source code is vendored here.",
       "Candidate bundle pinned to released Bering v0.1.0 and Sheaft v0.1.1 artifacts with immutable GHCR digests.",
-      "Compatibility claims are limited to published contract alignment and packaged integration assets."
+      "Compatibility claims are limited to published contract alignment and packaged integration assets. OpenTelemetry Demo is packaged as an example profile, not as the core contract."
     ]
   },
   "artifacts": {
     "chart": {
-      "name": "mb3r-otel-addon",
+      "name": "mb3r-stack",
       "version": "0.1.0",
       "ociRepository": "oci://ghcr.io/mb3r-lab/charts",
-      "package": "mb3r-otel-addon-0.1.0.tgz"
+      "package": "mb3r-stack-0.1.0.tgz"
     },
     "assetPack": {
       "version": "0.1.0",
@@ -67,8 +67,9 @@
   "ownership": {
     "scope": [
       "stack-level compatibility",
-      "bundle installation",
-      "OpenTelemetry integration overlays",
+      "generic bundle installation",
+      "OTLP and artifact integration helpers",
+      "profile examples and acceptance assets",
       "dashboards",
       "reusable CI integration adapters"
     ],

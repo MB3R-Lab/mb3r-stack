@@ -1,7 +1,7 @@
 {
   "$schema": "../schemas/compatibility-matrix.schema.json",
   "schemaVersion": "1.0.0",
-  "generatedAt": "2026-03-14",
+  "generatedAt": "2026-03-15",
   "entries": [
     {
       "stackVersion": "0.1.0",
@@ -22,7 +22,8 @@
       },
       "notes": [
         "Bering v0.1.0 release contracts and Sheaft v0.1.1 compatibility pins align on io.mb3r.bering.model@1.0.0 and io.mb3r.bering.snapshot@1.0.0 digests.",
-        "This is a candidate integration statement backed by published upstream release metadata, not a broader verified operations guarantee."
+        "This is a candidate integration statement backed by published upstream release metadata, not a broader verified operations guarantee.",
+        "OpenTelemetry Demo remains an example profile; generic acceptance is tracked separately from any one demo scenario."
       ]
     }
   ]

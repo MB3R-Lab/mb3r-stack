@@ -9,18 +9,21 @@ ROOT = Path(__file__).resolve().parents[1]
 SCRIPTS = ROOT / "scripts"
 
 TASK_MAP = {
-    "lint": ["validate.py"],
-    "validate": ["validate.py"],
-    "smoke-otel-demo": ["smoke_oteldemo.py"],
-    "package-assets": ["package_assets.py"],
-    "chart-package": ["package_chart.py"],
-    "release-dry-run": ["release_dry_run.py"],
-    "stack-manifest": ["generate_stack_manifest.py"],
+    "lint": [["validate.py"]],
+    "validate": [["validate.py"]],
+    "smoke-generic": [["acceptance_generic.py", "--mode", "smoke"]],
+    "e2e-generic": [["acceptance_generic.py", "--mode", "e2e"]],
+    "smoke-otel-demo": [["acceptance_otel_demo.py", "--mode", "smoke"]],
+    "e2e-otel-demo": [["acceptance_otel_demo.py", "--mode", "e2e"]],
+    "package-assets": [["package_assets.py"]],
+    "chart-package": [["package_chart.py"]],
+    "release-dry-run": [["release_dry_run.py"]],
+    "stack-manifest": [["generate_stack_manifest.py"]],
 }
 
 
-def run(script_name: str) -> int:
-    command = [sys.executable, str(SCRIPTS / script_name)]
+def run(script_and_args: list[str]) -> int:
+    command = [sys.executable, str(SCRIPTS / script_and_args[0]), *script_and_args[1:]]
     result = subprocess.run(command, cwd=ROOT, check=False)
     return result.returncode
 

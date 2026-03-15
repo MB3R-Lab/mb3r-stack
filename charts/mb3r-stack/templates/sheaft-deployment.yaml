@@ -1,0 +1,91 @@
+{{- if and .Values.sheaft.enabled (not (and .Values.bering.enabled .Values.sheaft.coLocateWithBering)) }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "mb3r-stack.fullname" . }}-sheaft
+  labels:
+    {{- include "mb3r-stack.labels" . | nindent 4 }}
+    app.kubernetes.io/component: sheaft
+spec:
+  replicas: {{ .Values.sheaft.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "mb3r-stack.selectorLabels" . | nindent 6 }}
+      mb3r.io/has-sheaft: "true"
+  template:
+    metadata:
+      labels:
+        {{- include "mb3r-stack.selectorLabels" . | nindent 8 }}
+        app.kubernetes.io/component: sheaft
+        mb3r.io/has-sheaft: "true"
+        {{- with .Values.sheaft.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      {{- if or .Values.global.commonAnnotations .Values.sheaft.podAnnotations }}
+      annotations:
+        {{- with .Values.global.commonAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+        {{- with .Values.sheaft.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      {{- end }}
+    spec:
+      {{- with .Values.global.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.sheaft.podSecurityContext }}
+      securityContext:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: sheaft
+          image: {{ include "mb3r-stack.resolveImage" (dict "root" . "image" .Values.sheaft.image) | quote }}
+          imagePullPolicy: {{ .Values.sheaft.image.pullPolicy }}
+          args:
+            - serve
+            - --config
+            - {{ printf "/etc/sheaft/%s" .Values.sheaft.config.fileNames.serve | quote }}
+            {{- range .Values.sheaft.extraArgs }}
+            - {{ . | quote }}
+            {{- end }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.sheaft.service.port }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: http
+          {{- with .Values.sheaft.securityContext }}
+          securityContext:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          volumeMounts:
+            - name: sheaft-config
+              mountPath: /etc/sheaft
+              readOnly: true
+            - name: shared-artifacts
+              mountPath: /var/lib/mb3r
+          {{- with .Values.sheaft.env }}
+          env:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.sheaft.envFrom }}
+          envFrom:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          resources:
+            {{- toYaml .Values.sheaft.resources | nindent 12 }}
+      volumes:
+        - name: sheaft-config
+          configMap:
+            name: {{ include "mb3r-stack.sheaftConfigMapName" . }}
+        - name: shared-artifacts
+{{ include "mb3r-stack.artifactVolumeSource" . | nindent 10 }}
+{{- end }}

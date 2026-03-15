@@ -1,0 +1,37 @@
+{{- if .Values.bering.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "mb3r-stack.beringServiceName" . }}
+  labels:
+    {{- include "mb3r-stack.labels" . | nindent 4 }}
+    app.kubernetes.io/component: bering
+    mb3r.io/has-bering: "true"
+    mb3r.io/service-role: primary
+  annotations:
+    {{- if .Values.prometheusScrapeHooks.enabled }}
+    prometheus.io/scrape: "true"
+    prometheus.io/path: /metrics
+    prometheus.io/port: {{ .Values.bering.service.ports.http.port | quote }}
+    {{- end }}
+    {{- with .Values.bering.prometheus.annotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+    {{- with .Values.bering.service.annotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  type: {{ .Values.bering.service.type }}
+  selector:
+    {{- include "mb3r-stack.selectorLabels" . | nindent 4 }}
+    mb3r.io/has-bering: "true"
+  ports:
+    - name: http
+      port: {{ .Values.bering.service.ports.http.port }}
+      targetPort: http
+    {{- if .Values.bering.service.ports.grpc.enabled }}
+    - name: otlp-grpc
+      port: {{ .Values.bering.service.ports.grpc.port }}
+      targetPort: otlp-grpc
+    {{- end }}
+{{- end }}

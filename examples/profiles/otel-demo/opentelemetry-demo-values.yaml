@@ -1,0 +1,16 @@
+opentelemetry-collector:
+  enabled: true
+  config:
+    exporters:
+      otlphttp/bering:
+        endpoint: http://bering-discovery:4318
+        tls:
+          insecure: true
+    service:
+      pipelines:
+        traces:
+          exporters:
+            - otlp/jaeger
+            - debug
+            - spanmetrics
+            - otlphttp/bering

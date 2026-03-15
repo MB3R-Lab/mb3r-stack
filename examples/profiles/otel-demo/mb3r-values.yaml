@@ -1,0 +1,24 @@
+collector:
+  snippets:
+    enabled: true
+    includePrometheusReceiver: true
+
+bering:
+  enabled: true
+  service:
+    publicName: bering-discovery
+
+sheaft:
+  enabled: true
+  coLocateWithBering: true
+  service:
+    publicName: sheaft-reports
+
+prometheusScrapeHooks:
+  enabled: true
+
+grafanaDashboards:
+  enabled: true
+  existingConfigMaps:
+    - mb3r-bering-dashboard-v1-0-0
+    - mb3r-sheaft-dashboard-v1-0-0

@@ -1,0 +1,15 @@
+apiVersion: opentelemetry.io/v1beta1
+kind: OpenTelemetryCollector
+metadata:
+  name: mb3r-eval
+spec:
+  config: |
+    exporters:
+      otlphttp/bering:
+        endpoint: http://bering-discovery.observability.svc.cluster.local:4318
+        tls:
+          insecure: true
+    service:
+      pipelines:
+        traces:
+          exporters: [otlphttp/bering]

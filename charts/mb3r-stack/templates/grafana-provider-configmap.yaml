@@ -1,0 +1,29 @@
+{{- if .Values.grafanaDashboards.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "mb3r-stack.fullname" . }}-grafana-provider
+  labels:
+    {{- include "mb3r-stack.labels" . | nindent 4 }}
+    app.kubernetes.io/component: grafana-hook
+data:
+  provider.yaml: |
+    apiVersion: 1
+    providers:
+      - name: {{ .Values.grafanaDashboards.providerName }}
+        folder: {{ .Values.grafanaDashboards.folder }}
+        type: file
+        disableDeletion: false
+        updateIntervalSeconds: 30
+        allowUiUpdates: false
+        options:
+          path: /var/lib/grafana/dashboards/{{ .Values.grafanaDashboards.folder }}
+  expected-configmaps.txt: |
+{{ if .Values.grafanaDashboards.existingConfigMaps }}
+{{ range .Values.grafanaDashboards.existingConfigMaps }}
+    - {{ . }}
+{{ end }}
+{{ else }}
+    - Add dashboard ConfigMaps with label {{ .Values.grafanaDashboards.labelKey }}={{ .Values.grafanaDashboards.labelValue }}
+{{ end }}
+{{- end }}

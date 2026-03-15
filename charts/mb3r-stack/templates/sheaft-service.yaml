@@ -1,0 +1,32 @@
+{{- if .Values.sheaft.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "mb3r-stack.sheaftServiceName" . }}
+  labels:
+    {{- include "mb3r-stack.labels" . | nindent 4 }}
+    app.kubernetes.io/component: sheaft
+    mb3r.io/has-sheaft: "true"
+    mb3r.io/service-role: primary
+  annotations:
+    {{- if .Values.prometheusScrapeHooks.enabled }}
+    prometheus.io/scrape: "true"
+    prometheus.io/path: /metrics
+    prometheus.io/port: {{ .Values.sheaft.service.port | quote }}
+    {{- end }}
+    {{- with .Values.sheaft.prometheus.annotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+    {{- with .Values.sheaft.service.annotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  type: {{ .Values.sheaft.service.type }}
+  selector:
+    {{- include "mb3r-stack.selectorLabels" . | nindent 4 }}
+    mb3r.io/has-sheaft: "true"
+  ports:
+    - name: http
+      port: {{ .Values.sheaft.service.port }}
+      targetPort: {{ ternary "sheaft-http" "http" (and .Values.bering.enabled .Values.sheaft.coLocateWithBering) }}
+{{- end }}

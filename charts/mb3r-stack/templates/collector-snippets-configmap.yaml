@@ -1,0 +1,65 @@
+{{- if and .Values.collector.snippets.enabled (or .Values.collector.targetEndpoint .Values.bering.enabled) }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ default (printf "%s-collector-snippets" (include "mb3r-stack.fullname" .)) .Values.collector.snippets.name }}
+  labels:
+    {{- include "mb3r-stack.labels" . | nindent 4 }}
+    app.kubernetes.io/component: collector-overlay
+data:
+  exporter.yaml: |
+    exporters:
+      otlphttp/bering:
+        endpoint: {{ include "mb3r-stack.beringEndpoint" . }}
+        tls:
+          insecure: {{ .Values.collector.snippets.tlsInsecure }}
+  traces-pipeline-patch.yaml: |
+{{ if .Values.collector.snippets.includeTracesPipeline }}
+    service:
+      pipelines:
+        traces:
+          exporters:
+            - otlphttp/bering
+{{ else }}
+    # Disabled by values.collector.snippets.includeTracesPipeline=false
+{{ end }}
+  metrics-pipeline-patch.yaml: |
+{{ if .Values.collector.snippets.includeMetricsPipeline }}
+    service:
+      pipelines:
+        metrics:
+          exporters:
+            - otlphttp/bering
+{{ else }}
+    # Disabled by values.collector.snippets.includeMetricsPipeline=false
+{{ end }}
+  logs-pipeline-patch.yaml: |
+{{ if .Values.collector.snippets.includeLogsPipeline }}
+    service:
+      pipelines:
+        logs:
+          exporters:
+            - otlphttp/bering
+{{ else }}
+    # Disabled by values.collector.snippets.includeLogsPipeline=false
+{{ end }}
+  prometheus-receiver.yaml: |
+{{ if .Values.collector.snippets.includePrometheusReceiver }}
+    receivers:
+      prometheus/mb3r:
+        config:
+          scrape_configs:
+            - job_name: {{ .Values.prometheusScrapeHooks.jobNames.bering | quote }}
+              static_configs:
+                - targets:
+                    - {{ printf "%s:%v" (include "mb3r-stack.beringPublicServiceName" .) (.Values.bering.service.ports.http.port | int) | quote }}
+{{- if .Values.sheaft.enabled }}
+            - job_name: {{ .Values.prometheusScrapeHooks.jobNames.sheaft | quote }}
+              static_configs:
+                - targets:
+                    - {{ printf "%s:%v" (include "mb3r-stack.sheaftPublicServiceName" .) (.Values.sheaft.service.port | int) | quote }}
+{{- end }}
+{{ else }}
+    # Disabled by values.collector.snippets.includePrometheusReceiver=false
+{{ end }}
+{{- end }}

@@ -71,7 +71,7 @@
           ],
           "properties": {
             "name": {
-              "const": "mb3r-otel-addon"
+              "const": "mb3r-stack"
             },
             "version": {
               "$ref": "#/$defs/versionOrTodo"
@@ -82,7 +82,7 @@
             },
             "package": {
               "type": "string",
-              "pattern": "^mb3r-otel-addon-.*\\.tgz$"
+              "pattern": "^mb3r-stack-.*\\.tgz$"
             }
           },
           "additionalProperties": false

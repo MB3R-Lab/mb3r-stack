@@ -1,0 +1,18 @@
+mb3r-stack installs integration-layer assets only.
+
+- It does not vendor or replace upstream Bering or Sheaft source code.
+- Bering runs in upstream `serve --config` mode with an explicit config file and snapshot sink.
+- When both Bering and Sheaft are enabled, Sheaft is co-located with Bering by default and watches the shared artifact volume automatically.
+- Collector snippets are OTLP/HTTP-first and default to traces-only wiring.
+
+{{- if and .Values.collector.snippets.enabled (or .Values.collector.targetEndpoint .Values.bering.enabled) }}
+Collector snippets ConfigMap:
+  {{ default (printf "%s-collector-snippets" (include "mb3r-stack.fullname" .)) .Values.collector.snippets.name }}
+{{- else }}
+Collector snippets are disabled.
+{{- end }}
+
+{{- if .Values.grafanaDashboards.enabled }}
+Grafana provider hook ConfigMap:
+  {{ include "mb3r-stack.fullname" . }}-grafana-provider
+{{- end }}

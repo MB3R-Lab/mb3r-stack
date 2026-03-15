@@ -8,7 +8,7 @@ The canonical source of truth is the local `dist/` payload plus `dist/release-ma
 
 Each stack release is expected to publish:
 
-- `mb3r-otel-addon-<version>.tgz`
+- `mb3r-stack-<version>.tgz`
 - `mb3r-assets-<version>.tgz`
 - `stack-manifest.json`
 - `compatibility-matrix.json`
@@ -52,7 +52,7 @@ GitHub release automation consumes those scripts to:
 The chart is intended to be pushed with Helm to an OCI registry:
 
 ```bash
-helm push dist/charts/mb3r-otel-addon-<version>.tgz oci://<registry>/<namespace>/charts
+helm push dist/charts/mb3r-stack-<version>.tgz oci://<registry>/<namespace>/charts
 ```
 
 Local dry runs do not require Helm, but CI installs Helm and performs `helm lint` plus OCI publication on release tags.
