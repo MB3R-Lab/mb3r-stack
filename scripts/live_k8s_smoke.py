@@ -92,15 +92,20 @@ def ensure_namespace(kubectl_bin: Path) -> None:
 
 
 def ghcr_credentials() -> tuple[str, str] | None:
-    username = os.environ.get("MB3R_GHCR_USERNAME") or os.environ.get("GITHUB_ACTOR")
-    token = os.environ.get("MB3R_GHCR_TOKEN") or os.environ.get("GITHUB_TOKEN")
-    if bool(username) != bool(token):
+    explicit_username = os.environ.get("MB3R_GHCR_USERNAME")
+    explicit_token = os.environ.get("MB3R_GHCR_TOKEN")
+    if bool(explicit_username) != bool(explicit_token):
         raise RuntimeError(
             "both registry credentials must be set together: "
-            "MB3R_GHCR_USERNAME + MB3R_GHCR_TOKEN or GITHUB_ACTOR + GITHUB_TOKEN"
+            "MB3R_GHCR_USERNAME + MB3R_GHCR_TOKEN"
         )
-    if username and token:
-        return username, token
+    if explicit_username and explicit_token:
+        return explicit_username, explicit_token
+
+    fallback_username = os.environ.get("GITHUB_ACTOR")
+    fallback_token = os.environ.get("GITHUB_TOKEN")
+    if fallback_username and fallback_token:
+        return fallback_username, fallback_token
     return None
 
 
