@@ -223,7 +223,7 @@ def validate_examples() -> None:
     check("uses: ./.github/workflows/mb3r-report.yml" in example_consumer, "GitHub example must call mb3r-report workflow")
 
     jenkinsfile = (ROOT / "examples" / "jenkins" / "Jenkinsfile").read_text(encoding="utf-8")
-    check("@Library('mb3r-stack@v0.2.1')" in jenkinsfile, "Jenkins example must pin the shared library version")
+    check("@Library('mb3r-stack@v0.2.2')" in jenkinsfile, "Jenkins example must pin the shared library version")
     for symbol in ("mb3rBeringDiscover", "mb3rSheaftGate", "mb3rPublishReport"):
         check(symbol in jenkinsfile, f"Jenkins example must call {symbol}")
 

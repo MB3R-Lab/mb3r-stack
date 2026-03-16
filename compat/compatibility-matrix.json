@@ -1,8 +1,31 @@
 {
   "$schema": "../schemas/compatibility-matrix.schema.json",
   "schemaVersion": "1.0.0",
-  "generatedAt": "2026-03-15",
+  "generatedAt": "2026-03-16",
   "entries": [
+    {
+      "stackVersion": "0.2.2",
+      "beringVersion": "0.1.0",
+      "sheaftVersion": "0.1.1",
+      "chartVersion": "0.2.2",
+      "compatibilityState": "candidate",
+      "evidence": "Pinned to https://github.com/MB3R-Lab/Bering/releases/download/v0.1.0/release-manifest.json plus https://github.com/MB3R-Lab/Sheaft/releases/download/v0.1.1/release-manifest.json and https://github.com/MB3R-Lab/Sheaft/releases/download/v0.1.1/compatibility-manifest.json; verified by local generic smoke, local generic e2e, live kind-based generic smoke with locally rebuilt images, live kind-based generic smoke with anonymous pulls of the pinned GHCR images, repository CI pinned-image smoke on every push, OTel Demo profile smoke/e2e, and adapter end-to-end contract runs on 2026-03-16.",
+      "contracts": {
+        "collectorExport": "v1alpha1",
+        "discoveryReport": "v1alpha1",
+        "gateDecision": "v1alpha1",
+        "reportPayload": "v1alpha1"
+      },
+      "dashboards": {
+        "bering": "1.0.0",
+        "sheaft": "1.0.0"
+      },
+      "notes": [
+        "Bering v0.1.0 release contracts and Sheaft v0.1.1 compatibility pins align on io.mb3r.bering.model@1.0.0 and io.mb3r.bering.snapshot@1.0.0 digests.",
+        "This remains a candidate integration statement rather than a GA support claim.",
+        "Pinned GHCR image pullability is now demonstrated without credentials, but Sheaft serve/watch remains preview-grade upstream behavior and is not upgraded to a long-term stable contract by this bundle release."
+      ]
+    },
     {
       "stackVersion": "0.2.1",
       "beringVersion": "0.1.0",

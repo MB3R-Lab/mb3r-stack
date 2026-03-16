@@ -5,7 +5,7 @@ on:
 
 jobs:
   bering:
-    uses: ORG/mb3r-stack/.github/workflows/bering-discover.yml@v0.2.1
+    uses: ORG/mb3r-stack/.github/workflows/bering-discover.yml@v0.2.2
     with:
       command: |
         python - <<'PY'
@@ -20,7 +20,7 @@ jobs:
 
   sheaft:
     needs: bering
-    uses: ORG/mb3r-stack/.github/workflows/sheaft-gate.yml@v0.2.1
+    uses: ORG/mb3r-stack/.github/workflows/sheaft-gate.yml@v0.2.2
     with:
       discovery-artifact-name: ${{ needs.bering.outputs.artifact-name }}
       command: |
@@ -38,7 +38,7 @@ jobs:
     needs:
       - bering
       - sheaft
-    uses: ORG/mb3r-stack/.github/workflows/mb3r-report.yml@v0.2.1
+    uses: ORG/mb3r-stack/.github/workflows/mb3r-report.yml@v0.2.2
     with:
       discovery-artifact-name: ${{ needs.bering.outputs.artifact-name }}
       gate-artifact-name: ${{ needs.sheaft.outputs.artifact-name }}

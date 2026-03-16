@@ -4,7 +4,7 @@ stages:
   - report
 
 include:
-  - component: $CI_SERVER_FQDN/group/mb3r-stack/bering-discover@v0.2.1
+  - component: $CI_SERVER_FQDN/group/mb3r-stack/bering-discover@v0.2.2
     inputs:
       stage: discover
       command: |
@@ -17,7 +17,7 @@ include:
             encoding="utf-8",
         )
         PY
-  - component: $CI_SERVER_FQDN/group/mb3r-stack/sheaft-gate@v0.2.1
+  - component: $CI_SERVER_FQDN/group/mb3r-stack/sheaft-gate@v0.2.2
     inputs:
       stage: gate
       command: |
@@ -30,6 +30,6 @@ include:
             encoding="utf-8",
         )
         PY
-  - component: $CI_SERVER_FQDN/group/mb3r-stack/mb3r-report@v0.2.1
+  - component: $CI_SERVER_FQDN/group/mb3r-stack/mb3r-report@v0.2.2
     inputs:
       stage: report
