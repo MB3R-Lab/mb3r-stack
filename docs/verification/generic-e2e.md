@@ -18,8 +18,7 @@ What it checks:
 - live-cluster install smoke through `kind` with locally rebuilt images from the pinned release binaries
 - clean-cluster startup of the chart's default pinned `ghcr.io/mb3r-lab/bering` and `ghcr.io/mb3r-lab/sheaft` images
 - anonymous pull by default for pinned-image smoke, with an optional temporary `imagePullSecret` from `MB3R_GHCR_USERNAME` and `MB3R_GHCR_TOKEN`
-- pinned-image smoke wired into repository CI only when explicit `MB3R_GHCR_USERNAME` and `MB3R_GHCR_TOKEN` secrets are configured
-- repo-scoped `GITHUB_TOKEN` is not assumed to prove cross-repo pullability of the upstream Bering/Sheaft GHCR packages
+- pinned-image smoke wired into repository CI on every push now that the upstream Bering and Sheaft GHCR packages are public
 - explicit failure attribution when Kubernetes reports image-pull or auth errors instead of letting them collapse into a generic timeout
 
 If this path fails, generic stack readiness is not proven even if the OTel Demo profile still passes.
