@@ -1,7 +1,7 @@
 # mb3r-stack
 
 [![Release](https://img.shields.io/github/v/release/MB3R-Lab/mb3r-stack)](https://github.com/MB3R-Lab/mb3r-stack/releases)
-[![release](https://img.shields.io/github/actions/workflow/status/MB3R-Lab/mb3r-stack/release.yml?branch=main&label=release)](https://github.com/MB3R-Lab/mb3r-stack/actions/workflows/release.yml)
+[![release](https://img.shields.io/github/actions/workflow/status/MB3R-Lab/mb3r-stack/release.yml?label=release)](https://github.com/MB3R-Lab/mb3r-stack/actions/workflows/release.yml)
 [![ci](https://img.shields.io/github/actions/workflow/status/MB3R-Lab/mb3r-stack/ci.yml?branch=main&label=ci)](https://github.com/MB3R-Lab/mb3r-stack/actions/workflows/ci.yml)
 [![Status](https://img.shields.io/badge/status-candidate-orange)](https://github.com/MB3R-Lab/mb3r-stack/releases/tag/v0.3.0)
 [![Upstream pins](https://img.shields.io/badge/Bering%20%7C%20Sheaft-0.3.1%20%7C%200.2.1-blue)](https://github.com/MB3R-Lab/mb3r-stack/blob/main/compat/stack-manifest.json)
