@@ -14,6 +14,7 @@ At the time of this snapshot there is one open issue:
 
 ## Current status
 
-- The workflow updates in this branch move the repository to `actions/checkout@v6`, `actions/setup-python@v6`, and `azure/setup-helm@v4.3.1`.
-- That change is intended to satisfy the acceptance criteria of issue `#20`.
-- Close the issue after `ci` and `release` on `main` confirm the Node.js 20 deprecation warning is no longer emitted.
+- The repository has already moved `actions/checkout` to `v6` and `actions/setup-python` to `v6`.
+- `azure/setup-helm@v4.3.1` still emits the GitHub Node.js 20 deprecation annotation.
+- `ci` run `23407592947` for commit `ce14aef6dd2ee99571a7ef4d6a211f9cf9173aba` succeeded functionally but did not satisfy the backlog acceptance criteria for issue `#20`.
+- Issue `#20` remains open until `.github/workflows/ci.yml` and `.github/workflows/release.yml` stop using a Node 20-based Helm setup action or otherwise run without the annotation.

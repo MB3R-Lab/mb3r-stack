@@ -109,7 +109,7 @@ The compatibility files in `compat/` are the source of truth for stack-level ass
 
 ## Backlog
 
-The GitHub issue backlog was checked on `2026-03-22`. The only open repository issue is [#20](https://github.com/MB3R-Lab/mb3r-stack/issues/20), tracking migration away from deprecated Node.js 20 GitHub Actions runtimes. This branch updates the workflows to `actions/checkout@v6`, `actions/setup-python@v6`, and `azure/setup-helm@v4.3.1`; once CI on `main` is green, that issue can be closed.
+The GitHub issue backlog was checked on `2026-03-22`. The only open repository issue is [#20](https://github.com/MB3R-Lab/mb3r-stack/issues/20), tracking migration away from deprecated Node.js 20 GitHub Actions runtimes. `actions/checkout` and `actions/setup-python` were moved to Node 24-ready lines, but GitHub `ci` run `23407592947` still reports the Node.js 20 deprecation annotation for `azure/setup-helm@v4.3.1`, so the issue remains open pending a Helm setup replacement in the GitHub workflows.
 
 ## License
 
