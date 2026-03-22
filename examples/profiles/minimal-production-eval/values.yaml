@@ -12,8 +12,8 @@ bering:
   enabled: true
   image:
     repository: "mb3r-lab/bering"
-    tag: "v0.1.0"
-    digest: "sha256:8e8ce6599b43477b0653617e829d41c62a3189d16b60ecb424cca718fc0e2674"
+    tag: "v0.3.1"
+    digest: "sha256:ac960e908df7fb7defb4ce950d2e54ff8d8f65f7cd5e5f723d424cb425248bad"
   service:
     publicName: bering-discovery
   serviceMonitor:
@@ -23,8 +23,8 @@ sheaft:
   enabled: true
   image:
     repository: "mb3r-lab/sheaft"
-    tag: "v0.1.1"
-    digest: "sha256:eb1ebf9d96c55c5bb29e226e07496d152eb3a66b52dd9d34ba799fa4aef70624"
+    tag: "v0.2.1"
+    digest: "sha256:543771ca12722147578bf7a99dd07c5477c7fe15e7404cf6659a2a02f203a93b"
   service:
     publicName: sheaft-reports
   serviceMonitor:

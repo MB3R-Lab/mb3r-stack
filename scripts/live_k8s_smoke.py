@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import socket
 import shutil
 import subprocess
 import sys
@@ -32,6 +33,8 @@ CLUSTER_NAME = "mb3r-stack-smoke"
 NAMESPACE = "mb3r-smoke"
 RELEASE_NAME = "mb3r"
 GHCR_PULL_SECRET_NAME = "mb3r-ghcr-pull"
+LOCAL_BERING_PORT = 0
+LOCAL_SHEAFT_PORT = 0
 CONTAINER_FAILURE_REASONS = {
     "CrashLoopBackOff",
     "CreateContainerConfigError",
@@ -71,6 +74,16 @@ def run(
 def write_text(path: Path, content: str) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(content, encoding="utf-8")
+
+
+def reserve_local_port(*, exclude: set[int] | None = None) -> int:
+    excluded = exclude or set()
+    while True:
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as handle:
+            handle.bind(("127.0.0.1", 0))
+            port = int(handle.getsockname()[1])
+        if port not in excluded:
+            return port
 
 
 def ensure_namespace(kubectl_bin: Path) -> None:
@@ -288,7 +301,7 @@ def wait_for_service_endpoints(kubectl_bin: Path, service_name: str, *, timeout_
 
 def post_trace_payload() -> None:
     request = urllib.request.Request(
-        "http://127.0.0.1:14318/v1/traces",
+        f"http://127.0.0.1:{LOCAL_BERING_PORT}/v1/traces",
         data=json.dumps(synthetic_otlp_payload()).encode("utf-8"),
         headers={"Content-Type": "application/json"},
         method="POST",
@@ -339,6 +352,9 @@ def main() -> int:
     keep_cluster = args.keep_cluster or os.environ.get("MB3R_KEEP_CLUSTER") == "1"
     image_source = args.image_source
     scenario_name = f"k8s-smoke-generic-{image_source}"
+    global LOCAL_BERING_PORT, LOCAL_SHEAFT_PORT
+    LOCAL_BERING_PORT = reserve_local_port()
+    LOCAL_SHEAFT_PORT = reserve_local_port(exclude={LOCAL_BERING_PORT})
     kind_bin = ensure_kind()
     kubectl_bin = ensure_kubectl()
     helm_bin = ensure_helm()
@@ -415,7 +431,15 @@ def main() -> int:
         log_handles.append(port_forward_log)
         port_forwards.append(
             subprocess.Popen(
-                [str(kubectl_bin), "port-forward", f"pod/{pod}", "14318:4318", "18080:8080", "-n", NAMESPACE],
+                [
+                    str(kubectl_bin),
+                    "port-forward",
+                    f"pod/{pod}",
+                    f"{LOCAL_BERING_PORT}:4318",
+                    f"{LOCAL_SHEAFT_PORT}:8080",
+                    "-n",
+                    NAMESPACE,
+                ],
                 cwd=ROOT,
                 stdout=port_forward_log,
                 stderr=subprocess.STDOUT,
@@ -423,13 +447,13 @@ def main() -> int:
             )
         )
 
-        wait_for_port_forward("http://127.0.0.1:14318/readyz")
+        wait_for_port_forward(f"http://127.0.0.1:{LOCAL_BERING_PORT}/readyz")
 
         print("[verify] post synthetic OTLP payload", flush=True)
         post_trace_payload()
 
         print("[verify] wait for Sheaft report", flush=True)
-        report = wait_for_json("http://127.0.0.1:18080/current-report")
+        report = wait_for_json(f"http://127.0.0.1:{LOCAL_SHEAFT_PORT}/current-report")
         decision = report["policy_evaluation"]["decision"]
         check(decision in {"warn", "pass", "fail", "report"}, "Sheaft live-cluster current-report is malformed")
         wait_for_service_endpoints(kubectl_bin, "bering-discovery")

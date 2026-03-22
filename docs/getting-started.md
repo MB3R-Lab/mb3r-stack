@@ -26,6 +26,12 @@ helm upgrade --install mb3r ./charts/mb3r-stack \
 
 That profile enables both Bering and Sheaft, uses the generic artifact handoff inside the chart, and exposes stable public contract services `bering-discovery` and `sheaft-reports`.
 
+The current packaged bundle line is `v0.3.0`, which stages these release assets during `make release-dry-run`:
+
+- `dist/charts/mb3r-stack-0.3.0.tgz`
+- `dist/assets/mb3r-assets-0.3.0.tgz`
+- `dist/release-manifest.json`
+
 ## Next Steps
 
 - Use `docs/profiles/synthetic-otlp.md` for the smallest generic path.

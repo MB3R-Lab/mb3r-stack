@@ -4,6 +4,7 @@ import json
 import os
 import platform
 import shutil
+import socket
 import subprocess
 import tarfile
 import time
@@ -19,8 +20,8 @@ from common import ROOT
 HELM_VERSION = "v3.16.4"
 OTEL_DEMO_CHART_VERSION = "0.40.5"
 KIND_VERSION = "v0.31.0"
-BERING_VERSION = "0.1.0"
-SHEAFT_VERSION = "0.1.1"
+BERING_VERSION = "0.3.1"
+SHEAFT_VERSION = "0.2.1"
 
 STACK_CHART_DIR = ROOT / "charts" / "mb3r-stack"
 TOOLS_DIR = ROOT / ".tmp" / "tools-cache"
@@ -92,6 +93,16 @@ def extract_archive(archive_path: Path, destination: Path) -> None:
 
 def os_environ() -> dict[str, str]:
     return dict(os.environ)
+
+
+def reserve_local_port(*, exclude: set[int] | None = None) -> int:
+    excluded = exclude or set()
+    while True:
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as handle:
+            handle.bind(("127.0.0.1", 0))
+            port = int(handle.getsockname()[1])
+        if port not in excluded:
+            return port
 
 
 def ensure_helm() -> Path:
@@ -413,15 +424,17 @@ def exercise_local_handoff(
 
     local_bering_config = deep_copy(bering_config)
     local_sheaft_config = deep_copy(sheaft_config)
+    bering_port = reserve_local_port()
+    sheaft_port = reserve_local_port(exclude={bering_port})
 
-    local_bering_config["server"]["listen_address"] = ":14318"
+    local_bering_config["server"]["listen_address"] = f":{bering_port}"
     local_bering_config["server"]["grpc_listen_address"] = ""
     local_bering_config["runtime"]["flush_interval"] = "2s"
     local_bering_config["runtime"]["window_size"] = "5s"
     local_bering_config["sink"]["directory"] = snapshots_dir.as_posix()
     local_bering_config["sink"]["latest_path"] = (artifacts_dir / "latest.json").as_posix()
 
-    local_sheaft_config["listen"] = ":18080"
+    local_sheaft_config["listen"] = f":{sheaft_port}"
     local_sheaft_config["artifact"]["path"] = local_bering_config["sink"]["latest_path"]
     local_sheaft_config["poll_interval"] = "2s"
     local_sheaft_config["history"]["disk_dir"] = history_dir.as_posix()
@@ -442,9 +455,9 @@ def exercise_local_handoff(
         text=True,
     )
     try:
-        wait_for_http("http://127.0.0.1:14318/readyz")
+        wait_for_http(f"http://127.0.0.1:{bering_port}/readyz")
         request = urllib.request.Request(
-            "http://127.0.0.1:14318/v1/traces",
+            f"http://127.0.0.1:{bering_port}/v1/traces",
             data=json.dumps(synthetic_otlp_payload()).encode("utf-8"),
             headers={"Content-Type": "application/json"},
             method="POST",
@@ -495,8 +508,8 @@ def exercise_local_handoff(
         text=True,
     )
     try:
-        wait_for_http("http://127.0.0.1:18080/readyz")
-        report = json.loads(wait_for_http("http://127.0.0.1:18080/current-report"))
+        wait_for_http(f"http://127.0.0.1:{sheaft_port}/readyz")
+        report = json.loads(wait_for_http(f"http://127.0.0.1:{sheaft_port}/current-report"))
         decision = report["policy_evaluation"]["decision"]
         check(decision in {"warn", "pass", "fail", "report"}, "Sheaft current-report is malformed")
         check(any(history_dir.glob("*.json")), "Sheaft serve mode did not persist history output")

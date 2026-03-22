@@ -1,5 +1,12 @@
 # mb3r-stack
 
+[![Release](https://img.shields.io/github/v/release/MB3R-Lab/mb3r-stack)](https://github.com/MB3R-Lab/mb3r-stack/releases)
+[![release](https://img.shields.io/github/actions/workflow/status/MB3R-Lab/mb3r-stack/release.yml?branch=main&label=release)](https://github.com/MB3R-Lab/mb3r-stack/actions/workflows/release.yml)
+[![ci](https://img.shields.io/github/actions/workflow/status/MB3R-Lab/mb3r-stack/ci.yml?branch=main&label=ci)](https://github.com/MB3R-Lab/mb3r-stack/actions/workflows/ci.yml)
+[![Status](https://img.shields.io/badge/status-candidate-orange)](https://github.com/MB3R-Lab/mb3r-stack/releases/tag/v0.3.0)
+[![Upstream pins](https://img.shields.io/badge/Bering%20%7C%20Sheaft-0.3.1%20%7C%200.2.1-blue)](https://github.com/MB3R-Lab/mb3r-stack/blob/main/compat/stack-manifest.json)
+[![Adapter contracts](https://img.shields.io/badge/adapter_contracts-v1alpha1-blue)](https://github.com/MB3R-Lab/mb3r-stack/blob/main/compat/compatibility-matrix.json)
+
 `mb3r-stack` is the MB3R integration and distribution repository.
 
 It is not a third core engine and it does not vendor Bering or Sheaft source code. This repository sits above the upstream products and owns the bundle layer:
@@ -31,7 +38,15 @@ A stack release publishes:
 - application business logic
 - the canonical release cadence of upstream Bering or Sheaft artifacts
 
-Current bundle candidate pins published upstream artifacts explicitly: Bering `0.1.0` and Sheaft `0.1.1`, including immutable image digests and contract evidence in `compat/`.
+Current bundle candidate pins published upstream artifacts explicitly: Bering `0.3.1` and Sheaft `0.2.1`, including immutable image digests and contract evidence in `compat/`.
+
+Current packaged release assets for `v0.3.0` are:
+
+- `dist/charts/mb3r-stack-0.3.0.tgz`
+- `dist/assets/mb3r-assets-0.3.0.tgz`
+- `dist/release-manifest.json`
+- `dist/SHA256SUMS.txt`
+- `dist/sbom.cdx.json`
 
 ## Repository Layout
 
@@ -90,7 +105,11 @@ python scripts/tasks.py release-dry-run
 
 ## Compatibility Notes
 
-The compatibility files in `compat/` are the source of truth for stack-level assertions. The current `0.2.2` bundle is recorded as a `candidate` integration statement backed by upstream release manifests, live generic smoke evidence, and Sheaft's published compatibility manifest, not as a broader verified operations guarantee. OpenTelemetry Demo remains one example profile and one acceptance scenario, not the design center of the core bundle.
+The compatibility files in `compat/` are the source of truth for stack-level assertions. The current `0.3.0` bundle is recorded as a `candidate` integration statement backed by upstream release manifests, live generic smoke evidence, and Sheaft's published compatibility manifest, not as a broader verified operations guarantee. OpenTelemetry Demo remains one example profile and one acceptance scenario, not the design center of the core bundle.
+
+## Backlog
+
+The GitHub issue backlog was checked on `2026-03-22`. The only open repository issue is [#20](https://github.com/MB3R-Lab/mb3r-stack/issues/20), tracking migration away from deprecated Node.js 20 GitHub Actions runtimes. This branch updates the workflows to `actions/checkout@v6`, `actions/setup-python@v6`, and `azure/setup-helm@v4.3.1`; once CI on `main` is green, that issue can be closed.
 
 ## License
 

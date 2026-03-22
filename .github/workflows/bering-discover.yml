@@ -14,7 +14,7 @@ on:
         default: ""
       image-ref:
         type: string
-        default: "ghcr.io/mb3r-lab/bering@sha256:8e8ce6599b43477b0653617e829d41c62a3189d16b60ecb424cca718fc0e2674"
+        default: "ghcr.io/mb3r-lab/bering@sha256:ac960e908df7fb7defb4ce950d2e54ff8d8f65f7cd5e5f723d424cb425248bad"
       artifact-name:
         type: string
         default: "mb3r-bering-discovery"
@@ -44,9 +44,9 @@ jobs:
       artifact-name: ${{ steps.adapter.outputs.artifact-name }}
       status: ${{ steps.adapter.outputs.status }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.13"
 

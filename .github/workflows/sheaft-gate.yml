@@ -17,7 +17,7 @@ on:
         default: ""
       image-ref:
         type: string
-        default: "ghcr.io/mb3r-lab/sheaft@sha256:eb1ebf9d96c55c5bb29e226e07496d152eb3a66b52dd9d34ba799fa4aef70624"
+        default: "ghcr.io/mb3r-lab/sheaft@sha256:543771ca12722147578bf7a99dd07c5477c7fe15e7404cf6659a2a02f203a93b"
       artifact-name:
         type: string
         default: "mb3r-sheaft-gate"
@@ -54,7 +54,7 @@ jobs:
       decision: ${{ steps.adapter.outputs.decision }}
       status: ${{ steps.adapter.outputs.status }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - if: ${{ inputs.discovery-artifact-name != '' }}
         uses: actions/download-artifact@v4
@@ -62,7 +62,7 @@ jobs:
           name: ${{ inputs.discovery-artifact-name }}
           path: .mb3r/input-discovery
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.13"
 

@@ -24,11 +24,11 @@ The machine-readable compatibility contract is split across:
 
 ## Current Bundle
 
-`mb3r-stack` `0.2.2` currently tracks:
+`mb3r-stack` `0.3.0` currently tracks:
 
-- Bering `0.1.0`
-- Sheaft `0.1.1`
+- Bering `0.3.1`
+- Sheaft `0.2.1`
 
-That bundle is marked `candidate` because the pins are backed by published upstream release metadata and strict contract alignment, while broader operational verification remains outside this repository's release contract. The pinned-image live smoke now passes against anonymous public GHCR pulls, but that does not change the formal maturity of the bundle or the upstream preview status of Sheaft serve/watch behavior.
+That bundle is marked `candidate` because the pins are backed by published upstream release metadata and strict contract alignment, while broader operational verification remains outside this repository's release contract. The current upstream pairing keeps the stack-level adapter envelopes on `v1alpha1` while aligning the Bering-to-Sheaft artifact handoff on the published `io.mb3r.bering.model` and `io.mb3r.bering.snapshot` schema lines for both `1.0.0` and `1.1.0`. That still does not change the formal maturity of the bundle or the upstream preview status of Sheaft serve/watch behavior.
 
 OpenTelemetry Demo can be used as one profile and one acceptance scenario, but it does not widen the formal compatibility statement on its own.

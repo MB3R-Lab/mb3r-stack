@@ -3,27 +3,28 @@
   "schemaVersion": "1.0.0",
   "stack": {
     "name": "mb3r-stack",
-    "version": "0.2.2",
+    "version": "0.3.0",
     "status": "candidate",
-    "releaseDate": "2026-03-16",
+    "releaseDate": "2026-03-22",
     "notes": [
       "Generic integration and distribution layer only. No upstream Bering or Sheaft source code is vendored here.",
-      "Candidate bundle pinned to released Bering v0.1.0 and Sheaft v0.1.1 artifacts with immutable GHCR digests.",
+      "Candidate bundle pinned to released Bering v0.3.1 and Sheaft v0.2.1 artifacts with immutable GHCR digests.",
       "OpenTelemetry Demo is packaged as an example profile, not as the core contract.",
-      "This patch release captures the always-on pinned-image generic smoke path after upstream Bering and Sheaft GHCR packages were opened for anonymous pull.",
-      "Pinned GHCR images are now verified both locally and in repository CI without credential overrides."
+      "Bering v0.3.1 adds the published 1.1.0 schema contract line without a declared CLI, API, or install-surface break.",
+      "Sheaft v0.2.1 strictly validates both the 1.0.0 and 1.1.0 Bering schema lines while keeping serve/watch in technical preview.",
+      "Pinned GHCR images are verified through live kind-based generic smoke with anonymous pull on 2026-03-22."
     ]
   },
   "artifacts": {
     "chart": {
       "name": "mb3r-stack",
-      "version": "0.2.2",
+      "version": "0.3.0",
       "ociRepository": "oci://ghcr.io/mb3r-lab/charts",
-      "package": "mb3r-stack-0.2.2.tgz"
+      "package": "mb3r-stack-0.3.0.tgz"
     },
     "assetPack": {
-      "version": "0.2.2",
-      "archive": "mb3r-assets-0.2.2.tgz",
+      "version": "0.3.0",
+      "archive": "mb3r-assets-0.3.0.tgz",
       "includes": [
         "collector/",
         "dashboards/",
@@ -35,17 +36,17 @@
       "sheaft": "1.0.0"
     },
     "configPacks": {
-      "collector": "0.2.2",
-      "examples": "0.2.2"
+      "collector": "0.3.0",
+      "examples": "0.3.0"
     }
   },
   "components": {
     "bering": {
-      "version": "0.1.0",
+      "version": "0.3.1",
       "image": {
         "repository": "ghcr.io/mb3r-lab/bering",
-        "tag": "v0.1.0",
-        "digest": "sha256:8e8ce6599b43477b0653617e829d41c62a3189d16b60ecb424cca718fc0e2674"
+        "tag": "v0.3.1",
+        "digest": "sha256:ac960e908df7fb7defb4ce950d2e54ff8d8f65f7cd5e5f723d424cb425248bad"
       },
       "contracts": {
         "collectorExport": "v1alpha1",
@@ -53,11 +54,11 @@
       }
     },
     "sheaft": {
-      "version": "0.1.1",
+      "version": "0.2.1",
       "image": {
         "repository": "ghcr.io/mb3r-lab/sheaft",
-        "tag": "v0.1.1",
-        "digest": "sha256:eb1ebf9d96c55c5bb29e226e07496d152eb3a66b52dd9d34ba799fa4aef70624"
+        "tag": "v0.2.1",
+        "digest": "sha256:543771ca12722147578bf7a99dd07c5477c7fe15e7404cf6659a2a02f203a93b"
       },
       "contracts": {
         "gateDecision": "v1alpha1",
