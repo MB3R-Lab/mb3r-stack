@@ -107,10 +107,6 @@ python scripts/tasks.py release-dry-run
 
 The compatibility files in `compat/` are the source of truth for stack-level assertions. The current `0.3.0` bundle is recorded as a `candidate` integration statement backed by upstream release manifests, live generic smoke evidence, and Sheaft's published compatibility manifest, not as a broader verified operations guarantee. OpenTelemetry Demo remains one example profile and one acceptance scenario, not the design center of the core bundle.
 
-## Backlog
-
-The GitHub issue backlog was checked on `2026-03-22`. The only open repository issue is [#20](https://github.com/MB3R-Lab/mb3r-stack/issues/20), tracking migration away from deprecated Node.js 20 GitHub Actions runtimes. `actions/checkout` and `actions/setup-python` were moved to Node 24-ready lines, but GitHub `ci` run `23407592947` still reports the Node.js 20 deprecation annotation for `azure/setup-helm@v4.3.1`, so the issue remains open pending a Helm setup replacement in the GitHub workflows.
-
 ## License
 
 MIT, see [LICENSE](LICENSE).
