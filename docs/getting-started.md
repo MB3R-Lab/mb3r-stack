@@ -26,6 +26,18 @@ helm upgrade --install mb3r ./charts/mb3r-stack \
 
 That profile enables both Bering and Sheaft, uses the generic artifact handoff inside the chart, and exposes stable public contract services `bering-discovery` and `sheaft-reports`.
 
+## First-User Path
+
+For first-time evaluation, use this sequence:
+
+1. Install `synthetic-otlp`.
+2. Send the checked-in synthetic OTLP payload to the `bering-discovery` service.
+3. Confirm Bering writes the latest snapshot artifact.
+4. Confirm Sheaft consumes that artifact and publishes a report.
+5. Use `minimal-production-eval` only after the synthetic path works, because it assumes an external collector and a more production-like topology.
+
+The expected product outcome is a visible Bering -> Sheaft handoff and a Sheaft posture report. The OTel Demo profile is a showcase path, not the first proof of generic readiness.
+
 The current packaged bundle line is `v0.3.0`, which stages these release assets during `make release-dry-run`:
 
 - `dist/charts/mb3r-stack-0.3.0.tgz`
