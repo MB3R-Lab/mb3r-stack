@@ -34,6 +34,22 @@ def run(command: list[str], *, env: dict[str, str] | None = None) -> subprocess.
     return result
 
 
+def run_expect_failure(command: list[str], *, env: dict[str, str] | None = None) -> subprocess.CompletedProcess[str]:
+    result = subprocess.run(
+        command,
+        cwd=ROOT,
+        env=env,
+        text=True,
+        encoding="utf-8",
+        errors="replace",
+        capture_output=True,
+        check=False,
+    )
+    if result.returncode == 0:
+        raise RuntimeError(f"command unexpectedly succeeded: {' '.join(command)}\nstdout:\n{result.stdout}")
+    return result
+
+
 def write_command_script(path: Path, payload: dict[str, object]) -> str:
     script = "\n".join(
         [
@@ -66,10 +82,12 @@ def validate_sources() -> None:
         ROOT / ".github" / "workflows" / "sheaft-gate.yml": [
             '"kind": "mb3r.sheaft.gate"',
             '"adapter": "github-reusable-workflow"',
+            "ALLOWED_DECISIONS",
         ],
         ROOT / ".github" / "workflows" / "mb3r-report.yml": [
             '"kind": "mb3r.stack.report"',
             '"adapter": "github-reusable-workflow"',
+            "ALLOWED_DECISIONS",
         ],
         ROOT / "templates" / "bering-discover.yml": [
             '"kind": "mb3r.bering.discovery"',
@@ -78,10 +96,12 @@ def validate_sources() -> None:
         ROOT / "templates" / "sheaft-gate.yml": [
             '"kind": "mb3r.sheaft.gate"',
             '"adapter": "gitlab-component"',
+            "ALLOWED_DECISIONS",
         ],
         ROOT / "templates" / "mb3r-report.yml": [
             '"kind": "mb3r.stack.report"',
             '"adapter": "gitlab-component"',
+            "ALLOWED_DECISIONS",
         ],
         ROOT / "ci" / "jenkins" / "vars" / "mb3rBeringDiscover.groovy": [
             "adapter: 'jenkins-shared-library'",
@@ -90,10 +110,12 @@ def validate_sources() -> None:
         ROOT / "ci" / "jenkins" / "vars" / "mb3rSheaftGate.groovy": [
             "adapter: 'jenkins-shared-library'",
             "kind: 'mb3r.sheaft.gate'",
+            "normalizeDecision",
         ],
         ROOT / "ci" / "jenkins" / "vars" / "mb3rPublishReport.groovy": [
             "adapter: 'jenkins-shared-library'",
             "kind: 'mb3r.stack.report'",
+            "normalizeDecision",
         ],
     }
     for path, needles in expectations.items():
@@ -111,6 +133,10 @@ def run_adapter_flow(adapter: str, workspace: Path) -> None:
     discovery_command = write_command_script(commands_dir / "discovery.py", {"summary": f"{adapter} discovery"})
     gate_precheck_command = write_command_script(commands_dir / "gate-precheck.py", {"summary": f"{adapter} gate precheck"})
     gate_pass_command = write_command_script(commands_dir / "gate-pass.py", {"decision": "pass", "summary": "gate ok"})
+    gate_invalid_command = write_command_script(
+        commands_dir / "gate-invalid.py",
+        {"decision": "shipit", "summary": "invalid gate decision"},
+    )
 
     run(
         [
@@ -190,6 +216,29 @@ def run_adapter_flow(adapter: str, workspace: Path) -> None:
     )
     gate = assert_contract(gate_dir / "sheaft-gate.json", kind="mb3r.sheaft.gate", adapter=adapter)
     check(gate["decision"] == "pass", f"{adapter} gate must propagate payload decision")
+
+    run_expect_failure(
+        [
+            PYTHON,
+            str(ROOT / "scripts" / "adapter_cli.py"),
+            "gate",
+            "--adapter",
+            adapter,
+            "--discovery-report",
+            str(discovery_dir / "bering-discovery.json"),
+            "--output-dir",
+            str(workspace / "invalid-sheaft"),
+            "--command",
+            gate_invalid_command,
+            "--image-ref",
+            "ghcr.io/mb3r-lab/sheaft@sha256:543771ca12722147578bf7a99dd07c5477c7fe15e7404cf6659a2a02f203a93b",
+            "--artifact-name",
+            "mb3r-sheaft-gate",
+            "--default-decision",
+            "review",
+        ],
+        env=env,
+    )
 
     run(
         [

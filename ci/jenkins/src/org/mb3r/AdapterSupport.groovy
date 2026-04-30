@@ -5,6 +5,8 @@ import groovy.json.JsonSlurperClassic
 import java.time.Instant
 
 class AdapterSupport implements Serializable {
+    static final Set<String> ALLOWED_DECISIONS = ['fail', 'pass', 'report', 'review', 'warn'] as Set
+
     static String now() {
         return Instant.now().toString()
     }
@@ -34,6 +36,15 @@ class AdapterSupport implements Serializable {
             return [:]
         }
         return new JsonSlurperClassic().parseText(script.readFile(path)) as Map
+    }
+
+    static String normalizeDecision(Object value, String source) {
+        String decision = value?.toString()
+        if (!ALLOWED_DECISIONS.contains(decision)) {
+            String allowed = ALLOWED_DECISIONS.toList().sort().join(', ')
+            throw new IllegalArgumentException("${source} decision must be one of ${allowed}: ${value}")
+        }
+        return decision
     }
 
     static void writeJson(script, String path, Map payload) {

@@ -29,6 +29,14 @@ mb3r:sheaft-gate:
       from datetime import datetime, timezone
       from pathlib import Path
 
+      ALLOWED_DECISIONS = {"fail", "pass", "report", "review", "warn"}
+
+      def normalize_decision(value, source):
+          if not isinstance(value, str) or value not in ALLOWED_DECISIONS:
+              allowed = ", ".join(sorted(ALLOWED_DECISIONS))
+              raise ValueError(f"{source} decision must be one of {allowed}: {value!r}")
+          return value
+
       output_dir = Path("$[[ inputs.output_dir ]]")
       output_dir.mkdir(parents=True, exist_ok=True)
       payload_path = output_dir / "sheaft-payload.json"
@@ -43,7 +51,7 @@ mb3r:sheaft-gate:
 
       exit_code = 0
       status = "pending"
-      decision = "$[[ inputs.default_decision ]]"
+      decision = normalize_decision("$[[ inputs.default_decision ]]", "default")
       if command:
           exit_code = subprocess.run(command, shell=True, env=env, check=False).returncode
           status = "success" if exit_code == 0 else "failed"
@@ -53,7 +61,8 @@ mb3r:sheaft-gate:
       payload = None
       if payload_path.exists():
           payload = json.loads(payload_path.read_text(encoding="utf-8"))
-          decision = payload.get("decision", decision)
+          if "decision" in payload:
+              decision = normalize_decision(payload["decision"], "payload")
           if exit_code == 0:
               status = "success"
 

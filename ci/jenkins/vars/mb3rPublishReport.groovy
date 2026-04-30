@@ -12,7 +12,7 @@ def call(Map config = [:]) {
 
     Map discovery = new JsonSlurperClassic().parseText(readFile(config.discoveryReport ?: '.mb3r/bering/bering-discovery.json')) as Map
     Map gate = new JsonSlurperClassic().parseText(readFile(config.gateReport ?: '.mb3r/sheaft/sheaft-gate.json')) as Map
-    String overallDecision = gate.decision ?: 'review'
+    String overallDecision = AdapterSupport.normalizeDecision(gate.decision ?: 'review', 'gate')
 
     Map report = [
         schemaVersion: 'v1alpha1',
@@ -26,7 +26,7 @@ def call(Map config = [:]) {
             artifactName: discovery.artifactName,
         ],
         gate: [
-            decision: gate.decision,
+            decision: overallDecision,
             status: gate.status,
             path: config.gateReport ?: '.mb3r/sheaft/sheaft-gate.json',
             artifactName: gate.artifactName,

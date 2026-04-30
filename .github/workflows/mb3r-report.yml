@@ -78,6 +78,14 @@ jobs:
           from datetime import datetime, timezone
           from pathlib import Path
 
+          ALLOWED_DECISIONS = {"fail", "pass", "report", "review", "warn"}
+
+          def normalize_decision(value, source):
+              if not isinstance(value, str) or value not in ALLOWED_DECISIONS:
+                  allowed = ", ".join(sorted(ALLOWED_DECISIONS))
+                  raise ValueError(f"{source} decision must be one of {allowed}: {value!r}")
+              return value
+
           output_dir = Path(os.environ["OUTPUT_DIR"])
           output_dir.mkdir(parents=True, exist_ok=True)
 
@@ -89,7 +97,7 @@ jobs:
           discovery = json.loads(discovery_report.read_text(encoding="utf-8"))
           gate = json.loads(gate_report.read_text(encoding="utf-8"))
 
-          overall_decision = gate.get("decision", "review")
+          overall_decision = normalize_decision(gate.get("decision", "review"), "gate")
           combined = {
               "schemaVersion": "v1alpha1",
               "kind": "mb3r.stack.report",
@@ -102,7 +110,7 @@ jobs:
                   "artifactName": discovery.get("artifactName"),
               },
               "gate": {
-                  "decision": gate.get("decision"),
+                  "decision": overall_decision,
                   "status": gate.get("status"),
                   "path": gate_report.as_posix(),
                   "artifactName": gate.get("artifactName"),

@@ -5,7 +5,7 @@ def call(Map config = [:]) {
     String payloadPath = "${outputDir}/sheaft-payload.json"
     String reportPath = "${outputDir}/sheaft-gate.json"
     String artifactName = config.artifactName ?: 'mb3r-sheaft-gate'
-    String decision = config.defaultDecision ?: 'review'
+    String decision = AdapterSupport.normalizeDecision(config.defaultDecision ?: 'review', 'default')
     String status = 'pending'
     int exitCode = 0
 
@@ -29,7 +29,9 @@ def call(Map config = [:]) {
 
     Map payload = AdapterSupport.readJson(this, payloadPath)
     if (payload) {
-        decision = payload.decision ?: decision
+        if (payload.containsKey('decision')) {
+            decision = AdapterSupport.normalizeDecision(payload.decision, 'payload')
+        }
         if (exitCode == 0) {
             status = 'success'
         }

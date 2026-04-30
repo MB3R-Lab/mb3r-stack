@@ -85,6 +85,14 @@ jobs:
           from datetime import datetime, timezone
           from pathlib import Path
 
+          ALLOWED_DECISIONS = {"fail", "pass", "report", "review", "warn"}
+
+          def normalize_decision(value, source):
+              if not isinstance(value, str) or value not in ALLOWED_DECISIONS:
+                  allowed = ", ".join(sorted(ALLOWED_DECISIONS))
+                  raise ValueError(f"{source} decision must be one of {allowed}: {value!r}")
+              return value
+
           output_dir = Path(os.environ["OUTPUT_DIR"])
           output_dir.mkdir(parents=True, exist_ok=True)
           payload_path = output_dir / "sheaft-payload.json"
@@ -104,7 +112,7 @@ jobs:
 
           exit_code = 0
           status = "pending"
-          decision = os.environ["DEFAULT_DECISION"]
+          decision = normalize_decision(os.environ["DEFAULT_DECISION"], "default")
           if command:
               exit_code = subprocess.run(command, shell=True, env=env, check=False).returncode
               status = "success" if exit_code == 0 else "failed"
@@ -114,7 +122,8 @@ jobs:
           payload = None
           if payload_path.exists():
               payload = json.loads(payload_path.read_text(encoding="utf-8"))
-              decision = payload.get("decision", decision)
+              if "decision" in payload:
+                  decision = normalize_decision(payload["decision"], "payload")
               if exit_code == 0:
                   status = "success"
 

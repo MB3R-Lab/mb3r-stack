@@ -6,6 +6,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+ALLOWED_DECISIONS = {"fail", "pass", "report", "review", "warn"}
+
 
 def now_iso() -> str:
     return datetime.now(timezone.utc).replace(microsecond=0).isoformat()
@@ -46,6 +48,13 @@ def run_command(command: str, env: dict[str, str]) -> int:
     if not command.strip():
         return 0
     return subprocess.run(command, shell=True, env=env, check=False).returncode
+
+
+def normalize_decision(value: Any, *, source: str) -> str:
+    if not isinstance(value, str) or value not in ALLOWED_DECISIONS:
+        allowed = ", ".join(sorted(ALLOWED_DECISIONS))
+        raise ValueError(f"{source} decision must be one of {allowed}: {value!r}")
+    return value
 
 
 def generate_discovery_report(
@@ -143,7 +152,7 @@ def generate_gate_report(
 
     exit_code = run_command(command, command_env)
     status = "pending"
-    decision = default_decision
+    decision = normalize_decision(default_decision, source="default")
     if command.strip():
         status = "success" if exit_code == 0 else "failed"
         if exit_code != 0:
@@ -151,7 +160,8 @@ def generate_gate_report(
 
     payload = load_json_if_exists(payload_path)
     if payload is not None:
-        decision = payload.get("decision", decision)
+        if "decision" in payload:
+            decision = normalize_decision(payload["decision"], source="payload")
         if exit_code == 0:
             status = "success"
 
@@ -215,7 +225,7 @@ def generate_stack_report(
 
     discovery = json.loads(discovery_report.read_text(encoding="utf-8"))
     gate = json.loads(gate_report.read_text(encoding="utf-8"))
-    overall_decision = gate.get("decision", "review")
+    overall_decision = normalize_decision(gate.get("decision", "review"), source="gate")
 
     report = {
         "schemaVersion": "v1alpha1",
@@ -229,7 +239,7 @@ def generate_stack_report(
             "artifactName": discovery.get("artifactName"),
         },
         "gate": {
-            "decision": gate.get("decision"),
+            "decision": overall_decision,
             "status": gate.get("status"),
             "path": gate_report.as_posix(),
             "artifactName": gate.get("artifactName"),
