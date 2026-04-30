@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import base64
 import json
 import os
 import socket
@@ -51,11 +52,13 @@ def run(
     *,
     env: dict[str, str] | None = None,
     capture: bool = True,
+    input_text: str | None = None,
 ) -> subprocess.CompletedProcess[str]:
     result = subprocess.run(
         command,
         cwd=ROOT,
         env=env,
+        input=input_text,
         text=True,
         encoding="utf-8",
         errors="replace",
@@ -138,20 +141,38 @@ def configure_ghcr_pull_secret(kubectl_bin: Path, credentials: tuple[str, str] |
         check=False,
     )
     run(
-        [
-            str(kubectl_bin),
-            "create",
-            "secret",
-            "docker-registry",
-            GHCR_PULL_SECRET_NAME,
-            "-n",
-            NAMESPACE,
-            "--docker-server=ghcr.io",
-            f"--docker-username={username}",
-            f"--docker-password={token}",
-        ]
+        [str(kubectl_bin), "apply", "-f", "-"],
+        input_text=json.dumps(ghcr_pull_secret_manifest(username, token)),
     )
     return ["--set-string", f"global.imagePullSecrets[0].name={GHCR_PULL_SECRET_NAME}"]
+
+
+def ghcr_pull_secret_manifest(username: str, token: str) -> dict[str, object]:
+    auth = base64.b64encode(f"{username}:{token}".encode("utf-8")).decode("ascii")
+    docker_config = {
+        "auths": {
+            "ghcr.io": {
+                "username": username,
+                "password": token,
+                "auth": auth,
+            }
+        }
+    }
+    encoded_config = base64.b64encode(
+        json.dumps(docker_config, separators=(",", ":")).encode("utf-8")
+    ).decode("ascii")
+    return {
+        "apiVersion": "v1",
+        "kind": "Secret",
+        "metadata": {
+            "name": GHCR_PULL_SECRET_NAME,
+            "namespace": NAMESPACE,
+        },
+        "type": "kubernetes.io/dockerconfigjson",
+        "data": {
+            ".dockerconfigjson": encoded_config,
+        },
+    }
 
 
 def enrich_failure_message(message: str) -> str:
