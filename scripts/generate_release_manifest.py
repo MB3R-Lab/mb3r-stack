@@ -59,7 +59,6 @@ def generate_release_manifest(output_dir: Path) -> Path:
         "releaseNotes": output_dir / "release-notes.md",
         "releaseManifestSchema": output_dir / "release-manifest.schema.json",
         "sbom": output_dir / "sbom.cdx.json",
-        "checksums": output_dir / "SHA256SUMS.txt",
         "releaseAssets": output_dir / "release-assets.txt",
     }
     for label, path in required.items():
@@ -116,7 +115,6 @@ def generate_release_manifest(output_dir: Path) -> Path:
             },
             "checksums": {
                 "path": "SHA256SUMS.txt",
-                "digest": prefixed_digest(required["checksums"]),
             },
         },
         "components": manifest["components"],

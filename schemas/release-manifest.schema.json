@@ -91,7 +91,7 @@
           "$ref": "#/$defs/fileArtifact"
         },
         "checksums": {
-          "$ref": "#/$defs/fileArtifact"
+          "$ref": "#/$defs/fileArtifactPathOnly"
         }
       },
       "additionalProperties": false
@@ -201,6 +201,19 @@
         },
         "digest": {
           "$ref": "#/$defs/digest"
+        }
+      },
+      "additionalProperties": false
+    },
+    "fileArtifactPathOnly": {
+      "type": "object",
+      "required": [
+        "path"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
         }
       },
       "additionalProperties": false
