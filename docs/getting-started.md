@@ -38,10 +38,10 @@ For first-time evaluation, use this sequence:
 
 The expected product outcome is a visible Bering -> Sheaft handoff and a Sheaft posture report. The OTel Demo profile is a showcase path, not the first proof of generic readiness.
 
-The current packaged bundle line is `v0.3.1`, which stages these release assets during `make release-dry-run`:
+The current packaged bundle line is `v0.3.2`, which stages these release assets during `make release-dry-run`:
 
-- `dist/charts/mb3r-stack-0.3.1.tgz`
-- `dist/assets/mb3r-assets-0.3.1.tgz`
+- `dist/charts/mb3r-stack-0.3.2.tgz`
+- `dist/assets/mb3r-assets-0.3.2.tgz`
 - `dist/release-manifest.json`
 
 ## Next Steps

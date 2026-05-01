@@ -41,10 +41,10 @@ OpenTelemetry Demo can be part of the evidence set, but it is not sufficient by 
 
 ## Current Bundle
 
-`mb3r-stack` `0.3.1` currently tracks:
+`mb3r-stack` `0.3.2` currently tracks:
 
 - Bering `0.3.2`
-- Sheaft `0.2.2`
+- Sheaft `0.2.3`
 
 That bundle is marked `candidate` because the pins are backed by published upstream release metadata and strict contract alignment, while broader operational verification remains outside this repository's release contract. The current upstream pairing keeps the stack-level adapter envelopes on `v1alpha1` while aligning the Bering-to-Sheaft artifact handoff on the published `io.mb3r.bering.model` and `io.mb3r.bering.snapshot` schema lines for both `1.0.0` and `1.1.0`. That still does not change the formal maturity of the bundle or the upstream preview status of Sheaft `serve` behavior.
 

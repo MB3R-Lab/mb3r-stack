@@ -3,28 +3,28 @@
   "schemaVersion": "1.0.0",
   "stack": {
     "name": "mb3r-stack",
-    "version": "0.3.1",
+    "version": "0.3.2",
     "status": "candidate",
     "releaseDate": "2026-05-01",
     "notes": [
       "Generic integration and distribution layer only. No upstream Bering or Sheaft source code is vendored here.",
-      "Candidate bundle pinned to released Bering v0.3.2 and Sheaft v0.2.2 artifacts with immutable GHCR digests.",
+      "Candidate bundle pinned to released Bering v0.3.2 and Sheaft v0.2.3 artifacts with immutable GHCR digests.",
       "OpenTelemetry Demo is packaged as an example profile, not as the core contract.",
       "Bering v0.3.2 keeps the published 1.0.0 and 1.1.0 schema contract lines while adding runtime and toolchain hardening.",
-      "Sheaft v0.2.2 strictly validates both the 1.0.0 and 1.1.0 Bering schema lines while keeping serve/watch in technical preview.",
+      "Sheaft v0.2.3 strictly validates both the 1.0.0 and 1.1.0 Bering schema lines and fixes late Bering artifact handoff in serve/watch preview mode.",
       "Pinned GHCR images are recorded from the upstream release manifests published on 2026-05-01."
     ]
   },
   "artifacts": {
     "chart": {
       "name": "mb3r-stack",
-      "version": "0.3.1",
+      "version": "0.3.2",
       "ociRepository": "oci://ghcr.io/mb3r-lab/charts",
-      "package": "mb3r-stack-0.3.1.tgz"
+      "package": "mb3r-stack-0.3.2.tgz"
     },
     "assetPack": {
-      "version": "0.3.1",
-      "archive": "mb3r-assets-0.3.1.tgz",
+      "version": "0.3.2",
+      "archive": "mb3r-assets-0.3.2.tgz",
       "includes": [
         "collector/",
         "dashboards/",
@@ -36,8 +36,8 @@
       "sheaft": "1.0.0"
     },
     "configPacks": {
-      "collector": "0.3.1",
-      "examples": "0.3.1"
+      "collector": "0.3.2",
+      "examples": "0.3.2"
     }
   },
   "components": {
@@ -54,11 +54,11 @@
       }
     },
     "sheaft": {
-      "version": "0.2.2",
+      "version": "0.2.3",
       "image": {
         "repository": "ghcr.io/mb3r-lab/sheaft",
-        "tag": "v0.2.2",
-        "digest": "sha256:df6a7bbf21e4f307d1d33425f4245eeb34f5d051f46b8ad36ad536b33bf2c331"
+        "tag": "v0.2.3",
+        "digest": "sha256:07bca0e01ef0bfb09c9561c2883d7acf7b2ee6374be373ecd0168747da9f1e76"
       },
       "contracts": {
         "gateDecision": "v1alpha1",

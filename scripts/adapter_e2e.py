@@ -177,7 +177,7 @@ def run_adapter_flow(adapter: str, workspace: Path) -> None:
             "--command",
             gate_precheck_command,
             "--image-ref",
-            "ghcr.io/mb3r-lab/sheaft@sha256:df6a7bbf21e4f307d1d33425f4245eeb34f5d051f46b8ad36ad536b33bf2c331",
+            "ghcr.io/mb3r-lab/sheaft@sha256:07bca0e01ef0bfb09c9561c2883d7acf7b2ee6374be373ecd0168747da9f1e76",
             "--artifact-name",
             "mb3r-sheaft-gate",
             "--default-decision",
@@ -204,7 +204,7 @@ def run_adapter_flow(adapter: str, workspace: Path) -> None:
             "--command",
             gate_pass_command,
             "--image-ref",
-            "ghcr.io/mb3r-lab/sheaft@sha256:df6a7bbf21e4f307d1d33425f4245eeb34f5d051f46b8ad36ad536b33bf2c331",
+            "ghcr.io/mb3r-lab/sheaft@sha256:07bca0e01ef0bfb09c9561c2883d7acf7b2ee6374be373ecd0168747da9f1e76",
             "--artifact-name",
             "mb3r-sheaft-gate",
             "--default-decision",
@@ -231,7 +231,7 @@ def run_adapter_flow(adapter: str, workspace: Path) -> None:
             "--command",
             gate_invalid_command,
             "--image-ref",
-            "ghcr.io/mb3r-lab/sheaft@sha256:df6a7bbf21e4f307d1d33425f4245eeb34f5d051f46b8ad36ad536b33bf2c331",
+            "ghcr.io/mb3r-lab/sheaft@sha256:07bca0e01ef0bfb09c9561c2883d7acf7b2ee6374be373ecd0168747da9f1e76",
             "--artifact-name",
             "mb3r-sheaft-gate",
             "--default-decision",
@@ -272,7 +272,7 @@ def validate_examples() -> None:
     check("uses: ./.github/workflows/mb3r-report.yml" in example_consumer, "GitHub example must call mb3r-report workflow")
 
     jenkinsfile = (ROOT / "examples" / "jenkins" / "Jenkinsfile").read_text(encoding="utf-8")
-    check("@Library('mb3r-stack@v0.3.1')" in jenkinsfile, "Jenkins example must pin the shared library version")
+    check("@Library('mb3r-stack@v0.3.2')" in jenkinsfile, "Jenkins example must pin the shared library version")
     for symbol in ("mb3rBeringDiscover", "mb3rSheaftGate", "mb3rPublishReport"):
         check(symbol in jenkinsfile, f"Jenkins example must call {symbol}")
 
