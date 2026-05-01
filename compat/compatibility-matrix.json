@@ -1,8 +1,32 @@
 {
   "$schema": "../schemas/compatibility-matrix.schema.json",
   "schemaVersion": "1.0.0",
-  "generatedAt": "2026-03-22",
+  "generatedAt": "2026-05-01",
   "entries": [
+    {
+      "stackVersion": "0.3.1",
+      "beringVersion": "0.3.2",
+      "sheaftVersion": "0.2.2",
+      "chartVersion": "0.3.1",
+      "compatibilityState": "candidate",
+      "evidence": "Pinned to https://github.com/MB3R-Lab/Bering/releases/download/v0.3.2/release-manifest.json plus https://github.com/MB3R-Lab/Bering/releases/download/v0.3.2/contracts-manifest.json and https://github.com/MB3R-Lab/Sheaft/releases/download/v0.2.2/release-manifest.json and https://github.com/MB3R-Lab/Sheaft/releases/download/v0.2.2/compatibility-manifest.json; verified by repository validate, adapter e2e, release dry-run, and Helm template render checks on 2026-05-01.",
+      "contracts": {
+        "collectorExport": "v1alpha1",
+        "discoveryReport": "v1alpha1",
+        "gateDecision": "v1alpha1",
+        "reportPayload": "v1alpha1"
+      },
+      "dashboards": {
+        "bering": "1.0.0",
+        "sheaft": "1.0.0"
+      },
+      "notes": [
+        "Bering v0.3.2 publishes io.mb3r.bering.model and io.mb3r.bering.snapshot schema lines for both 1.0.0 and 1.1.0, and Sheaft v0.2.2 strictly accepts both lines.",
+        "Bering v0.3.2 and Sheaft v0.2.2 are patch hardening releases with no declared upstream contract break.",
+        "This remains a candidate integration statement rather than a GA support claim.",
+        "Sheaft serve/watch remains preview-grade upstream behavior and is not upgraded to a long-term stable contract by this bundle release."
+      ]
+    },
     {
       "stackVersion": "0.3.0",
       "beringVersion": "0.3.1",
