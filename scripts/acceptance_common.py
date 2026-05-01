@@ -20,7 +20,7 @@ from common import ROOT
 HELM_VERSION = "v3.16.4"
 OTEL_DEMO_CHART_VERSION = "0.40.5"
 KIND_VERSION = "v0.31.0"
-BERING_VERSION = "0.3.2"
+BERING_VERSION = "0.3.3"
 SHEAFT_VERSION = "0.2.3"
 
 STACK_CHART_DIR = ROOT / "charts" / "mb3r-stack"

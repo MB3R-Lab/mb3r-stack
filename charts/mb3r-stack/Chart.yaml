@@ -2,8 +2,8 @@ apiVersion: v2
 name: mb3r-stack
 description: Generic integration bundle that wires upstream Bering and Sheaft into OTLP-based or artifact-based Kubernetes environments.
 type: application
-version: 0.3.2
-appVersion: "0.3.2"
+version: 0.3.3
+appVersion: "0.3.3"
 keywords:
   - mb3r
   - otlp

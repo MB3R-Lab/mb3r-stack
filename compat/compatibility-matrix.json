@@ -4,6 +4,30 @@
   "generatedAt": "2026-05-01",
   "entries": [
     {
+      "stackVersion": "0.3.3",
+      "beringVersion": "0.3.3",
+      "sheaftVersion": "0.2.3",
+      "chartVersion": "0.3.3",
+      "compatibilityState": "candidate",
+      "evidence": "Pinned to https://github.com/MB3R-Lab/Bering/releases/download/v0.3.3/release-manifest.json plus https://github.com/MB3R-Lab/Bering/releases/download/v0.3.3/contracts-manifest.json and https://github.com/MB3R-Lab/Sheaft/releases/download/v0.2.3/release-manifest.json and https://github.com/MB3R-Lab/Sheaft/releases/download/v0.2.3/compatibility-manifest.json; verified by repository validate, adapter e2e, release dry-run, Helm template render checks, and live kind-based generic smoke with pinned GHCR images on 2026-05-01.",
+      "contracts": {
+        "collectorExport": "v1alpha1",
+        "discoveryReport": "v1alpha1",
+        "gateDecision": "v1alpha1",
+        "reportPayload": "v1alpha1"
+      },
+      "dashboards": {
+        "bering": "1.0.0",
+        "sheaft": "1.0.0"
+      },
+      "notes": [
+        "Bering v0.3.3 publishes the same io.mb3r.bering.model and io.mb3r.bering.snapshot schema lines for both 1.0.0 and 1.1.0, and Sheaft v0.2.3 strictly accepts both lines.",
+        "Bering v0.3.3 is a release metadata hygiene patch with no declared schema, CLI, API, or install-surface break.",
+        "Sheaft v0.2.3 fixes serve/watch startup when the Bering latest artifact appears after Sheaft starts.",
+        "This remains a candidate integration statement rather than a GA support claim."
+      ]
+    },
+    {
       "stackVersion": "0.3.2",
       "beringVersion": "0.3.2",
       "sheaftVersion": "0.2.3",

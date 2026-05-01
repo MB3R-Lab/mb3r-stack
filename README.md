@@ -3,8 +3,8 @@
 [![Release](https://img.shields.io/github/v/release/MB3R-Lab/mb3r-stack)](https://github.com/MB3R-Lab/mb3r-stack/releases)
 [![release](https://img.shields.io/github/actions/workflow/status/MB3R-Lab/mb3r-stack/release.yml?label=release)](https://github.com/MB3R-Lab/mb3r-stack/actions/workflows/release.yml)
 [![ci](https://img.shields.io/github/actions/workflow/status/MB3R-Lab/mb3r-stack/ci.yml?branch=main&label=ci)](https://github.com/MB3R-Lab/mb3r-stack/actions/workflows/ci.yml)
-[![Candidate bundle](https://img.shields.io/badge/candidate-v0.3.2-orange)](https://github.com/MB3R-Lab/mb3r-stack/releases/tag/v0.3.2)
-[![Upstream pins](https://img.shields.io/badge/Bering%20%7C%20Sheaft-0.3.2%20%7C%200.2.3-blue)](https://github.com/MB3R-Lab/mb3r-stack/blob/main/compat/stack-manifest.json)
+[![Candidate bundle](https://img.shields.io/badge/candidate-v0.3.3-orange)](https://github.com/MB3R-Lab/mb3r-stack/releases/tag/v0.3.3)
+[![Upstream pins](https://img.shields.io/badge/Bering%20%7C%20Sheaft-0.3.3%20%7C%200.2.3-blue)](https://github.com/MB3R-Lab/mb3r-stack/blob/main/compat/stack-manifest.json)
 [![Adapter contracts](https://img.shields.io/badge/adapter_contracts-v1alpha1-blue)](https://github.com/MB3R-Lab/mb3r-stack/blob/main/compat/compatibility-matrix.json)
 
 `mb3r-stack` is the MB3R integration and distribution repository.
@@ -38,12 +38,12 @@ A stack release publishes:
 - application business logic
 - the canonical release cadence of upstream Bering or Sheaft artifacts
 
-Current bundle candidate pins published upstream artifacts explicitly: Bering `0.3.2` and Sheaft `0.2.3`, including immutable image digests and contract evidence in `compat/`.
+Current bundle candidate pins published upstream artifacts explicitly: Bering `0.3.3` and Sheaft `0.2.3`, including immutable image digests and contract evidence in `compat/`.
 
-Current packaged release assets for `v0.3.2` are:
+Current packaged release assets for `v0.3.3` are:
 
-- `dist/charts/mb3r-stack-0.3.2.tgz`
-- `dist/assets/mb3r-assets-0.3.2.tgz`
+- `dist/charts/mb3r-stack-0.3.3.tgz`
+- `dist/assets/mb3r-assets-0.3.3.tgz`
 - `dist/release-manifest.json`
 - `dist/SHA256SUMS.txt`
 - `dist/sbom.cdx.json`
@@ -105,7 +105,7 @@ python scripts/tasks.py release-dry-run
 
 ## Compatibility Notes
 
-The compatibility files in `compat/` are the source of truth for stack-level assertions. The current `0.3.2` bundle is recorded as a `candidate` integration statement backed by upstream release manifests, repository validation, release dry-run, adapter e2e, and Sheaft's published compatibility manifest, not as a broader verified operations guarantee. OpenTelemetry Demo remains one example profile and one acceptance scenario, not the design center of the core bundle.
+The compatibility files in `compat/` are the source of truth for stack-level assertions. The current `0.3.3` bundle is recorded as a `candidate` integration statement backed by upstream release manifests, repository validation, release dry-run, adapter e2e, and Sheaft's published compatibility manifest, not as a broader verified operations guarantee. OpenTelemetry Demo remains one example profile and one acceptance scenario, not the design center of the core bundle.
 
 ## License
 

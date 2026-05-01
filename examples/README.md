@@ -2,7 +2,7 @@
 
 These examples are intentionally small and operator-editable.
 
-They track the current `mb3r-stack v0.3.2` bundle line and the pinned upstream pair Bering `0.3.2` plus Sheaft `0.2.3`.
+They track the current `mb3r-stack v0.3.3` bundle line and the pinned upstream pair Bering `0.3.3` plus Sheaft `0.2.3`.
 
 - `profiles/synthetic-otlp/` is the smallest generic profile and the non-OTel acceptance baseline.
 - `profiles/minimal-production-eval/` shows conservative pinning and external registry overrides.

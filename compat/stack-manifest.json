@@ -3,14 +3,14 @@
   "schemaVersion": "1.0.0",
   "stack": {
     "name": "mb3r-stack",
-    "version": "0.3.2",
+    "version": "0.3.3",
     "status": "candidate",
     "releaseDate": "2026-05-01",
     "notes": [
       "Generic integration and distribution layer only. No upstream Bering or Sheaft source code is vendored here.",
-      "Candidate bundle pinned to released Bering v0.3.2 and Sheaft v0.2.3 artifacts with immutable GHCR digests.",
+      "Candidate bundle pinned to released Bering v0.3.3 and Sheaft v0.2.3 artifacts with immutable GHCR digests.",
       "OpenTelemetry Demo is packaged as an example profile, not as the core contract.",
-      "Bering v0.3.2 keeps the published 1.0.0 and 1.1.0 schema contract lines while adding runtime and toolchain hardening.",
+      "Bering v0.3.3 keeps the published 1.0.0 and 1.1.0 schema contract lines and refreshes release-facing metadata.",
       "Sheaft v0.2.3 strictly validates both the 1.0.0 and 1.1.0 Bering schema lines and fixes late Bering artifact handoff in serve/watch preview mode.",
       "Pinned GHCR images are recorded from the upstream release manifests published on 2026-05-01."
     ]
@@ -18,13 +18,13 @@
   "artifacts": {
     "chart": {
       "name": "mb3r-stack",
-      "version": "0.3.2",
+      "version": "0.3.3",
       "ociRepository": "oci://ghcr.io/mb3r-lab/charts",
-      "package": "mb3r-stack-0.3.2.tgz"
+      "package": "mb3r-stack-0.3.3.tgz"
     },
     "assetPack": {
-      "version": "0.3.2",
-      "archive": "mb3r-assets-0.3.2.tgz",
+      "version": "0.3.3",
+      "archive": "mb3r-assets-0.3.3.tgz",
       "includes": [
         "collector/",
         "dashboards/",
@@ -36,17 +36,17 @@
       "sheaft": "1.0.0"
     },
     "configPacks": {
-      "collector": "0.3.2",
-      "examples": "0.3.2"
+      "collector": "0.3.3",
+      "examples": "0.3.3"
     }
   },
   "components": {
     "bering": {
-      "version": "0.3.2",
+      "version": "0.3.3",
       "image": {
         "repository": "ghcr.io/mb3r-lab/bering",
-        "tag": "v0.3.2",
-        "digest": "sha256:98e443461bf59d92cc19b20f425602de91b22a272ecd9a79df5cc20f96c735a8"
+        "tag": "v0.3.3",
+        "digest": "sha256:b38713a15194827f3410c3972071a5fd358f1fe55847952289f5edd7c0b82174"
       },
       "contracts": {
         "collectorExport": "v1alpha1",

@@ -12,8 +12,8 @@ bering:
   enabled: true
   image:
     repository: "mb3r-lab/bering"
-    tag: "v0.3.2"
-    digest: "sha256:98e443461bf59d92cc19b20f425602de91b22a272ecd9a79df5cc20f96c735a8"
+    tag: "v0.3.3"
+    digest: "sha256:b38713a15194827f3410c3972071a5fd358f1fe55847952289f5edd7c0b82174"
   service:
     publicName: bering-discovery
   serviceMonitor:
