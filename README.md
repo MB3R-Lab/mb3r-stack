@@ -1,6 +1,5 @@
 # mb3r-stack
 
-[![Release](https://img.shields.io/github/v/release/MB3R-Lab/mb3r-stack)](https://github.com/MB3R-Lab/mb3r-stack/releases)
 [![release](https://github.com/MB3R-Lab/mb3r-stack/actions/workflows/release.yml/badge.svg)](https://github.com/MB3R-Lab/mb3r-stack/actions/workflows/release.yml)
 [![ci](https://github.com/MB3R-Lab/mb3r-stack/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/MB3R-Lab/mb3r-stack/actions/workflows/ci.yml)
 [![Candidate bundle](https://img.shields.io/badge/candidate-v0.3.4-orange)](https://github.com/MB3R-Lab/mb3r-stack/releases/tag/v0.3.4)
