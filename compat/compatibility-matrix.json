@@ -1,8 +1,32 @@
 {
   "$schema": "../schemas/compatibility-matrix.schema.json",
   "schemaVersion": "1.0.0",
-  "generatedAt": "2026-05-01",
+  "generatedAt": "2026-05-31",
   "entries": [
+    {
+      "stackVersion": "0.3.4",
+      "beringVersion": "0.3.4",
+      "sheaftVersion": "0.2.4",
+      "chartVersion": "0.3.4",
+      "compatibilityState": "candidate",
+      "evidence": "Pinned to https://github.com/MB3R-Lab/Bering/releases/download/v0.3.4/release-manifest.json plus https://github.com/MB3R-Lab/Bering/releases/download/v0.3.4/contracts-manifest.json and https://github.com/MB3R-Lab/Sheaft/releases/download/v0.2.4/release-manifest.json and https://github.com/MB3R-Lab/Sheaft/releases/download/v0.2.4/compatibility-manifest.json; Sheaft main commit 64ea26a records app-level sync with Bering v0.3.4; verified by repository validate, adapter e2e, release dry-run, Helm template render checks, and live kind-based generic smoke with pinned GHCR images on 2026-05-31.",
+      "contracts": {
+        "collectorExport": "v1alpha1",
+        "discoveryReport": "v1alpha1",
+        "gateDecision": "v1alpha1",
+        "reportPayload": "v1alpha1"
+      },
+      "dashboards": {
+        "bering": "1.0.0",
+        "sheaft": "1.0.0"
+      },
+      "notes": [
+        "Bering v0.3.4 publishes the same io.mb3r.bering.model and io.mb3r.bering.snapshot schema lines for both 1.0.0 and 1.1.0, and Sheaft v0.2.4 strictly accepts both lines.",
+        "Bering v0.3.4 closes the post-v0.3.3 capability backlog with signal-quality sidecars, enrichment onboarding, reconciliation summary output, and a topology_api adapter example.",
+        "Sheaft v0.2.4 adds trustable gate benchmark evidence and why-mode output while keeping the accepted Bering schema contract pins unchanged.",
+        "This remains a candidate integration statement rather than a GA support claim."
+      ]
+    },
     {
       "stackVersion": "0.3.3",
       "beringVersion": "0.3.3",

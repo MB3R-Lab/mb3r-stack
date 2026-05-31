@@ -152,7 +152,7 @@ def run_adapter_flow(adapter: str, workspace: Path) -> None:
             "--command",
             discovery_command,
             "--image-ref",
-            "ghcr.io/mb3r-lab/bering@sha256:b38713a15194827f3410c3972071a5fd358f1fe55847952289f5edd7c0b82174",
+            "ghcr.io/mb3r-lab/bering@sha256:a825e7eb7d8a97610dd22cfea725e747e5b77f27663ed2972ac2978ee60d392d",
             "--artifact-name",
             "mb3r-bering-discovery",
             "--env-path",
@@ -177,7 +177,7 @@ def run_adapter_flow(adapter: str, workspace: Path) -> None:
             "--command",
             gate_precheck_command,
             "--image-ref",
-            "ghcr.io/mb3r-lab/sheaft@sha256:07bca0e01ef0bfb09c9561c2883d7acf7b2ee6374be373ecd0168747da9f1e76",
+            "ghcr.io/mb3r-lab/sheaft@sha256:a434b5fb3f034a58455b20fa27a6976aa79d66340814f4cd81549b20bd8a5db8",
             "--artifact-name",
             "mb3r-sheaft-gate",
             "--default-decision",
@@ -204,7 +204,7 @@ def run_adapter_flow(adapter: str, workspace: Path) -> None:
             "--command",
             gate_pass_command,
             "--image-ref",
-            "ghcr.io/mb3r-lab/sheaft@sha256:07bca0e01ef0bfb09c9561c2883d7acf7b2ee6374be373ecd0168747da9f1e76",
+            "ghcr.io/mb3r-lab/sheaft@sha256:a434b5fb3f034a58455b20fa27a6976aa79d66340814f4cd81549b20bd8a5db8",
             "--artifact-name",
             "mb3r-sheaft-gate",
             "--default-decision",
@@ -231,7 +231,7 @@ def run_adapter_flow(adapter: str, workspace: Path) -> None:
             "--command",
             gate_invalid_command,
             "--image-ref",
-            "ghcr.io/mb3r-lab/sheaft@sha256:07bca0e01ef0bfb09c9561c2883d7acf7b2ee6374be373ecd0168747da9f1e76",
+            "ghcr.io/mb3r-lab/sheaft@sha256:a434b5fb3f034a58455b20fa27a6976aa79d66340814f4cd81549b20bd8a5db8",
             "--artifact-name",
             "mb3r-sheaft-gate",
             "--default-decision",
@@ -272,7 +272,7 @@ def validate_examples() -> None:
     check("uses: ./.github/workflows/mb3r-report.yml" in example_consumer, "GitHub example must call mb3r-report workflow")
 
     jenkinsfile = (ROOT / "examples" / "jenkins" / "Jenkinsfile").read_text(encoding="utf-8")
-    check("@Library('mb3r-stack@v0.3.3')" in jenkinsfile, "Jenkins example must pin the shared library version")
+    check("@Library('mb3r-stack@v0.3.4')" in jenkinsfile, "Jenkins example must pin the shared library version")
     for symbol in ("mb3rBeringDiscover", "mb3rSheaftGate", "mb3rPublishReport"):
         check(symbol in jenkinsfile, f"Jenkins example must call {symbol}")
 
