@@ -6,6 +6,10 @@
 [![Upstream pins](https://img.shields.io/badge/Bering%20%7C%20Sheaft-0.3.4%20%7C%200.2.4-blue)](https://github.com/MB3R-Lab/mb3r-stack/blob/main/compat/stack-manifest.json)
 [![Adapter contracts](https://img.shields.io/badge/adapter_contracts-v1alpha1-blue)](https://github.com/MB3R-Lab/mb3r-stack/blob/main/compat/compatibility-matrix.json)
 
+## Related MB3R repositories
+
+[Bering](https://github.com/MB3R-Lab/Bering) owns discovery and artifact publishing; [Sheaft](https://github.com/MB3R-Lab/Sheaft) owns downstream resilience analysis and CI/CD gating. This repository packages compatible releases and integration assets above both projects.
+
 `mb3r-stack` is the MB3R integration and distribution repository.
 
 It is not a third core engine and it does not vendor Bering or Sheaft source code. This repository sits above the upstream products and owns the bundle layer:
