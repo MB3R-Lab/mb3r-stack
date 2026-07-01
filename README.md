@@ -2,8 +2,8 @@
 
 [![release](https://github.com/MB3R-Lab/mb3r-stack/actions/workflows/release.yml/badge.svg)](https://github.com/MB3R-Lab/mb3r-stack/actions/workflows/release.yml)
 [![ci](https://github.com/MB3R-Lab/mb3r-stack/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/MB3R-Lab/mb3r-stack/actions/workflows/ci.yml)
-[![Candidate bundle](https://img.shields.io/badge/candidate-v0.3.4-orange)](https://github.com/MB3R-Lab/mb3r-stack/releases/tag/v0.3.4)
-[![Upstream pins](https://img.shields.io/badge/Bering%20%7C%20Sheaft-0.3.4%20%7C%200.2.4-blue)](https://github.com/MB3R-Lab/mb3r-stack/blob/main/compat/stack-manifest.json)
+[![Draft bundle](https://img.shields.io/badge/draft-v1.0.0-orange)](https://github.com/MB3R-Lab/mb3r-stack/blob/main/compat/stack-manifest.json)
+[![Upstream pins](https://img.shields.io/badge/Bering%20%7C%20Sheaft-1.0.0%20%7C%201.0.0-blue)](https://github.com/MB3R-Lab/mb3r-stack/blob/main/compat/stack-manifest.json)
 [![Adapter contracts](https://img.shields.io/badge/adapter_contracts-v1alpha1-blue)](https://github.com/MB3R-Lab/mb3r-stack/blob/main/compat/compatibility-matrix.json)
 
 ## Related MB3R repositories
@@ -41,12 +41,12 @@ A stack release publishes:
 - application business logic
 - the canonical release cadence of upstream Bering or Sheaft artifacts
 
-Current bundle candidate pins published upstream artifacts explicitly: Bering `0.3.4` and Sheaft `0.2.4`, including immutable image digests and contract evidence in `compat/`.
+Current bundle metadata is a draft for the Bering `1.0.0` and Sheaft `1.0.0` major line. It records the intended v1 stack contract, but immutable image digests remain `TODO-*` until the upstream releases publish their release manifests and GHCR images.
 
-Current packaged release assets for `v0.3.4` are:
+Expected packaged release assets for `v1.0.0` are:
 
-- `dist/charts/mb3r-stack-0.3.4.tgz`
-- `dist/assets/mb3r-assets-0.3.4.tgz`
+- `dist/charts/mb3r-stack-1.0.0.tgz`
+- `dist/assets/mb3r-assets-1.0.0.tgz`
 - `dist/release-manifest.json`
 - `dist/SHA256SUMS.txt`
 - `dist/sbom.cdx.json`
@@ -108,7 +108,7 @@ python scripts/tasks.py release-dry-run
 
 ## Compatibility Notes
 
-The compatibility files in `compat/` are the source of truth for stack-level assertions. The current `0.3.4` bundle is recorded as a `candidate` integration statement backed by upstream release manifests, repository validation, release dry-run, adapter e2e, Sheaft's published compatibility manifest, and the Sheaft `main` sync note recorded in `compat/`, not as a broader verified operations guarantee. OpenTelemetry Demo remains one example profile and one acceptance scenario, not the design center of the core bundle.
+The compatibility files in `compat/` are the source of truth for stack-level assertions. The current `1.0.0` bundle entry is `todo-verify` until upstream Bering and Sheaft v1 release manifests, immutable GHCR digests, stack release dry-run, live synthetic-otlp smoke, pinned-image startup, and adapter e2e evidence are attached. OpenTelemetry Demo remains one example profile and one acceptance scenario, not the design center of the core bundle.
 
 ## License
 

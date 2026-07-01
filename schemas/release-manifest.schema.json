@@ -179,6 +179,36 @@
     }
   },
   "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "not": {
+          "properties": {
+            "status": {
+              "const": "draft"
+            },
+            "compatibility": {
+              "properties": {
+                "state": {
+                  "const": "todo-verify"
+                }
+              },
+              "required": [
+                "state"
+              ]
+            }
+          },
+          "required": [
+            "status",
+            "compatibility"
+          ]
+        }
+      },
+      "then": {
+        "$ref": "#/$defs/strictComponentDigests"
+      }
+    }
+  ],
   "$defs": {
     "version": {
       "type": "string",
@@ -187,6 +217,10 @@
     "digest": {
       "type": "string",
       "pattern": "^sha256:[A-Fa-f0-9]{64}$"
+    },
+    "digestOrTodo": {
+      "type": "string",
+      "pattern": "^(?:sha256:[A-Fa-f0-9]{64}|TODO-[A-Za-z0-9._-]+)$"
     },
     "fileArtifact": {
       "type": "object",
@@ -297,7 +331,7 @@
               "minLength": 1
             },
             "digest": {
-              "$ref": "#/$defs/digest"
+              "$ref": "#/$defs/digestOrTodo"
             }
           },
           "additionalProperties": false
@@ -311,6 +345,35 @@
         }
       },
       "additionalProperties": false
+    },
+    "strictComponentDigests": {
+      "type": "object",
+      "properties": {
+        "components": {
+          "type": "object",
+          "properties": {
+            "bering": {
+              "$ref": "#/$defs/componentPinWithStrictDigest"
+            },
+            "sheaft": {
+              "$ref": "#/$defs/componentPinWithStrictDigest"
+            }
+          }
+        }
+      }
+    },
+    "componentPinWithStrictDigest": {
+      "type": "object",
+      "properties": {
+        "image": {
+          "type": "object",
+          "properties": {
+            "digest": {
+              "$ref": "#/$defs/digest"
+            }
+          }
+        }
+      }
     }
   }
 }
