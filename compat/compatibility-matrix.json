@@ -15,8 +15,8 @@
         "discoveryReport": "v1alpha1",
         "gateDecision": "v1alpha1",
         "reportPayload": "v1alpha1",
-        "beringModel": "1.1.0",
-        "beringSnapshot": "1.1.0",
+        "beringModel": "1.2.0",
+        "beringSnapshot": "1.2.0",
         "stochasticConnectivity": "1.0.0"
       },
       "dashboards": {
@@ -24,7 +24,7 @@
         "sheaft": "1.0.0"
       },
       "notes": [
-        "Bering v1.0.0 is expected to publish reliability evidence, operation-aware edge identity, endpoint semantic hints, and Sheaft v1 compatibility fixtures on the Bering 1.1.0 model/snapshot schema line.",
+        "Bering v1.0.0 is expected to publish reliability evidence, operation-aware edge identity, endpoint semantic hints, and Sheaft v1 compatibility fixtures on the Bering 1.2.0 model/snapshot schema line.",
         "Sheaft v1.0.0 is expected to validate the product-baseline P_Node * P_Edge stochastic connectivity model with theta, rho, replication map R, edge-aware Phi, immediate predicates, eventual predicates, oracle evidence, and v1 release-boundary documentation.",
         "This entry intentionally stays todo-verify because upstream v1 image digests and published release manifests are not available yet.",
         "OpenTelemetry Demo remains showcase evidence only; synthetic-otlp is the first-user generic path for stack verification."
