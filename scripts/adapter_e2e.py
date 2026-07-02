@@ -12,6 +12,15 @@ from common import ROOT, check
 
 WORKDIR = ROOT / ".tmp" / "adapter-e2e"
 PYTHON = sys.executable
+STACK_TAG = "v1.0.0"
+BERING_IMAGE_REF = (
+    "ghcr.io/mb3r-lab/bering@"
+    "sha256:1da482d2629f695e0109525fb9c27e1fd8c502da85af4bbae95ddb176969c3d5"
+)
+SHEAFT_IMAGE_REF = (
+    "ghcr.io/mb3r-lab/sheaft@"
+    "sha256:195e38b6c4cf4e8cfab1d4ef86083bf9511c46e0617682d74b6768e43a4c9a07"
+)
 
 
 def run(command: list[str], *, env: dict[str, str] | None = None) -> subprocess.CompletedProcess[str]:
@@ -152,7 +161,7 @@ def run_adapter_flow(adapter: str, workspace: Path) -> None:
             "--command",
             discovery_command,
             "--image-ref",
-            "ghcr.io/mb3r-lab/bering@sha256:a825e7eb7d8a97610dd22cfea725e747e5b77f27663ed2972ac2978ee60d392d",
+            BERING_IMAGE_REF,
             "--artifact-name",
             "mb3r-bering-discovery",
             "--env-path",
@@ -177,7 +186,7 @@ def run_adapter_flow(adapter: str, workspace: Path) -> None:
             "--command",
             gate_precheck_command,
             "--image-ref",
-            "ghcr.io/mb3r-lab/sheaft@sha256:a434b5fb3f034a58455b20fa27a6976aa79d66340814f4cd81549b20bd8a5db8",
+            SHEAFT_IMAGE_REF,
             "--artifact-name",
             "mb3r-sheaft-gate",
             "--default-decision",
@@ -204,7 +213,7 @@ def run_adapter_flow(adapter: str, workspace: Path) -> None:
             "--command",
             gate_pass_command,
             "--image-ref",
-            "ghcr.io/mb3r-lab/sheaft@sha256:a434b5fb3f034a58455b20fa27a6976aa79d66340814f4cd81549b20bd8a5db8",
+            SHEAFT_IMAGE_REF,
             "--artifact-name",
             "mb3r-sheaft-gate",
             "--default-decision",
@@ -231,7 +240,7 @@ def run_adapter_flow(adapter: str, workspace: Path) -> None:
             "--command",
             gate_invalid_command,
             "--image-ref",
-            "ghcr.io/mb3r-lab/sheaft@sha256:a434b5fb3f034a58455b20fa27a6976aa79d66340814f4cd81549b20bd8a5db8",
+            SHEAFT_IMAGE_REF,
             "--artifact-name",
             "mb3r-sheaft-gate",
             "--default-decision",
@@ -272,7 +281,7 @@ def validate_examples() -> None:
     check("uses: ./.github/workflows/mb3r-report.yml" in example_consumer, "GitHub example must call mb3r-report workflow")
 
     jenkinsfile = (ROOT / "examples" / "jenkins" / "Jenkinsfile").read_text(encoding="utf-8")
-    check("@Library('mb3r-stack@v0.3.4')" in jenkinsfile, "Jenkins example must pin the shared library version")
+    check(f"@Library('mb3r-stack@{STACK_TAG}')" in jenkinsfile, "Jenkins example must pin the shared library version")
     for symbol in ("mb3rBeringDiscover", "mb3rSheaftGate", "mb3rPublishReport"):
         check(symbol in jenkinsfile, f"Jenkins example must call {symbol}")
 
