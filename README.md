@@ -1,10 +1,8 @@
 # mb3r-stack
 
-[![release](https://github.com/MB3R-Lab/mb3r-stack/actions/workflows/release.yml/badge.svg)](https://github.com/MB3R-Lab/mb3r-stack/actions/workflows/release.yml)
-[![ci](https://github.com/MB3R-Lab/mb3r-stack/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/MB3R-Lab/mb3r-stack/actions/workflows/ci.yml)
-[![Verified bundle](https://img.shields.io/badge/verified-v1.0.0-brightgreen)](https://github.com/MB3R-Lab/mb3r-stack/blob/main/compat/stack-manifest.json)
-[![Upstream pins](https://img.shields.io/badge/Bering%20%7C%20Sheaft-1.0.0%20%7C%201.0.0-blue)](https://github.com/MB3R-Lab/mb3r-stack/blob/main/compat/stack-manifest.json)
-[![Adapter contracts](https://img.shields.io/badge/adapter_contracts-v1alpha1-blue)](https://github.com/MB3R-Lab/mb3r-stack/blob/main/compat/compatibility-matrix.json)
+[![release](https://img.shields.io/github/v/release/MB3R-Lab/mb3r-stack?label=release)](https://github.com/MB3R-Lab/mb3r-stack/releases)
+[![checks](https://img.shields.io/github/actions/workflow/status/MB3R-Lab/mb3r-stack/ci.yml?branch=main&label=checks)](https://github.com/MB3R-Lab/mb3r-stack/actions/workflows/ci.yml)
+[![bundle](https://img.shields.io/badge/bundle-verified-brightgreen)](https://github.com/MB3R-Lab/mb3r-stack/blob/main/compat/stack-manifest.json)
 
 ## Related MB3R repositories
 
@@ -42,6 +40,12 @@ A stack release publishes:
 - the canonical release cadence of upstream Bering or Sheaft artifacts
 
 Current bundle metadata is verified for the Bering `1.0.0` and Sheaft `1.0.0` major line. It records the v1 stack contract and immutable GHCR image digests for the upstream releases.
+
+## Research and Evidence
+
+- Formal model: [Stochastic Connectivity as the Foundation of a Runtime Model for Microservice Availability Analysis](https://www.alphaxiv.org/abs/2607.00740)
+- DeathStarBench empirical anchor: [Model Discovery and Graph Simulation: A Lightweight Gateway to Chaos Engineering](https://www.alphaxiv.org/abs/2506.11176)
+- OpenTelemetry Demo async-semantics case study: [Evaluating Asynchronous Semantics in Trace-Discovered Resilience Models: A Case Study on the OpenTelemetry Demo](https://www.alphaxiv.org/abs/2512.12314v1)
 
 Expected packaged release assets for `v1.0.0` are:
 
