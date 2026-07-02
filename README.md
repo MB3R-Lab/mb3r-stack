@@ -1,6 +1,6 @@
 # mb3r-stack
 
-[![release](https://img.shields.io/github/v/release/MB3R-Lab/mb3r-stack?label=release)](https://github.com/MB3R-Lab/mb3r-stack/releases)
+[![release](https://img.shields.io/badge/release-v1.0.0-blue)](https://github.com/MB3R-Lab/mb3r-stack/releases/tag/v1.0.0)
 [![checks](https://img.shields.io/github/actions/workflow/status/MB3R-Lab/mb3r-stack/ci.yml?branch=main&label=checks)](https://github.com/MB3R-Lab/mb3r-stack/actions/workflows/ci.yml)
 [![bundle](https://img.shields.io/badge/bundle-verified-brightgreen)](https://github.com/MB3R-Lab/mb3r-stack/blob/main/compat/stack-manifest.json)
 
