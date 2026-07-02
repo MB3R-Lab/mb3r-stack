@@ -38,13 +38,13 @@ For first-time evaluation, use this sequence:
 
 The expected product outcome is a visible Bering -> Sheaft handoff and a Sheaft posture report. The OTel Demo profile is a showcase path, not the first proof of generic readiness.
 
-The current draft bundle line is `v1.0.0`, which stages these release assets during `make release-dry-run`:
+The current verified bundle line is `v1.0.0`, which stages these release assets during `make release-dry-run`:
 
 - `dist/charts/mb3r-stack-1.0.0.tgz`
 - `dist/assets/mb3r-assets-1.0.0.tgz`
 - `dist/release-manifest.json`
 
-The v1 stack entry is not verified until the Bering and Sheaft v1 release manifests, immutable image digests, synthetic-otlp live smoke, pinned-image startup, and adapter e2e evidence are attached.
+The v1 stack entry is verified against Bering and Sheaft v1 release manifests, immutable image digests, synthetic-otlp live smoke, pinned-image startup, and adapter e2e evidence.
 
 ## Next Steps
 

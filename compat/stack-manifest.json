@@ -4,15 +4,15 @@
   "stack": {
     "name": "mb3r-stack",
     "version": "1.0.0",
-    "status": "draft",
-    "releaseDate": "2026-07-01",
+    "status": "ga",
+    "releaseDate": "2026-07-02",
     "notes": [
       "Generic integration and distribution layer only. No upstream Bering or Sheaft source code is vendored here.",
-      "Draft v1 bundle prepared for Bering v1.0.0 and Sheaft v1.0.0 artifacts; immutable GHCR digests remain TODO until upstream releases are published.",
+      "Verified v1 bundle for Bering v1.0.0 and Sheaft v1.0.0 artifacts with immutable GHCR image digests.",
       "OpenTelemetry Demo is packaged as an example profile, not as the core contract.",
-      "Bering v1.0.0 is expected to publish the 1.3.0 stochastic connectivity contract line with reliability evidence, operation-aware edge identity, endpoint semantic hints, and Sheaft compatibility fixtures.",
-      "Sheaft v1.0.0 is expected to consume the Bering v1 contract line and validate product-baseline P_Node * P_Edge stochastic connectivity with edge-aware immediate and eventual predicates.",
-      "This draft is not a verified runtime bundle until upstream v1 release manifests, image digests, stack release dry-run, and live smoke evidence are attached."
+      "Bering v1.0.0 publishes the 1.3.0 stochastic connectivity contract line with reliability evidence, operation-aware edge identity, endpoint semantic hints, and Sheaft compatibility fixtures.",
+      "Sheaft v1.0.0 consumes the Bering v1 contract line and validates product-baseline P_Node * P_Edge stochastic connectivity with edge-aware immediate and eventual predicates.",
+      "Stack verification covers release dry-run, synthetic-otlp live smoke, pinned-image startup, and adapter e2e checks."
     ]
   },
   "artifacts": {
@@ -46,7 +46,7 @@
       "image": {
         "repository": "ghcr.io/mb3r-lab/bering",
         "tag": "v1.0.0",
-        "digest": "TODO-BERING_V1_IMAGE_DIGEST"
+        "digest": "sha256:1da482d2629f695e0109525fb9c27e1fd8c502da85af4bbae95ddb176969c3d5"
       },
       "contracts": {
         "collectorExport": "v1alpha1",
@@ -58,7 +58,7 @@
       "image": {
         "repository": "ghcr.io/mb3r-lab/sheaft",
         "tag": "v1.0.0",
-        "digest": "TODO-SHEAFT_V1_IMAGE_DIGEST"
+        "digest": "sha256:195e38b6c4cf4e8cfab1d4ef86083bf9511c46e0617682d74b6768e43a4c9a07"
       },
       "contracts": {
         "gateDecision": "v1alpha1",

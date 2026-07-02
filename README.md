@@ -2,7 +2,7 @@
 
 [![release](https://github.com/MB3R-Lab/mb3r-stack/actions/workflows/release.yml/badge.svg)](https://github.com/MB3R-Lab/mb3r-stack/actions/workflows/release.yml)
 [![ci](https://github.com/MB3R-Lab/mb3r-stack/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/MB3R-Lab/mb3r-stack/actions/workflows/ci.yml)
-[![Draft bundle](https://img.shields.io/badge/draft-v1.0.0-orange)](https://github.com/MB3R-Lab/mb3r-stack/blob/main/compat/stack-manifest.json)
+[![Verified bundle](https://img.shields.io/badge/verified-v1.0.0-brightgreen)](https://github.com/MB3R-Lab/mb3r-stack/blob/main/compat/stack-manifest.json)
 [![Upstream pins](https://img.shields.io/badge/Bering%20%7C%20Sheaft-1.0.0%20%7C%201.0.0-blue)](https://github.com/MB3R-Lab/mb3r-stack/blob/main/compat/stack-manifest.json)
 [![Adapter contracts](https://img.shields.io/badge/adapter_contracts-v1alpha1-blue)](https://github.com/MB3R-Lab/mb3r-stack/blob/main/compat/compatibility-matrix.json)
 
@@ -41,7 +41,7 @@ A stack release publishes:
 - application business logic
 - the canonical release cadence of upstream Bering or Sheaft artifacts
 
-Current bundle metadata is a draft for the Bering `1.0.0` and Sheaft `1.0.0` major line. It records the intended v1 stack contract, but immutable image digests remain `TODO-*` until the upstream releases publish their release manifests and GHCR images.
+Current bundle metadata is verified for the Bering `1.0.0` and Sheaft `1.0.0` major line. It records the v1 stack contract and immutable GHCR image digests for the upstream releases.
 
 Expected packaged release assets for `v1.0.0` are:
 
@@ -108,7 +108,7 @@ python scripts/tasks.py release-dry-run
 
 ## Compatibility Notes
 
-The compatibility files in `compat/` are the source of truth for stack-level assertions. The current `1.0.0` bundle entry is `todo-verify` until upstream Bering and Sheaft v1 release manifests, immutable GHCR digests, stack release dry-run, live synthetic-otlp smoke, pinned-image startup, and adapter e2e evidence are attached. OpenTelemetry Demo remains one example profile and one acceptance scenario, not the design center of the core bundle.
+The compatibility files in `compat/` are the source of truth for stack-level assertions. The current `1.0.0` bundle entry is `verified` against Bering and Sheaft v1 release manifests, immutable GHCR digests, stack release dry-run, live synthetic-otlp smoke, pinned-image startup, and adapter e2e evidence. OpenTelemetry Demo remains one example profile and one acceptance scenario, not the design center of the core bundle.
 
 ## License
 
