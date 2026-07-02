@@ -46,7 +46,7 @@ OpenTelemetry Demo can be part of the evidence set, but it is not sufficient by 
 - Bering `1.0.0`
 - Sheaft `1.0.0`
 
-That bundle is marked `todo-verify` because the upstream v1 release manifests and immutable image digests are not published yet. The intended v1 pairing keeps the stack-level adapter envelopes on `v1alpha1` while aligning the Bering-to-Sheaft artifact handoff on the Bering `1.2.0` model/snapshot schema line and Sheaft's v1 stochastic-connectivity consumer semantics.
+That bundle is marked `todo-verify` because the upstream v1 release manifests and immutable image digests are not published yet. The intended v1 pairing keeps the stack-level adapter envelopes on `v1alpha1` while aligning the Bering-to-Sheaft artifact handoff on the Bering `1.3.0` model/snapshot schema line and Sheaft's v1 stochastic-connectivity consumer semantics.
 
 The previous published stack bundle `0.3.4` remains in the compatibility matrix as a historical `candidate` entry for Bering `0.3.4` and Sheaft `0.2.4`.
 

@@ -10,7 +10,7 @@
       "Generic integration and distribution layer only. No upstream Bering or Sheaft source code is vendored here.",
       "Draft v1 bundle prepared for Bering v1.0.0 and Sheaft v1.0.0 artifacts; immutable GHCR digests remain TODO until upstream releases are published.",
       "OpenTelemetry Demo is packaged as an example profile, not as the core contract.",
-      "Bering v1.0.0 is expected to publish the 1.2.0 stochastic connectivity contract line with reliability evidence, operation-aware edge identity, endpoint semantic hints, and Sheaft compatibility fixtures.",
+      "Bering v1.0.0 is expected to publish the 1.3.0 stochastic connectivity contract line with reliability evidence, operation-aware edge identity, endpoint semantic hints, and Sheaft compatibility fixtures.",
       "Sheaft v1.0.0 is expected to consume the Bering v1 contract line and validate product-baseline P_Node * P_Edge stochastic connectivity with edge-aware immediate and eventual predicates.",
       "This draft is not a verified runtime bundle until upstream v1 release manifests, image digests, stack release dry-run, and live smoke evidence are attached."
     ]
