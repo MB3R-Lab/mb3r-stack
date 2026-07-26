@@ -1,8 +1,36 @@
 {
   "$schema": "../schemas/compatibility-matrix.schema.json",
   "schemaVersion": "1.0.0",
-  "generatedAt": "2026-07-02",
+  "generatedAt": "2026-07-26",
   "entries": [
+    {
+      "stackVersion": "1.1.0",
+      "beringVersion": "1.0.0",
+      "sheaftVersion": "1.2.0",
+      "chartVersion": "1.1.0",
+      "compatibilityState": "verified",
+      "evidence": "Verified bundle pinned to the Bering v1.0.0 release/contracts manifests and Sheaft v1.2.0 release/compatibility manifests, immutable multi-arch GHCR image digests, stack release dry-run, synthetic-otlp handoff, opt-in failure-tolerance e2e, pinned-image startup, and adapter e2e evidence on 2026-07-26.",
+      "contracts": {
+        "collectorExport": "v1alpha1",
+        "discoveryReport": "v1alpha1",
+        "gateDecision": "v1alpha1",
+        "reportPayload": "v1alpha1",
+        "beringModel": "1.3.0",
+        "beringSnapshot": "1.3.0",
+        "stochasticConnectivity": "1.0.0"
+      },
+      "dashboards": {
+        "bering": "1.0.0",
+        "sheaft": "1.0.0"
+      },
+      "notes": [
+        "Bering v1.0.0 remains the producer on the immutable 1.3.0 model/snapshot schema line; no upstream contract migration is required for Sheaft fail-stop sweeps.",
+        "Sheaft v1.2.0 adds Wilson confidence intervals, coupled trials, certified failure tolerance, minimum-boundary gates, and compatible baseline regression.",
+        "The chart keeps schema 1.0 warn-only analysis as its default and ships schema 1.2 failure tolerance as an explicit overlay, avoiding an environment-specific blocking gate on upgrade.",
+        "Bering image digest: sha256:1da482d2629f695e0109525fb9c27e1fd8c502da85af4bbae95ddb176969c3d5; Sheaft multi-arch image digest: sha256:4968e8dca4cffc2834b94ee7d9298beff716c3b83bb8ba940ce6df0482fa5809.",
+        "Capacity-aware overload prediction and load/chaos calibration are not part of this compatibility claim."
+      ]
+    },
     {
       "stackVersion": "1.0.0",
       "beringVersion": "1.0.0",

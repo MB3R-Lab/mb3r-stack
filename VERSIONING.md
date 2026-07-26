@@ -38,4 +38,4 @@ If a pin is unknown, keep it explicit with `TODO-*` placeholders and mark the co
 
 Repository tags should use `v<semver>`, for example `v0.3.3`.
 
-The current bundle line is still pre-GA integration packaging and remains conservative about formal maturity even as validation depth increases.
+The current bundle line is GA integration packaging. Minor releases may advance a compatible upstream component while preserving the bundle's manifest and adapter contracts; the compatibility matrix must record the exact pairing and evidence.

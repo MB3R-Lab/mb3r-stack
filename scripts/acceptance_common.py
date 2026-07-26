@@ -20,8 +20,9 @@ from common import ROOT
 HELM_VERSION = "v3.16.4"
 OTEL_DEMO_CHART_VERSION = "0.40.5"
 KIND_VERSION = "v0.31.0"
-BERING_VERSION = "0.3.4"
-SHEAFT_VERSION = "0.2.4"
+_STACK_MANIFEST = json.loads((ROOT / "compat" / "stack-manifest.json").read_text(encoding="utf-8"))
+BERING_VERSION = _STACK_MANIFEST["components"]["bering"]["version"]
+SHEAFT_VERSION = _STACK_MANIFEST["components"]["sheaft"]["version"]
 
 STACK_CHART_DIR = ROOT / "charts" / "mb3r-stack"
 TOOLS_DIR = ROOT / ".tmp" / "tools-cache"
@@ -270,12 +271,19 @@ def prepare_workdir(path: Path) -> Path:
     return path
 
 
-def render_stack_chart(workdir: Path, values_path: Path, *, release_name: str = "mb3r") -> tuple[list[dict[str, Any]], Path, dict[str, str]]:
+def render_stack_chart(
+    workdir: Path,
+    values_path: Path | list[Path],
+    *,
+    release_name: str = "mb3r",
+) -> tuple[list[dict[str, Any]], Path, dict[str, str]]:
     helm = ensure_helm()
     environment = helm_env(helm)
     run([str(helm), "lint", str(STACK_CHART_DIR)], env=environment)
+    values_paths = values_path if isinstance(values_path, list) else [values_path]
+    values_args = [item for path in values_paths for item in ("-f", str(path))]
     rendered = run(
-        [str(helm), "template", release_name, str(STACK_CHART_DIR), "-f", str(values_path)],
+        [str(helm), "template", release_name, str(STACK_CHART_DIR), *values_args],
         env=environment,
     ).stdout
     write_text(workdir / "rendered" / "mb3r-stack.yaml", rendered)
@@ -410,7 +418,7 @@ def exercise_local_handoff(
     bering_config: dict[str, Any],
     sheaft_config: dict[str, Any],
     sheaft_analysis_text: str,
-) -> None:
+) -> dict[str, Any]:
     bering_bin = ensure_release_binary("bering", BERING_VERSION)
     sheaft_bin = ensure_release_binary("sheaft", SHEAFT_VERSION)
 
@@ -521,3 +529,4 @@ def exercise_local_handoff(
             sheaft_proc.kill()
             sheaft_proc.wait(timeout=5)
         sheaft_log.close()
+    return report

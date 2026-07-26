@@ -13,6 +13,8 @@ TASK_MAP = {
     "validate": [["validate.py"]],
     "smoke-generic": [["acceptance_generic.py", "--mode", "smoke"]],
     "e2e-generic": [["acceptance_generic.py", "--mode", "e2e"]],
+    "smoke-failure-tolerance": [["acceptance_failure_tolerance.py", "--mode", "smoke"]],
+    "e2e-failure-tolerance": [["acceptance_failure_tolerance.py", "--mode", "e2e"]],
     "k8s-smoke-generic": [["live_k8s_smoke.py", "--image-source", "local"]],
     "k8s-smoke-generic-pinned": [["live_k8s_smoke.py", "--image-source", "pinned"]],
     "e2e-adapters": [["adapter_e2e.py"]],

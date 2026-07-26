@@ -8,18 +8,19 @@ import subprocess
 import sys
 from pathlib import Path
 
-from common import ROOT, check
+from common import ROOT, check, load_json
 
 WORKDIR = ROOT / ".tmp" / "adapter-e2e"
 PYTHON = sys.executable
-STACK_TAG = "v1.0.0"
+STACK_MANIFEST = load_json(ROOT / "compat" / "stack-manifest.json")
+STACK_TAG = f"v{STACK_MANIFEST['stack']['version']}"
 BERING_IMAGE_REF = (
-    "ghcr.io/mb3r-lab/bering@"
-    "sha256:1da482d2629f695e0109525fb9c27e1fd8c502da85af4bbae95ddb176969c3d5"
+    f"{STACK_MANIFEST['components']['bering']['image']['repository']}@"
+    f"{STACK_MANIFEST['components']['bering']['image']['digest']}"
 )
 SHEAFT_IMAGE_REF = (
-    "ghcr.io/mb3r-lab/sheaft@"
-    "sha256:195e38b6c4cf4e8cfab1d4ef86083bf9511c46e0617682d74b6768e43a4c9a07"
+    f"{STACK_MANIFEST['components']['sheaft']['image']['repository']}@"
+    f"{STACK_MANIFEST['components']['sheaft']['image']['digest']}"
 )
 
 
@@ -280,6 +281,9 @@ def validate_examples() -> None:
     check("uses: ./.github/workflows/sheaft-gate.yml" in example_consumer, "GitHub example must call sheaft-gate workflow")
     check("uses: ./.github/workflows/mb3r-report.yml" in example_consumer, "GitHub example must call mb3r-report workflow")
 
+    github_external = (ROOT / "examples" / "github" / "example-caller.yml").read_text(encoding="utf-8")
+    check(github_external.count(f"@{STACK_TAG}") == 3, "GitHub external example must pin all workflows to the bundle tag")
+
     jenkinsfile = (ROOT / "examples" / "jenkins" / "Jenkinsfile").read_text(encoding="utf-8")
     check(f"@Library('mb3r-stack@{STACK_TAG}')" in jenkinsfile, "Jenkins example must pin the shared library version")
     for symbol in ("mb3rBeringDiscover", "mb3rSheaftGate", "mb3rPublishReport"):
@@ -288,6 +292,7 @@ def validate_examples() -> None:
     gitlab_example = (ROOT / "examples" / "gitlab" / ".gitlab-ci.yml").read_text(encoding="utf-8")
     for component in ("bering-discover", "sheaft-gate", "mb3r-report"):
         check(component in gitlab_example, f"GitLab example must reference {component}")
+    check(gitlab_example.count(f"@{STACK_TAG}") == 3, "GitLab example must pin all components to the bundle tag")
 
 
 def main() -> int:

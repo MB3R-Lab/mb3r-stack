@@ -1,0 +1,46 @@
+# Apply this overlay after a base profile that enables Bering and Sheaft, for example:
+#   -f examples/profiles/synthetic-otlp/values.yaml
+#   -f examples/profiles/failure-tolerance/values.yaml
+sheaft:
+  config:
+    analysis: |
+      schema_version: "1.2"
+      seed: 42
+      trials: 12000
+      sampling_mode: independent_service
+      failure_probability: 0.03
+
+      profiles:
+        - name: steady-state
+          sampling_mode: independent_replica
+          failure_probability: 0.02
+
+      sweeps:
+        - name: checkout-independent-replica-failures
+          profile: steady-state
+          confidence_level: 0.95
+          axis:
+            type: independent_replica_failure_probability
+            values: [0.0, 0.01, 0.03, 0.05, 0.10, 0.20]
+          targets:
+            - endpoint_id: "frontend:GET /checkout"
+              slo: 0.85
+        - name: checkout-failed-replica-slots
+          profile: steady-state
+          confidence_level: 0.95
+          axis:
+            type: failed_replica_slots
+            values: [0, 1, 2, 3]
+          targets:
+            - endpoint_id: "frontend:GET /checkout"
+              slo: 0.85
+
+      gate:
+        mode: fail
+        default_action: fail
+        evaluation_rule: all_profiles
+        global_threshold: 0.85
+        boundary_rules:
+          - sweep: checkout-independent-replica-failures
+            endpoint_id: "frontend:GET /checkout"
+            minimum_certified_tolerance: 0.03

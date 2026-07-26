@@ -34,6 +34,9 @@ jobs:
       - name: Adapter end-to-end contracts
         run: make e2e-adapters
 
+      - name: Failure-tolerance end-to-end
+        run: make e2e-failure-tolerance
+
       - name: Generic live smoke with pinned GHCR images
         run: make k8s-smoke-generic-pinned
 

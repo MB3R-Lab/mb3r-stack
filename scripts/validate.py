@@ -7,6 +7,8 @@ import sys
 import tempfile
 from pathlib import Path
 
+import yaml
+
 from common import ROOT, check, load_json, load_yaml, maybe_run_command, validate_schema
 
 
@@ -40,7 +42,19 @@ def validate_chart() -> None:
 
     metadata = load_yaml(chart_dir / "Chart.yaml")
     check(metadata["name"] == "mb3r-stack", "Chart name must be mb3r-stack")
-    load_yaml(chart_dir / "values.yaml")
+    values = load_yaml(chart_dir / "values.yaml")
+    manifest = load_json(ROOT / "compat" / "stack-manifest.json")
+    for component in ("bering", "sheaft"):
+        component_pin = manifest["components"][component]
+        expected = manifest["components"][component]["image"]
+        actual = values[component]["image"]
+        check(
+            expected["tag"].removeprefix("v") == component_pin["version"],
+            f"{component} component version must match its image tag",
+        )
+        check(actual["repository"] == expected["repository"], f"{component} chart repository must match stack manifest")
+        check(actual["tag"] == expected["tag"], f"{component} chart tag must match stack manifest")
+        check(actual["digest"] == expected["digest"], f"{component} chart digest must match stack manifest")
 
     if shutil.which("helm"):
         result = maybe_run_command(["helm", "lint", str(chart_dir)])
@@ -54,6 +68,32 @@ def validate_chart() -> None:
             render = maybe_run_command(["helm", "template", "mb3r", str(chart_dir), "-f", str(values_path)])
             if render.returncode != 0:
                 raise ValueError((render.stdout + render.stderr).strip())
+
+        failure_render = maybe_run_command(
+            [
+                "helm",
+                "template",
+                "mb3r",
+                str(chart_dir),
+                "-f",
+                str(ROOT / "examples" / "profiles" / "synthetic-otlp" / "values.yaml"),
+                "-f",
+                str(ROOT / "examples" / "profiles" / "failure-tolerance" / "values.yaml"),
+            ]
+        )
+        if failure_render.returncode != 0:
+            raise ValueError((failure_render.stdout + failure_render.stderr).strip())
+        documents = [doc for doc in yaml.safe_load_all(failure_render.stdout) if isinstance(doc, dict)]
+        config_maps = [
+            doc
+            for doc in documents
+            if doc.get("kind") == "ConfigMap" and "analysis.yaml" in doc.get("data", {})
+        ]
+        check(len(config_maps) == 1, "failure-tolerance render must contain one Sheaft analysis ConfigMap")
+        analysis = yaml.safe_load(config_maps[0]["data"]["analysis.yaml"])
+        check(analysis["schema_version"] == "1.2", "failure-tolerance overlay must render analysis schema 1.2")
+        check(len(analysis["sweeps"]) == 2, "failure-tolerance overlay must render both sweep axes")
+        check(len(analysis["gate"]["boundary_rules"]) == 1, "failure-tolerance overlay must render its boundary gate")
 
     with tempfile.TemporaryDirectory() as tempdir:
         result = maybe_run_command(
@@ -74,6 +114,7 @@ def validate_yaml_files() -> None:
         ROOT / ".gitlab-ci.yml",
         ROOT / "examples" / "profiles" / "synthetic-otlp" / "values.yaml",
         ROOT / "examples" / "profiles" / "synthetic-otlp" / "collector-patch.yaml",
+        ROOT / "examples" / "profiles" / "failure-tolerance" / "values.yaml",
         ROOT / "examples" / "profiles" / "minimal-production-eval" / "values.yaml",
         ROOT / "examples" / "profiles" / "minimal-production-eval" / "collector-patch.yaml",
         ROOT / "examples" / "profiles" / "otel-demo" / "mb3r-values.yaml",

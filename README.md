@@ -1,6 +1,6 @@
 # mb3r-stack
 
-[![release](https://img.shields.io/badge/release-v1.0.0-blue)](https://github.com/MB3R-Lab/mb3r-stack/releases/tag/v1.0.0)
+[![release](https://img.shields.io/badge/release-v1.1.0-blue)](https://github.com/MB3R-Lab/mb3r-stack/releases/tag/v1.1.0)
 [![checks](https://img.shields.io/github/actions/workflow/status/MB3R-Lab/mb3r-stack/ci.yml?branch=main&label=checks)](https://github.com/MB3R-Lab/mb3r-stack/actions/workflows/ci.yml)
 [![bundle](https://img.shields.io/badge/bundle-verified-brightgreen)](https://github.com/MB3R-Lab/mb3r-stack/blob/main/compat/stack-manifest.json)
 
@@ -39,7 +39,7 @@ A stack release publishes:
 - application business logic
 - the canonical release cadence of upstream Bering or Sheaft artifacts
 
-Current bundle metadata is verified for the Bering `1.0.0` and Sheaft `1.0.0` major line. It records the v1 stack contract and immutable GHCR image digests for the upstream releases.
+Current bundle metadata is verified for Bering `1.0.0` and Sheaft `1.2.0`. It records the unchanged Bering `1.3.0` artifact contracts, the Sheaft confidence-certified failure-tolerance release, and immutable multi-arch GHCR image digests.
 
 ## Research and Evidence
 
@@ -47,10 +47,10 @@ Current bundle metadata is verified for the Bering `1.0.0` and Sheaft `1.0.0` ma
 - DeathStarBench empirical anchor: [Model Discovery and Graph Simulation: A Lightweight Gateway to Chaos Engineering](https://www.alphaxiv.org/abs/2506.11176)
 - OpenTelemetry Demo async-semantics case study: [Evaluating Asynchronous Semantics in Trace-Discovered Resilience Models: A Case Study on the OpenTelemetry Demo](https://www.alphaxiv.org/abs/2512.12314v1)
 
-Expected packaged release assets for `v1.0.0` are:
+Expected packaged release assets for `v1.1.0` are:
 
-- `dist/charts/mb3r-stack-1.0.0.tgz`
-- `dist/assets/mb3r-assets-1.0.0.tgz`
+- `dist/charts/mb3r-stack-1.1.0.tgz`
+- `dist/assets/mb3r-assets-1.1.0.tgz`
 - `dist/release-manifest.json`
 - `dist/SHA256SUMS.txt`
 - `dist/sbom.cdx.json`
@@ -87,6 +87,8 @@ make lint
 make validate
 make smoke-generic
 make e2e-generic
+make smoke-failure-tolerance
+make e2e-failure-tolerance
 make k8s-smoke-generic
 make k8s-smoke-generic-pinned
 make e2e-adapters
@@ -108,11 +110,13 @@ python scripts/tasks.py e2e-adapters
 python scripts/tasks.py release-dry-run
 ```
 
-`make k8s-smoke-generic` verifies the live generic runtime contract with locally rebuilt images from the pinned release binaries. `make k8s-smoke-generic-pinned` verifies the clean-cluster startup path for the chart's default pinned `ghcr.io/mb3r-lab/bering` and `ghcr.io/mb3r-lab/sheaft` images. The default path is now anonymous pull against public GHCR packages; optional `MB3R_GHCR_USERNAME` and `MB3R_GHCR_TOKEN` are still supported when you need to validate an authenticated pull path explicitly.
+`make k8s-smoke-generic` verifies the live generic runtime contract with locally rebuilt Bering `1.0.0` and Sheaft `1.2.0` release binaries. `make k8s-smoke-generic-pinned` verifies the clean-cluster startup path for the chart's default digest-pinned `ghcr.io/mb3r-lab/bering` and `ghcr.io/mb3r-lab/sheaft` images. The default path is anonymous pull against public GHCR packages; optional `MB3R_GHCR_USERNAME` and `MB3R_GHCR_TOKEN` remain available for authenticated pulls.
+
+The default chart analysis remains schema `1.0` and warn-only. To opt into Sheaft `v1.2.0` confidence-certified sweeps and a minimum-boundary gate, layer [examples/profiles/failure-tolerance/values.yaml](examples/profiles/failure-tolerance/values.yaml) over a base profile. See [docs/profiles/failure-tolerance.md](docs/profiles/failure-tolerance.md).
 
 ## Compatibility Notes
 
-The compatibility files in `compat/` are the source of truth for stack-level assertions. The current `1.0.0` bundle entry is `verified` against Bering and Sheaft v1 release manifests, immutable GHCR digests, stack release dry-run, live synthetic-otlp smoke, pinned-image startup, and adapter e2e evidence. OpenTelemetry Demo remains one example profile and one acceptance scenario, not the design center of the core bundle.
+The compatibility files in `compat/` are the source of truth for stack-level assertions. The current `1.1.0` bundle entry is `verified` against Bering `1.0.0` and Sheaft `1.2.0` release manifests, immutable GHCR digests, stack release dry-run, live synthetic-otlp smoke, the opt-in failure-tolerance e2e, pinned-image startup, and adapter e2e evidence. OpenTelemetry Demo remains one example profile and one acceptance scenario, not the design center of the core bundle.
 
 ## License
 

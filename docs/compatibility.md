@@ -41,12 +41,16 @@ OpenTelemetry Demo can be part of the evidence set, but it is not sufficient by 
 
 ## Current Bundle
 
-`mb3r-stack` `1.0.0` is currently a verified stack entry for:
+`mb3r-stack` `1.1.0` is currently a verified stack entry for:
 
 - Bering `1.0.0`
-- Sheaft `1.0.0`
+- Sheaft `1.2.0`
 
-That bundle is marked `verified` because the upstream v1 release manifests, immutable image digests, stack release dry-run, synthetic-otlp live smoke, pinned-image startup, and adapter e2e evidence are available. The v1 pairing keeps the stack-level adapter envelopes on `v1alpha1` while aligning the Bering-to-Sheaft artifact handoff on the Bering `1.3.0` model/snapshot schema line and Sheaft's v1 stochastic-connectivity consumer semantics.
+That bundle is marked `verified` because the upstream release manifests, immutable multi-arch image digests, stack release dry-run, synthetic-otlp handoff, opt-in failure-tolerance e2e, pinned-image startup, and adapter e2e evidence are available. The pairing keeps stack adapter envelopes on `v1alpha1` and the Bering-to-Sheaft handoff on the immutable Bering `1.3.0` model/snapshot line. Sheaft analysis schema `1.2` is consumer-owned and does not require a new Bering contract.
+
+The default chart remains warn-only on Sheaft analysis schema `1.0`. Failure-tolerance gating is an explicit profile overlay because endpoint ids, SLOs, trial budgets, and required margins are environment-specific. Capacity and overload prediction remain outside the verified claim.
+
+The published `1.0.0` bundle remains in the matrix as a historical verified entry for Bering `1.0.0` and Sheaft `1.0.0`.
 
 The previous published stack bundle `0.3.4` remains in the compatibility matrix as a historical `candidate` entry for Bering `0.3.4` and Sheaft `0.2.4`.
 

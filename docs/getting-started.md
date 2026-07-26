@@ -38,17 +38,26 @@ For first-time evaluation, use this sequence:
 
 The expected product outcome is a visible Bering -> Sheaft handoff and a Sheaft posture report. The OTel Demo profile is a showcase path, not the first proof of generic readiness.
 
-The current verified bundle line is `v1.0.0`, which stages these release assets during `make release-dry-run`:
+The current verified bundle line is `v1.1.0`, which stages these release assets during `make release-dry-run`:
 
-- `dist/charts/mb3r-stack-1.0.0.tgz`
-- `dist/assets/mb3r-assets-1.0.0.tgz`
+- `dist/charts/mb3r-stack-1.1.0.tgz`
+- `dist/assets/mb3r-assets-1.1.0.tgz`
 - `dist/release-manifest.json`
 
-The v1 stack entry is verified against Bering and Sheaft v1 release manifests, immutable image digests, synthetic-otlp live smoke, pinned-image startup, and adapter e2e evidence.
+The v1.1 stack entry is verified against Bering `1.0.0` and Sheaft `1.2.0` release manifests, immutable image digests, synthetic-otlp live smoke, the failure-tolerance e2e, pinned-image startup, and adapter e2e evidence.
+
+After the first-user path works, optionally enable confidence-certified failure tolerance by adding:
+
+```bash
+-f examples/profiles/failure-tolerance/values.yaml
+```
+
+Review and replace its endpoint id, SLO, sweep grid, and minimum boundary before using it as a blocking release gate.
 
 ## Next Steps
 
 - Use `docs/profiles/synthetic-otlp.md` for the smallest generic path.
 - Use `docs/profiles/minimal-production-eval.md` for a conservative external-collector profile.
+- Use `docs/profiles/failure-tolerance.md` to opt into Sheaft `v1.2.0` boundary analysis.
 - Use `docs/profiles/otel-demo.md` only when you explicitly want the OpenTelemetry Demo showcase.
 - Use `docs/verification/generic-smoke.md` and `docs/verification/generic-e2e.md` to verify generic readiness.

@@ -40,7 +40,7 @@ bering:
     registry: ""
     repository: "ghcr.io/mb3r-lab/bering"
     tag: "v1.0.0"
-    digest: ""
+    digest: "sha256:1da482d2629f695e0109525fb9c27e1fd8c502da85af4bbae95ddb176969c3d5"
     pullPolicy: IfNotPresent
   podLabels: {}
   podAnnotations: {}
@@ -107,8 +107,8 @@ sheaft:
   image:
     registry: ""
     repository: "ghcr.io/mb3r-lab/sheaft"
-    tag: "v1.0.0"
-    digest: ""
+    tag: "v1.2.0"
+    digest: "sha256:4968e8dca4cffc2834b94ee7d9298beff716c3b83bb8ba940ce6df0482fa5809"
     pullPolicy: IfNotPresent
   podLabels: {}
   podAnnotations: {}

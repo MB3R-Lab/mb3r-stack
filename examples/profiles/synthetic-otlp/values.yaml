@@ -13,8 +13,8 @@ bering:
 sheaft:
   enabled: true
   image:
-    tag: "v1.0.0"
-    digest: "sha256:195e38b6c4cf4e8cfab1d4ef86083bf9511c46e0617682d74b6768e43a4c9a07"
+    tag: "v1.2.0"
+    digest: "sha256:4968e8dca4cffc2834b94ee7d9298beff716c3b83bb8ba940ce6df0482fa5809"
   service:
     publicName: sheaft-reports
 
