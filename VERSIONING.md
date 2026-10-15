@@ -11,8 +11,9 @@ The `mb3r-stack` version covers:
 - the compatibility matrix format and assertions
 - the packaged collector, dashboard, and example asset packs
 - the GitHub, GitLab, and Jenkins adapter contracts
+- the packaged Procrustes launcher and its static preflight handoff
 
-It does not redefine upstream Bering or Sheaft versioning.
+It does not redefine upstream Procrustes, Bering, or Sheaft versioning. The separate reproduction repository also has its own release lifecycle; it is not a second version of this stack.
 
 ## Rules
 
@@ -31,6 +32,7 @@ It does not redefine upstream Bering or Sheaft versioning.
 ## Upstream Pins
 
 Upstream Bering and Sheaft versions must be pinned in `compat/stack-manifest.json`.
+Procrustes is also pinned there by version and exact source commit. It is source-built until an upstream release image exists; do not invent an OCI pin.
 
 If a pin is unknown, keep it explicit with `TODO-*` placeholders and mark the compatibility state conservatively in `compat/compatibility-matrix.json`.
 

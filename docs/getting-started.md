@@ -2,11 +2,14 @@
 
 `mb3r-stack` is the generic integration bundle for connecting:
 
+- Procrustes as static preflight before trace collection (source-pinned CLI, not a chart Deployment)
 - Bering as the discovery and publishing side
 - Sheaft as the downstream artifact consumer
 - OTLP-based producers or artifact-based producers around that contract
 
 The core chart lives at `charts/mb3r-stack`. It does not assume OpenTelemetry Demo, Astronomy Shop, or any other benchmark application.
+
+For application-specific operation discovery, run [Procrustes preflight](procrustes.md) first, inspect its collection plan, and pass its overlay to Bering when processing actual traces. `python scripts/procrustes.py --example` verifies the packaged CLI path. The synthetic chart smoke below remains a separate runtime-integration check.
 
 ## Core Interfaces
 
@@ -38,13 +41,13 @@ For first-time evaluation, use this sequence:
 
 The expected product outcome is a visible Bering -> Sheaft handoff and a Sheaft posture report. The OTel Demo profile is a showcase path, not the first proof of generic readiness.
 
-The current verified bundle line is `v1.1.0`, which stages these release assets during `make release-dry-run`:
+The next bundle line is `v1.2.0`, which stages these release assets during `make release-dry-run`:
 
-- `dist/charts/mb3r-stack-1.1.0.tgz`
-- `dist/assets/mb3r-assets-1.1.0.tgz`
+- `dist/charts/mb3r-stack-1.2.0.tgz`
+- `dist/assets/mb3r-assets-1.2.0.tgz`
 - `dist/release-manifest.json`
 
-The v1.1 stack entry is verified against Bering `1.0.0` and Sheaft `1.2.0` release manifests, immutable image digests, synthetic-otlp live smoke, the failure-tolerance e2e, pinned-image startup, and adapter e2e evidence.
+The v1.2 stack entry must be verified against Bering `1.0.0` and Sheaft `1.3.1` release manifests, immutable image digests, synthetic-otlp live smoke, the failure-tolerance e2e, pinned-image startup, and adapter e2e evidence.
 
 After the first-user path works, optionally enable confidence-certified failure tolerance by adding:
 
@@ -58,6 +61,6 @@ Review and replace its endpoint id, SLO, sweep grid, and minimum boundary before
 
 - Use `docs/profiles/synthetic-otlp.md` for the smallest generic path.
 - Use `docs/profiles/minimal-production-eval.md` for a conservative external-collector profile.
-- Use `docs/profiles/failure-tolerance.md` to opt into Sheaft `v1.2.0` boundary analysis.
+- Use `docs/profiles/failure-tolerance.md` to opt into Sheaft `v1.3.1` boundary analysis.
 - Use `docs/profiles/otel-demo.md` only when you explicitly want the OpenTelemetry Demo showcase.
 - Use `docs/verification/generic-smoke.md` and `docs/verification/generic-e2e.md` to verify generic readiness.

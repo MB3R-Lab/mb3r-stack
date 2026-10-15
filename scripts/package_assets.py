@@ -22,6 +22,11 @@ def package_assets(output_dir: Path) -> Path:
         for name in ("collector", "dashboards", "examples"):
             shutil.copytree(ROOT / name, asset_root / name)
 
+        (asset_root / "scripts").mkdir()
+        shutil.copy2(ROOT / "scripts" / "procrustes.py", asset_root / "scripts" / "procrustes.py")
+        shutil.copy2(ROOT / "compat" / "stack-manifest.json", asset_root / "stack-manifest.json")
+        shutil.copy2(ROOT / "docs" / "procrustes.md", asset_root / "procrustes.md")
+
         return package_directory(asset_root, archive, arcname="mb3r-assets")
 
 

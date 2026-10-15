@@ -91,6 +91,9 @@
               "type": "string",
               "minLength": 1
             }
+          },
+          "procrustesVersion": {
+            "$ref": "#/$defs/versionOrTodo"
           }
         },
         "additionalProperties": false

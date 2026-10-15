@@ -1,8 +1,42 @@
 {
   "$schema": "../schemas/compatibility-matrix.schema.json",
   "schemaVersion": "1.0.0",
-  "generatedAt": "2026-07-26",
+  "generatedAt": "2026-10-15",
   "entries": [
+    {
+      "stackVersion": "1.2.0",
+      "beringVersion": "1.0.0",
+      "sheaftVersion": "1.3.1",
+      "chartVersion": "1.2.0",
+      "compatibilityState": "candidate",
+      "evidence": "Pins match published Bering v1.0.0 and Sheaft v1.3.1 releases and Procrustes source 378f35f242f25fda7392646bfbba66312b669144. Promotion requires stack CI: packaged Procrustes preflight and Bering overlay handoff, pinned-image Kubernetes startup, failure-tolerance, adapter contracts, and release dry-run.",
+      "contracts": {
+        "collectorExport": "v1alpha1",
+        "discoveryReport": "v1alpha1",
+        "gateDecision": "v1alpha1",
+        "reportPayload": "v1alpha1",
+        "beringModel": "1.3.0",
+        "beringSnapshot": "1.3.0",
+        "stochasticConnectivity": "1.0.0",
+        "procrustesGoal": "0.1.0",
+        "procrustesReport": "0.1.0",
+        "procrustesCollectionPlan": "0.1.0"
+      },
+      "dashboards": {
+        "bering": "1.0.0",
+        "sheaft": "1.0.0"
+      },
+      "notes": [
+        "Procrustes is a pinned source-built static preflight, not a long-running Kubernetes service; its CLI launcher is included in the asset pack.",
+        "Bering model/snapshot contracts remain 1.3.0; adapter envelopes remain v1alpha1.",
+        "Sheaft 1.3.1 includes Birnbaum importance and external predicate contract 1.1 required_edges with reachable callers. Operation-specific predicate configuration remains explicit.",
+        "Default analysis is still warn-only schema 1.0; the explicit failure-tolerance overlay stays on analysis schema 1.2.",
+        "Sheaft image digest: sha256:3c6078ce04fc048a53847b51995fbd659ac25df611a0f8821a585221bb9503bb.",
+        "Paper experiments remain in MB3R-Lab/mb3r-software-complex-repro; stack tests verify software integration only.",
+        "No claim of calibrated production probabilities, overload prediction, or mandatory-call configuration through every Helm surface."
+      ],
+      "procrustesVersion": "0.1.0"
+    },
     {
       "stackVersion": "1.1.0",
       "beringVersion": "1.0.0",

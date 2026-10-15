@@ -23,6 +23,20 @@ def validate_json_contracts() -> None:
         ROOT / "compat" / "compatibility-matrix.json",
         ROOT / "schemas" / "compatibility-matrix.schema.json",
     )
+    manifest = load_json(ROOT / "compat" / "stack-manifest.json")
+    matrix = load_json(ROOT / "compat" / "compatibility-matrix.json")
+    current = next((row for row in matrix["entries"]
+                    if row["stackVersion"] == manifest["stack"]["version"]), None)
+    check(current is not None, "Current bundle is missing from the compatibility matrix")
+    for name in ("procrustes", "bering", "sheaft"):
+        check(name in manifest["components"], f"Missing current component: {name}")
+        component = manifest["components"][name]
+        check(len(component.get("source", {}).get("commit", "")) == 40,
+              f"{name} must pin an exact source commit")
+        check(current.get(f"{name}Version") == component["version"],
+              f"{name} version differs between stack and compatibility matrix")
+    check((ROOT / "scripts" / "procrustes.py").is_file(), "Missing preflight launcher")
+    check((ROOT / "docs" / "procrustes.md").is_file(), "Missing preflight instructions")
 
 
 def validate_chart() -> None:

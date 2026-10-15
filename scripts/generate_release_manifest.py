@@ -72,7 +72,7 @@ def generate_release_manifest(output_dir: Path) -> Path:
 
     release_manifest = {
         "$schema": "release-manifest.schema.json",
-        "schemaVersion": "1.0.0",
+        "schemaVersion": "1.1.0",
         "productName": "mb3r-stack",
         "releaseVersion": version,
         "gitTag": f"v{version}",

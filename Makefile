@@ -1,5 +1,12 @@
 PYTHON ?= python
 
+.PHONY: preflight-example e2e-procrustes
+preflight-example:
+	$(PYTHON) scripts/procrustes.py --example
+
+e2e-procrustes:
+	$(PYTHON) scripts/procrustes_e2e.py
+
 .PHONY: lint validate smoke-generic e2e-generic smoke-failure-tolerance e2e-failure-tolerance k8s-smoke-generic k8s-smoke-generic-pinned e2e-adapters smoke-otel-demo e2e-otel-demo package-assets chart-package release-dry-run stack-manifest
 
 lint:

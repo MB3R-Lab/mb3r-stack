@@ -1,18 +1,19 @@
 # mb3r-stack
 
-[![release](https://img.shields.io/badge/release-v1.1.0-blue)](https://github.com/MB3R-Lab/mb3r-stack/releases/tag/v1.1.0)
+[![release](https://img.shields.io/badge/release-v1.2.0-blue)](https://github.com/MB3R-Lab/mb3r-stack/releases/tag/v1.2.0)
 [![checks](https://img.shields.io/github/actions/workflow/status/MB3R-Lab/mb3r-stack/ci.yml?branch=main&label=checks)](https://github.com/MB3R-Lab/mb3r-stack/actions/workflows/ci.yml)
 [![bundle](https://img.shields.io/badge/bundle-verified-brightgreen)](https://github.com/MB3R-Lab/mb3r-stack/blob/main/compat/stack-manifest.json)
 
 ## Related MB3R repositories
 
-[Bering](https://github.com/MB3R-Lab/Bering) owns discovery and artifact publishing; [Sheaft](https://github.com/MB3R-Lab/Sheaft) owns downstream resilience analysis and CI/CD gating. This repository packages compatible releases and integration assets above both projects.
+[Procrustes](https://github.com/MB3R-Lab/Procrustes) owns static preflight before trace collection; [Bering](https://github.com/MB3R-Lab/Bering) owns discovery and artifact publishing; [Sheaft v1.3.1](https://github.com/MB3R-Lab/Sheaft/releases/tag/v1.3.1) owns downstream resilience analysis and CI/CD gating. This repository integrates all three tools.
 
 `mb3r-stack` is the MB3R integration and distribution repository.
 
-It is not a third core engine and it does not vendor Bering or Sheaft source code. This repository sits above the upstream products and owns the bundle layer:
+It is not another core engine and it does not vendor Procrustes, Bering, or Sheaft source code. This repository sits above the upstream products and owns the bundle layer:
 
 - stack-level compatibility metadata
+- a source-pinned Procrustes launcher and static-preflight handoff
 - OCI-distributed Helm installation for the generic stack bundle
 - OTLP and artifact handoff integration helpers
 - versioned dashboards and observability examples
@@ -23,7 +24,7 @@ It is not a third core engine and it does not vendor Bering or Sheaft source cod
 A stack release publishes:
 
 - an OCI-publishable Helm chart: `mb3r-stack`
-- a packaged asset archive with `collector/`, `dashboards/`, and `examples/`
+- a packaged asset archive with collector/dashboard/examples, the Procrustes launcher, its instructions, and the stack manifest
 - `stack-manifest.json`
 - `compatibility-matrix.json`
 - `release-manifest.json`
@@ -35,11 +36,22 @@ A stack release publishes:
 ## What This Repo Does Not Own
 
 - Bering discovery engine source code
+- Procrustes static-analysis engine source code
 - Sheaft simulation or gate engine source code
 - application business logic
 - the canonical release cadence of upstream Bering or Sheaft artifacts
 
-Current bundle metadata is verified for Bering `1.0.0` and Sheaft `1.2.0`. It records the unchanged Bering `1.3.0` artifact contracts, the Sheaft confidence-certified failure-tolerance release, and immutable multi-arch GHCR image digests.
+Current bundle metadata is staged for Procrustes `0.1.0`, Bering `1.0.0`, and Sheaft `1.3.1`. All three have exact source pins; Bering and Sheaft also have immutable published OCI digests. Procrustes is source-built because no upstream OCI release exists for its pinned preview.
+
+## Static preflight
+
+```bash
+python scripts/procrustes.py --example
+```
+
+This builds the pinned Procrustes and checks a static fixture; it does not deploy an application. For your own inputs and Bering overlay handoff, see [Procrustes setup](docs/procrustes.md). The launcher is also included in the release asset archive. The chart deploys Bering and Sheaft; Procrustes is an operator-invoked stage before trace collection.
+
+The [three-tool reproduction repository](https://github.com/MB3R-Lab/mb3r-software-complex-repro) owns paper experiments and reference results, not this integration repository.
 
 ## Research and Evidence
 
@@ -47,10 +59,10 @@ Current bundle metadata is verified for Bering `1.0.0` and Sheaft `1.2.0`. It re
 - DeathStarBench empirical anchor: [Model Discovery and Graph Simulation: A Lightweight Gateway to Chaos Engineering](https://www.alphaxiv.org/abs/2506.11176)
 - OpenTelemetry Demo async-semantics case study: [Evaluating Asynchronous Semantics in Trace-Discovered Resilience Models: A Case Study on the OpenTelemetry Demo](https://www.alphaxiv.org/abs/2512.12314v1)
 
-Expected packaged release assets for `v1.1.0` are:
+Expected packaged release assets for `v1.2.0` are:
 
-- `dist/charts/mb3r-stack-1.1.0.tgz`
-- `dist/assets/mb3r-assets-1.1.0.tgz`
+- `dist/charts/mb3r-stack-1.2.0.tgz`
+- `dist/assets/mb3r-assets-1.2.0.tgz`
 - `dist/release-manifest.json`
 - `dist/SHA256SUMS.txt`
 - `dist/sbom.cdx.json`
@@ -110,13 +122,13 @@ python scripts/tasks.py e2e-adapters
 python scripts/tasks.py release-dry-run
 ```
 
-`make k8s-smoke-generic` verifies the live generic runtime contract with locally rebuilt Bering `1.0.0` and Sheaft `1.2.0` release binaries. `make k8s-smoke-generic-pinned` verifies the clean-cluster startup path for the chart's default digest-pinned `ghcr.io/mb3r-lab/bering` and `ghcr.io/mb3r-lab/sheaft` images. The default path is anonymous pull against public GHCR packages; optional `MB3R_GHCR_USERNAME` and `MB3R_GHCR_TOKEN` remain available for authenticated pulls.
+`make k8s-smoke-generic` verifies the live generic runtime contract with locally rebuilt Bering `1.0.0` and Sheaft `1.3.1` release binaries. `make k8s-smoke-generic-pinned` verifies the clean-cluster startup path for the chart's default digest-pinned `ghcr.io/mb3r-lab/bering` and `ghcr.io/mb3r-lab/sheaft` images. The default path is anonymous pull against public GHCR packages; optional `MB3R_GHCR_USERNAME` and `MB3R_GHCR_TOKEN` remain available for authenticated pulls.
 
-The default chart analysis remains schema `1.0` and warn-only. To opt into Sheaft `v1.2.0` confidence-certified sweeps and a minimum-boundary gate, layer [examples/profiles/failure-tolerance/values.yaml](examples/profiles/failure-tolerance/values.yaml) over a base profile. See [docs/profiles/failure-tolerance.md](docs/profiles/failure-tolerance.md).
+The default chart analysis remains schema `1.0` and warn-only. To opt into Sheaft `v1.3.1` confidence-certified sweeps and a minimum-boundary gate, layer [examples/profiles/failure-tolerance/values.yaml](examples/profiles/failure-tolerance/values.yaml) over a base profile. See [docs/profiles/failure-tolerance.md](docs/profiles/failure-tolerance.md).
 
 ## Compatibility Notes
 
-The compatibility files in `compat/` are the source of truth for stack-level assertions. The current `1.1.0` bundle entry is `verified` against Bering `1.0.0` and Sheaft `1.2.0` release manifests, immutable GHCR digests, stack release dry-run, live synthetic-otlp smoke, the opt-in failure-tolerance e2e, pinned-image startup, and adapter e2e evidence. OpenTelemetry Demo remains one example profile and one acceptance scenario, not the design center of the core bundle.
+The compatibility files in `compat/` are the source of truth for stack-level assertions. The current `1.2.0` bundle entry awaits CI verification against Bering `1.0.0` and Sheaft `1.3.1` release manifests, immutable GHCR digests, stack release dry-run, live synthetic-otlp smoke, the opt-in failure-tolerance e2e, pinned-image startup, and adapter e2e evidence. OpenTelemetry Demo remains one example profile and one acceptance scenario, not the design center of the core bundle.
 
 ## License
 

@@ -1,6 +1,6 @@
 # Failure-Tolerance Overlay
 
-The failure-tolerance profile is an opt-in analysis overlay for Sheaft `v1.2.0`. It keeps Bering on the existing `io.mb3r.bering.snapshot@1.3.0` handoff and asks Sheaft to evaluate a selected operation over two fail-stop axes:
+The failure-tolerance profile is an opt-in analysis overlay for Sheaft `v1.3.1`. It keeps Bering on the existing `io.mb3r.bering.snapshot@1.3.0` handoff and asks Sheaft to evaluate a selected operation over two fail-stop axes:
 
 - independent replica-failure probability
 - exact failed replica-slot count

@@ -108,6 +108,9 @@
         },
         "sheaft": {
           "$ref": "#/$defs/componentPin"
+        },
+        "procrustes": {
+          "$ref": "#/$defs/sourceComponentPin"
         }
       },
       "additionalProperties": false
@@ -342,6 +345,9 @@
             "type": "string",
             "minLength": 1
           }
+        },
+        "source": {
+          "$ref": "#/$defs/sourcePin"
         }
       },
       "additionalProperties": false
@@ -374,6 +380,62 @@
           }
         }
       }
+    },
+    "sourcePin": {
+      "type": "object",
+      "required": [
+        "repository",
+        "commit"
+      ],
+      "properties": {
+        "repository": {
+          "type": "string",
+          "minLength": 1
+        },
+        "commit": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        }
+      },
+      "additionalProperties": false
+    },
+    "sourceComponentPin": {
+      "type": "object",
+      "required": [
+        "version",
+        "source",
+        "build",
+        "contracts"
+      ],
+      "properties": {
+        "version": {
+          "$ref": "#/$defs/version"
+        },
+        "source": {
+          "$ref": "#/$defs/sourcePin"
+        },
+        "build": {
+          "type": "object",
+          "required": [
+            "command"
+          ],
+          "properties": {
+            "command": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "additionalProperties": false
+        },
+        "contracts": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "additionalProperties": false
     }
   }
 }

@@ -22,7 +22,7 @@ Each stack release is expected to publish:
 
 1. Update `compat/stack-manifest.json`.
 2. Update `compat/compatibility-matrix.json`.
-3. Confirm upstream release manifests, chart references, and image digests match the chosen Bering and Sheaft releases.
+3. Confirm upstream release manifests, chart references, and image digests match the chosen Bering and Sheaft releases. Pin Procrustes to an exact source commit and verify its packaged launcher.
 4. Confirm dashboard and collector asset versions match the manifest.
 5. Run:
 
@@ -33,6 +33,7 @@ make release-dry-run
 ```
 
 6. Review the generated files in `dist/`.
+7. Require successful stack CI on the release revision, including `make e2e-procrustes`, adapter/failure-tolerance checks, and pinned-image live Kubernetes startup. Runtime integration checks run in GitHub Actions; packaging alone is not compatibility evidence.
 
 ## Publishing
 
