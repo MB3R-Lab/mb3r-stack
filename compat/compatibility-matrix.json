@@ -8,8 +8,8 @@
       "beringVersion": "1.0.0",
       "sheaftVersion": "1.3.1",
       "chartVersion": "1.2.0",
-      "compatibilityState": "candidate",
-      "evidence": "Pins match published Bering v1.0.0 and Sheaft v1.3.1 releases and Procrustes source 378f35f242f25fda7392646bfbba66312b669144. Promotion requires stack CI: packaged Procrustes preflight and Bering overlay handoff, pinned-image Kubernetes startup, failure-tolerance, adapter contracts, and release dry-run.",
+      "compatibilityState": "verified",
+      "evidence": "Verified by https://github.com/MB3R-Lab/mb3r-stack/actions/runs/38727806505 at revision 8a7593267da9fc72b487003b44960cc4a7137214: packaged Procrustes preflight/blocked exit and Bering overlay handoff, Helm validation, pinned-image Kubernetes startup and OTLP handoff, failure-tolerance, adapter contracts, and release dry-run. Component pins are unchanged for GA promotion.",
       "contracts": {
         "collectorExport": "v1alpha1",
         "discoveryReport": "v1alpha1",

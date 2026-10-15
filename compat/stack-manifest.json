@@ -4,18 +4,19 @@
   "stack": {
     "name": "mb3r-stack",
     "version": "1.2.0",
-    "status": "candidate",
+    "status": "ga",
     "releaseDate": "2026-10-15",
     "notes": [
       "Generic integration and distribution layer; no upstream Procrustes, Bering, or Sheaft source code is vendored.",
-      "Three-tool bundle: source-pinned Procrustes v0.1.0 plus Bering v1.0.0 and Sheaft v1.3.1 images; stack CI gates promotion to GA.",
+      "Verified three-tool bundle: source-pinned Procrustes v0.1.0 plus Bering v1.0.0 and Sheaft v1.3.1 with immutable published image digests.",
       "OpenTelemetry Demo is packaged as an example profile, not as the core contract.",
       "Bering v1.0.0 publishes the 1.3.0 stochastic connectivity contract line with reliability evidence, operation-aware edge identity, endpoint semantic hints, and Sheaft compatibility fixtures.",
       "Sheaft v1.3.1 includes Birnbaum importance and required-call predicates with reachable callers; the Bering model/snapshot handoff remains 1.3.0.",
       "The default analysis remains schema 1.0 and warn-only; an opt-in failure-tolerance overlay enables schema 1.2 for an explicitly selected endpoint and SLO.",
       "Stack verification covers release dry-run, synthetic-otlp live smoke, the opt-in failure-tolerance e2e, pinned-image startup, and adapter e2e checks.",
       "Capacity, queue, routing, and overload-feedback prediction remain outside this bundle claim.",
-      "The Procrustes launcher builds the exact source pin using Git and Go, then evaluates static inputs before trace collection. It is packaged in the asset archive and is not deployed as a service."
+      "The Procrustes launcher builds the exact source pin using Git and Go, then evaluates static inputs before trace collection. It is packaged in the asset archive and is not deployed as a service.",
+      "Integration evidence: https://github.com/MB3R-Lab/mb3r-stack/actions/runs/38727806505 (packaged preflight, Bering overlay, pinned-image runtime, adapters, failure tolerance, release dry-run)."
     ]
   },
   "artifacts": {

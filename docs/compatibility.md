@@ -41,7 +41,7 @@ OpenTelemetry Demo can be part of the evidence set, but it is not sufficient by 
 
 ## Current Bundle
 
-`mb3r-stack` `1.2.0` is staged as the next stack entry for:
+`mb3r-stack` `1.2.0` is a verified stack entry for:
 
 - Bering `1.0.0`
 - Sheaft `1.3.1`
@@ -52,7 +52,7 @@ not a long-running chart service. Its absence from older entries is historical.
 The current bundle additionally requires ready/blocked preflight checks and
 successful Bering ingestion of the generated overlay from the extracted asset pack.
 
-Promotion to `verified` requires the upstream release manifests, immutable multi-arch image digests, stack release dry-run, synthetic-otlp handoff, opt-in failure-tolerance e2e, pinned-image startup, and adapter e2e evidence for this revision. The pairing keeps stack adapter envelopes on `v1alpha1` and the Bering-to-Sheaft handoff on the immutable Bering `1.3.0` model/snapshot line. Sheaft analysis schema `1.2` is consumer-owned and does not require a new Bering contract.
+The verified entry is supported by the upstream release manifests, immutable multi-arch image digests, stack release dry-run, synthetic-otlp handoff, opt-in failure-tolerance e2e, pinned-image startup, and adapter e2e evidence in [the integration run](https://github.com/MB3R-Lab/mb3r-stack/actions/runs/38727806505). The pairing keeps stack adapter envelopes on `v1alpha1` and the Bering-to-Sheaft handoff on the immutable Bering `1.3.0` model/snapshot line. Sheaft analysis schema `1.2` is consumer-owned and does not require a new Bering contract.
 
 The default chart remains warn-only on Sheaft analysis schema `1.0`. Failure-tolerance gating is an explicit profile overlay because endpoint ids, SLOs, trial budgets, and required margins are environment-specific. Capacity and overload prediction remain outside the verified claim.
 

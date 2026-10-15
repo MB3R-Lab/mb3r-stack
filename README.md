@@ -41,7 +41,7 @@ A stack release publishes:
 - application business logic
 - the canonical release cadence of upstream Bering or Sheaft artifacts
 
-Current bundle metadata is staged for Procrustes `0.1.0`, Bering `1.0.0`, and Sheaft `1.3.1`. All three have exact source pins; Bering and Sheaft also have immutable published OCI digests. Procrustes is source-built because no upstream OCI release exists for its pinned preview.
+Current bundle metadata is verified for Procrustes `0.1.0`, Bering `1.0.0`, and Sheaft `1.3.1`. All three have exact source pins; Bering and Sheaft also have immutable published OCI digests. Procrustes is source-built because no upstream OCI release exists for its pinned preview.
 
 ## Static preflight
 
@@ -128,7 +128,7 @@ The default chart analysis remains schema `1.0` and warn-only. To opt into Sheaf
 
 ## Compatibility Notes
 
-The compatibility files in `compat/` are the source of truth for stack-level assertions. The current `1.2.0` bundle entry awaits CI verification against Bering `1.0.0` and Sheaft `1.3.1` release manifests, immutable GHCR digests, stack release dry-run, live synthetic-otlp smoke, the opt-in failure-tolerance e2e, pinned-image startup, and adapter e2e evidence. OpenTelemetry Demo remains one example profile and one acceptance scenario, not the design center of the core bundle.
+The compatibility files in `compat/` are the source of truth for stack-level assertions. The current `1.2.0` bundle entry is `verified` against Bering `1.0.0` and Sheaft `1.3.1` release manifests, immutable GHCR digests, stack release dry-run, live synthetic-otlp smoke, the opt-in failure-tolerance e2e, pinned-image startup, and adapter e2e evidence. OpenTelemetry Demo remains one example profile and one acceptance scenario, not the design center of the core bundle.
 
 ## License
 

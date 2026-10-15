@@ -12,6 +12,7 @@ permissions:
 
 jobs:
   release:
+    if: startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
@@ -70,3 +71,39 @@ jobs:
               --notes-file dist/release-notes.md \
               "${args[@]}"
           fi
+
+  public-download:
+    name: Download and run the published preflight without authentication
+    needs: release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+      - uses: actions/setup-go@v5
+        with:
+          go-version: 1.26.2
+          cache: false
+      - name: Download and verify public release assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          base="https://github.com/${GITHUB_REPOSITORY}/releases/download/${GITHUB_REF_NAME}"
+          curl --fail --location --retry 3 "$base/release-manifest.json" -o release-manifest.json
+          test "$(jq -r .gitTag release-manifest.json)" = "$GITHUB_REF_NAME"
+          test "$(jq -r .gitCommit release-manifest.json)" = "$GITHUB_SHA"
+          asset=$(jq -r .artifacts.assetPack.path release-manifest.json)
+          digest=$(jq -r .artifacts.assetPack.digest release-manifest.json)
+          curl --fail --location --retry 3 "$base/${asset##*/}" -o asset-pack.tgz
+          echo "${digest#sha256:}  asset-pack.tgz" | sha256sum --check -
+          tar -xzf asset-pack.tgz
+          test "$(jq -r .components.sheaft.version mb3r-assets/stack-manifest.json)" = "$(jq -r .components.sheaft.version release-manifest.json)"
+          test "$(jq -r .components.procrustes.source.commit mb3r-assets/stack-manifest.json)" = "$(jq -r .components.procrustes.source.commit release-manifest.json)"
+      - name: Run the preflight from the extracted asset pack
+        run: |
+          python mb3r-assets/scripts/procrustes.py --example
+          test "$(jq -r .goal_status mb3r-assets/.tmp/preflight/report.json)" = EXPECTED
+          test -s mb3r-assets/.tmp/preflight/bering.overlay.yaml
+          test -s mb3r-assets/.tmp/preflight/collection-plan.json
