@@ -5,14 +5,14 @@
 [![bundle](https://img.shields.io/badge/bundle-1.3.0_candidate-orange)](https://github.com/MB3R-Lab/mb3r-stack/blob/main/compat/stack-manifest.json)
 
 The working `1.3.0` candidate targets Bering `1.1.0`, Sheaft `1.3.2`, and a new
-Procrustes source pin. Bering's commit and image digest match its published
-`1.1.0` release manifest. Sheaft release pins and stack verification are pending.
-Remaining TODO pins prevent this draft from being a release.
+Procrustes source pin. Bering and Sheaft commits and image digests match their
+published release manifests. Complete stack verification and review are pending;
+this candidate is not a verified stack release.
 The latest published stack remains `1.2.0`.
 
 ## Related MB3R repositories
 
-[Procrustes](https://github.com/MB3R-Lab/Procrustes) owns static preflight before trace collection; [Bering](https://github.com/MB3R-Lab/Bering) owns discovery and artifact publishing; [Sheaft v1.3.1](https://github.com/MB3R-Lab/Sheaft/releases/tag/v1.3.1) owns downstream resilience analysis and CI/CD gating. This repository integrates all three tools.
+[Procrustes](https://github.com/MB3R-Lab/Procrustes) owns static preflight before trace collection; [Bering](https://github.com/MB3R-Lab/Bering) owns discovery and artifact publishing; [Sheaft v1.3.2](https://github.com/MB3R-Lab/Sheaft/releases/tag/v1.3.2) owns downstream resilience analysis and CI/CD gating. This repository integrates all three tools.
 
 `mb3r-stack` is the MB3R integration and distribution repository.
 

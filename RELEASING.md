@@ -20,11 +20,11 @@ Each stack release is expected to publish:
 
 ## Pre-Release Checklist
 
-The `1.3.0` candidate currently contains explicit TODO commits and image
-digests. The strict source-pin schema intentionally rejects unresolved commits;
-do not weaken it or substitute an invented digest to make validation pass.
-Replace pending values using the actual upstream release manifests, update all
-chart/profile/adapter pins together, then run the complete checklist below.
+The `1.3.0` candidate pins published upstream releases and an exact Procrustes
+source revision. Complete stack verification remains pending. The strict
+source-pin schema rejects unresolved commits; never weaken it or invent a
+digest. Update chart/profile/adapter pins together from actual upstream release
+manifests, then run the complete checklist below.
 
 1. Update `compat/stack-manifest.json`.
 2. Update `compat/compatibility-matrix.json`.

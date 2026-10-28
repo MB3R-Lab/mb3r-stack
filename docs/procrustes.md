@@ -85,5 +85,5 @@ static assistance, and endpoint semantics come from the supplied operation
 goal. They do not establish observed edges, mandatory calls or actual coverage.
 
 Use the Sheaft version and immutable image pin recorded in the stack manifest
-for downstream analysis. The `1.3.0` candidate targets Sheaft `1.3.2`; its release
-and compatibility verification remain pending.
+for downstream analysis. The `1.3.0` candidate pins published Sheaft `1.3.2`;
+complete stack compatibility verification remains pending.

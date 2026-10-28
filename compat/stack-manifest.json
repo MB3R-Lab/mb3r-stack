@@ -7,15 +7,16 @@
     "status": "candidate",
     "releaseDate": "2026-10-28",
     "notes": [
-      "Candidate integration update; Sheaft release pins and stack verification are pending.",
+      "Candidate integration update with published upstream release pins; stack verification is pending.",
       "Targets Bering 1.1.0 and Sheaft 1.3.2 with a separately pinned Procrustes source revision.",
       "Bering 1.1.0 commit and OCI digest match its published release manifest at https://github.com/MB3R-Lab/Bering/releases/tag/v1.1.0.",
+      "Sheaft 1.3.2 commit and OCI digest match its published release manifest at https://github.com/MB3R-Lab/Sheaft/releases/tag/v1.3.2.",
       "The chart forwards bering.config.sources to Bering and provides an opt-in external OBI source profile.",
       "OBI remains a separately deployed Linux collector; Bering and Sheaft retain their existing unprivileged installation.",
       "Source domains separate collection context identities; agents in one collection deployment share a domain.",
       "Application predicates, fault laws, replica configuration and physical resource identity remain explicit inputs.",
       "Model/snapshot 1.3.0 is the target handoff line; compatibility is not yet verified.",
-      "TODO pins must be replaced from actual upstream release manifests before validation and publication."
+      "Full stack integration checks and review are required before publication."
     ]
   },
   "artifacts": {
@@ -86,7 +87,7 @@
       "image": {
         "repository": "ghcr.io/mb3r-lab/sheaft",
         "tag": "v1.3.2",
-        "digest": "TODO-SHEAFT-1.3.2-IMAGE-DIGEST"
+        "digest": "sha256:12e3999a87bf2cb8a472457c3f6534b40d2e3e84feefb250372abbe6a42a9187"
       },
       "contracts": {
         "gateDecision": "v1alpha1",

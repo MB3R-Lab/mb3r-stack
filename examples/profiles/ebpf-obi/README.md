@@ -2,9 +2,9 @@
 
 This profile prepares the Bering source configuration for an external
 OpenTelemetry eBPF Instrumentation (OBI) collector. It targets Bering 1.1.0 and
-the stack 1.3.0 candidate. Bering's release pins are finalized; Sheaft release
-pins and stack integration verification remain pending. This candidate must not
-be published or installed with TODO pins.
+the stack 1.3.0 candidate. Both upstream release pins are finalized; complete
+stack integration verification remains pending. This profile supplies an
+explicit source configuration rather than a verified collector installation.
 
 ## Static collection handoff
 
@@ -31,7 +31,7 @@ an appropriate overlay through Bering's explicit file/configuration handoff.
 
 ## Runtime source
 
-Once those pins are finalized, enable the profile with:
+Enable the profile for integration evaluation with:
 
 ```bash
 helm upgrade --install mb3r charts/mb3r-stack \

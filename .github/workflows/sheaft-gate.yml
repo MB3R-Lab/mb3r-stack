@@ -17,7 +17,7 @@ on:
         default: ""
       image-ref:
         type: string
-        default: "ghcr.io/mb3r-lab/sheaft@TODO-SHEAFT-1.3.2-IMAGE-DIGEST"
+        default: "ghcr.io/mb3r-lab/sheaft@sha256:12e3999a87bf2cb8a472457c3f6534b40d2e3e84feefb250372abbe6a42a9187"
       artifact-name:
         type: string
         default: "mb3r-sheaft-gate"
