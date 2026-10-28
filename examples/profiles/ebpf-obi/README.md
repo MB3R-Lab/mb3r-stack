@@ -2,8 +2,9 @@
 
 This profile prepares the Bering source configuration for an external
 OpenTelemetry eBPF Instrumentation (OBI) collector. It targets Bering 1.1.0 and
-the stack 1.3.0 candidate. Upstream release pins and integration verification
-are pending; this candidate must not be published or installed with TODO pins.
+the stack 1.3.0 candidate. Bering's release pins are finalized; Sheaft release
+pins and stack integration verification remain pending. This candidate must not
+be published or installed with TODO pins.
 
 ## Static collection handoff
 

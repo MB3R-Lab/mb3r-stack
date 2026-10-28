@@ -40,7 +40,7 @@ bering:
     registry: ""
     repository: "ghcr.io/mb3r-lab/bering"
     tag: "v1.1.0"
-    digest: "TODO-BERING-1.1.0-IMAGE-DIGEST"
+    digest: "sha256:8357f1ab3262d32813dba3811a1c642ae2a659e9b1f1482ce071a82589ae5511"
     pullPolicy: IfNotPresent
   podLabels: {}
   podAnnotations: {}

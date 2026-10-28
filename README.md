@@ -5,8 +5,9 @@
 [![bundle](https://img.shields.io/badge/bundle-1.3.0_candidate-orange)](https://github.com/MB3R-Lab/mb3r-stack/blob/main/compat/stack-manifest.json)
 
 The working `1.3.0` candidate targets Bering `1.1.0`, Sheaft `1.3.2`, and a new
-Procrustes source pin. Upstream release manifests, image digests and stack
-verification are pending. TODO pins prevent this draft from being a release.
+Procrustes source pin. Bering's commit and image digest match its published
+`1.1.0` release manifest. Sheaft release pins and stack verification are pending.
+Remaining TODO pins prevent this draft from being a release.
 The latest published stack remains `1.2.0`.
 
 ## Related MB3R repositories

@@ -42,8 +42,9 @@ OpenTelemetry Demo can be part of the evidence set, but it is not sufficient by 
 ## Candidate Bundle
 
 The `1.3.0` candidate targets Bering `1.1.0`, Sheaft `1.3.2` and an updated
-Procrustes source revision. Its compatibility state is `todo-verify`; commits,
-published image digests and upstream source-aware contract details are pending.
+Procrustes source revision. Its compatibility state is `todo-verify`. Bering's
+commit and image digest match its published `1.1.0` release manifest; Sheaft
+release pins and complete stack compatibility checks remain pending.
 The new [OBI source profile](../examples/profiles/ebpf-obi/README.md) must pass
 source-enabled Helm rendering and runtime handoff checks before promotion.
 Existing native OTLP and adapter checks remain required. Upstream collector
