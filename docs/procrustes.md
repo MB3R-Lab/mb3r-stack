@@ -1,10 +1,10 @@
 # Procrustes static preflight
 
-Stack 1.2.0 includes Procrustes 0.1.0 as the first, optional operator-invoked
-stage, before trace collection and Bering discovery. The stack manifest pins
-commit `378f35f242f25fda7392646bfbba66312b669144`; it never follows upstream main.
-No upstream Procrustes OCI release exists for this pin. The included launcher
-therefore builds it from source instead of pretending that a published image exists.
+The stack includes Procrustes as an optional operator-invoked stage before
+collection and Bering discovery. Its exact source revision comes from
+`compat/stack-manifest.json`; the launcher never follows upstream main. The
+`1.3.0` bundle pins merged revision `39f76000f8a39c971155e08ebffde829b525911b`
+of preview `0.1.0`. Procrustes is source-built; no OCI artifact is invented.
 
 ## Requirements and quick check
 
@@ -30,11 +30,31 @@ python scripts/procrustes.py -- analyze \
   --fail-on-blocked
 ```
 
-Use the [upstream goal and evidence documentation](https://github.com/MB3R-Lab/Procrustes/blob/378f35f242f25fda7392646bfbba66312b669144/README.md).
+Use the [pinned goal and evidence documentation](https://github.com/MB3R-Lab/Procrustes/blob/39f76000f8a39c971155e08ebffde829b525911b/README.md).
 The goal, test scenario, Bering endpoint, and downstream predicate must describe
 the same operation. Exit 2 means blocked static preconditions; exit 1 is invalid
 input or execution failure. Exit 0 alone is not proof of complete readiness:
 inspect `goal_status` for EXPECTED, PARTIAL, or NOT_ASSESSED as well.
+
+## Explicit OBI collection
+
+```bash
+python scripts/procrustes.py -- analyze \
+  --source deployment=./manifests --goal goal.yaml \
+  --collection-source ebpf-obi --source-domain production --out-dir preflight
+```
+
+OBI mode emits report and collection-plan contracts `0.2.0`. The goal remains
+`0.1.0`, and the default native mode retains report/plan `0.1.0` and its SDK,
+exporter and propagation checks. Source selection and the collection domain are
+operator declarations. OBI coverage, kernel access, delivery and exact context
+links remain outside this static assessment and require separate runtime
+evidence. A declared Bering source does not verify kernel attachment. Otherwise
+valid inputs can produce `PARTIAL`; missing static facts or conflicts can still block.
+
+Use the same collection domain for agents in one deployment. The chart's
+[OBI profile](../examples/profiles/ebpf-obi/README.md) passes the matching domain
+to Bering without deploying a collector or granting Bering kernel privileges.
 
 ## Handoff into Bering
 
@@ -52,6 +72,18 @@ analysis. Procrustes does not run as a Kubernetes Deployment or as a hidden
 step in `helm install`. CI validates successful and blocked preflight, actual
 asset-pack execution, and Bering's acceptance of the emitted overlay.
 
-Use [Sheaft v1.3.1](https://github.com/MB3R-Lab/Sheaft/releases/tag/v1.3.1) for the
-downstream analysis. Paper data and the reproducible three-tool experiment remain
-in [the separate reproduction repository](https://github.com/MB3R-Lab/mb3r-software-complex-repro).
+For the declared OBI source, replay retained raw exports directly:
+
+```bash
+bering discover --input ./obi-capture --input-type ebpf-obi \
+  --source-domain production --overlay preflight/bering.overlay.yaml \
+  --out model.json --snapshot-out snapshot.json
+```
+
+This source path requires Bering 1.1.0. Overlay service/count facts remain
+static assistance, and endpoint semantics come from the supplied operation
+goal. They do not establish observed edges, mandatory calls or actual coverage.
+
+Use the Sheaft version and immutable image pin recorded in the stack manifest
+for downstream analysis. The `1.3.0` bundle pins published Sheaft `1.3.2`;
+its packaged and runtime handoff passed [stack CI](https://github.com/MB3R-Lab/mb3r-stack/actions/runs/40640730443).

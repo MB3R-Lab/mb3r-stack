@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import json
 import os
 import platform
@@ -418,6 +419,7 @@ def exercise_local_handoff(
     bering_config: dict[str, Any],
     sheaft_config: dict[str, Any],
     sheaft_analysis_text: str,
+    source_id: str | None = None,
 ) -> dict[str, Any]:
     bering_bin = ensure_release_binary("bering", BERING_VERSION)
     sheaft_bin = ensure_release_binary("sheaft", SHEAFT_VERSION)
@@ -441,6 +443,10 @@ def exercise_local_handoff(
     local_bering_config["runtime"]["window_size"] = "5s"
     local_bering_config["sink"]["directory"] = snapshots_dir.as_posix()
     local_bering_config["sink"]["latest_path"] = (artifacts_dir / "latest.json").as_posix()
+    if source_id is not None:
+        source = next((item for item in local_bering_config.get("sources", []) if item.get("id") == source_id), None)
+        check(source is not None and source.get("type") == "ebpf-obi", "OBI handoff requires its rendered source declaration")
+        source["capture_directory"] = (runtime_dir / "obi-capture").as_posix()
 
     local_sheaft_config["listen"] = f":{sheaft_port}"
     local_sheaft_config["artifact"]["path"] = local_bering_config["sink"]["latest_path"]
@@ -464,21 +470,38 @@ def exercise_local_handoff(
     )
     try:
         wait_for_http(f"http://127.0.0.1:{bering_port}/readyz")
+        request_path = f"/sources/{source_id}/v1/traces" if source_id is not None else "/v1/traces"
+        payload = json.dumps(synthetic_otlp_payload()).encode("utf-8")
         request = urllib.request.Request(
-            f"http://127.0.0.1:{bering_port}/v1/traces",
-            data=json.dumps(synthetic_otlp_payload()).encode("utf-8"),
+            f"http://127.0.0.1:{bering_port}{request_path}",
+            data=payload,
             headers={"Content-Type": "application/json"},
             method="POST",
         )
         with urllib.request.urlopen(request, timeout=5) as response:
             check(response.status == 200, "Bering OTLP/HTTP endpoint did not accept the trace payload")
 
-        latest_artifact = Path(local_bering_config["sink"]["latest_path"])
+        runtime_latest = Path(local_bering_config["sink"]["latest_path"])
+        latest_artifact = artifacts_dir / "published-input-snapshot.json"
         for _ in range(90):
-            if latest_artifact.exists():
-                break
+            if runtime_latest.exists():
+                published_bytes = runtime_latest.read_bytes()
+                published = json.loads(published_bytes)
+                if published.get("ingest", {}).get("spans", 0) > 0:
+                    # Unix shutdown can publish an additional empty window.
+                    # Preserve this exact nonempty Bering artifact before stop;
+                    # both consumer modes use these same bytes, while latest and
+                    # all rolling snapshots remain available for diagnostics.
+                    latest_artifact.write_bytes(published_bytes)
+                    write_text(runtime_dir / "artifact-selection.json", json.dumps({
+                        "source_path": str(runtime_latest), "selected_path": str(latest_artifact),
+                        "snapshot_id": published["snapshot_id"],
+                        "sha256": hashlib.sha256(published_bytes).hexdigest(),
+                        "selection": "first nonempty publication after one fixed source submission",
+                    }, indent=2) + "\n")
+                    break
             time.sleep(0.5)
-        check(latest_artifact.exists(), "Bering did not write the stable latest artifact")
+        check(latest_artifact.exists(), "Bering did not publish a nonempty source observation window")
         check(any(snapshots_dir.glob("*.json")), "Bering did not write rolling snapshot files")
     finally:
         bering_proc.terminate()
@@ -490,6 +513,18 @@ def exercise_local_handoff(
         bering_log.close()
 
     run([str(bering_bin), "validate", "--input", str(latest_artifact)])
+    if source_id is not None:
+        snapshot = json.loads(latest_artifact.read_text(encoding="utf-8"))
+        check(any(item.get("type") == "ebpf" and item.get("connector") == "obi"
+                  and item.get("observations") == 4 for item in snapshot["sources"]),
+              f"declared OBI source provenance/count must survive handoff: {snapshot['sources']}")
+        expected_edges = {("frontend", "checkout"), ("checkout", "inventory"), ("checkout", "payment")}
+        check(len(snapshot["model"]["edges"]) == 3
+              and {(edge["from"], edge["to"]) for edge in snapshot["model"]["edges"]} == expected_edges,
+              "Bering must construct all three observed calls from raw source input")
+        captures = list((runtime_dir / "obi-capture").glob("*.json"))
+        check(len(captures) == 1 and captures[0].read_bytes() == payload,
+              "configured OBI capture must preserve the exact submitted wire bytes")
 
     run(
         [
@@ -506,6 +541,9 @@ def exercise_local_handoff(
     check((sheaft_run_dir / "report.json").exists(), "Sheaft run did not write report.json")
     check((sheaft_run_dir / "summary.md").exists(), "Sheaft run did not write summary.md")
     check((sheaft_run_dir / "model.json").exists(), "Sheaft run did not write model.json")
+
+    local_sheaft_config["artifact"]["path"] = latest_artifact.as_posix()
+    write_text(local_sheaft_config_path, yaml.safe_dump(local_sheaft_config, sort_keys=False))
 
     sheaft_log = (runtime_dir / "sheaft.log").open("w", encoding="utf-8")
     sheaft_proc = subprocess.Popen(

@@ -22,7 +22,9 @@ Use component references pinned by tag, for example:
 
 ```yaml
 include:
-  - component: $CI_SERVER_FQDN/group/mb3r-stack/bering-discover@v1.2.0
+  - component: $CI_SERVER_FQDN/group/mb3r-stack/bering-discover@v1.3.0
 ```
 
 Keep the tag aligned with the `mb3r-stack` integration bundle release, not with any upstream Bering or Sheaft release number.
+The working example targets the verified `v1.3.0` bundle; that tag is available only
+after publication. For the current published line, use the `v1.2.0` release pack.

@@ -21,5 +21,8 @@ See `examples/jenkins/Jenkinsfile`.
 Use the library by tag:
 
 ```groovy
-@Library('mb3r-stack@v1.2.0') _
+@Library('mb3r-stack@v1.3.0') _
 ```
+
+The example targets the verified `v1.3.0` bundle; use this tag after publication.
+For the current published bundle, use the `v1.2.0` release pack.

@@ -39,6 +39,9 @@ jobs:
       - name: Validate repository
         run: make validate
 
+      - name: Native and declared OBI source runtime handoff
+        run: make e2e-generic
+
       - name: Adapter end-to-end contracts
         run: make e2e-adapters
 
@@ -56,3 +59,13 @@ jobs:
 
       - name: Release dry run
         run: make release-dry-run
+
+      - name: Retain runtime handoff diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: stack-runtime-handoff
+          path: .tmp/acceptance-generic/**
+          include-hidden-files: true
+          if-no-files-found: warn
+          retention-days: 7

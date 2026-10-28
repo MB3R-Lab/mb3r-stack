@@ -22,6 +22,12 @@ data:
       latest_path: {{ .Values.bering.config.sink.latestPath | quote }}
     logging:
       structured: {{ .Values.bering.config.logging.structured }}
+{{- if .Values.bering.config.sources }}
+    sources:
+{{ toYaml .Values.bering.config.sources | nindent 6 }}
+{{- else }}
+    sources: []
+{{- end }}
 {{- if .Values.bering.config.overlays }}
     overlays:
 {{ toYaml .Values.bering.config.overlays | nindent 6 }}

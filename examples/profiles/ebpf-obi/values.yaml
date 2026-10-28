@@ -1,0 +1,25 @@
+collector:
+  snippets:
+    enabled: false
+
+bering:
+  enabled: true
+  service:
+    publicName: bering-discovery
+  config:
+    sources:
+      - id: obi-main
+        type: ebpf-obi
+        domain: production
+        capture_directory: /var/lib/mb3r/bering/obi-capture
+
+sheaft:
+  enabled: true
+  service:
+    publicName: sheaft-reports
+
+prometheusScrapeHooks:
+  enabled: false
+
+grafanaDashboards:
+  enabled: false

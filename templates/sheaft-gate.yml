@@ -11,7 +11,7 @@ spec:
     command:
       default: ""
     image_ref:
-      default: "ghcr.io/mb3r-lab/sheaft@sha256:543771ca12722147578bf7a99dd07c5477c7fe15e7404cf6659a2a02f203a93b"
+      default: "ghcr.io/mb3r-lab/sheaft@sha256:12e3999a87bf2cb8a472457c3f6534b40d2e3e84feefb250372abbe6a42a9187"
     artifact_name:
       default: "mb3r-sheaft-gate"
     default_decision:

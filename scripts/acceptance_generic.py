@@ -84,6 +84,23 @@ def run_acceptance(mode: str) -> None:
             sheaft_config=sheaft_config,
             sheaft_analysis_text=sheaft_analysis_text,
         )
+        # Generic collector-format data exercises stack wiring, not kernel
+        # attachment. Actual collector acceptance belongs to upstream Bering.
+        obi_workdir = workdir / "obi-source"
+        obi_workdir.mkdir()
+        obi_documents, _, _ = render_stack_chart(
+            obi_workdir, ROOT / "examples" / "profiles" / "ebpf-obi" / "values.yaml",
+            release_name=RELEASE_NAME,
+        )
+        obi_bering = find_document(obi_documents, "ConfigMap", f"{prefix}-bering-config")
+        obi_sheaft = find_document(obi_documents, "ConfigMap", f"{prefix}-sheaft-config")
+        exercise_local_handoff(
+            obi_workdir,
+            bering_config=yaml.safe_load(obi_bering["data"]["serve.yaml"]),
+            sheaft_config=yaml.safe_load(obi_sheaft["data"]["sheaft.yaml"]),
+            sheaft_analysis_text=obi_sheaft["data"]["analysis.yaml"],
+            source_id="obi-main",
+        )
 
 
 def main() -> int:

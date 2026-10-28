@@ -20,6 +20,12 @@ Each stack release is expected to publish:
 
 ## Pre-Release Checklist
 
+The verified `1.3.0` bundle pins published upstream releases and an exact Procrustes
+source revision; its passed CI is recorded in the compatibility matrix. The strict
+source-pin schema rejects unresolved commits; never weaken it or invent a
+digest. Update chart/profile/adapter pins together from actual upstream release
+manifests, then run the complete checklist below.
+
 1. Update `compat/stack-manifest.json`.
 2. Update `compat/compatibility-matrix.json`.
 3. Confirm upstream release manifests, chart references, and image digests match the chosen Bering and Sheaft releases. Pin Procrustes to an exact source commit and verify its packaged launcher.
@@ -34,6 +40,11 @@ make release-dry-run
 
 6. Review the generated files in `dist/`.
 7. Require successful stack CI on the release revision, including `make e2e-procrustes`, adapter/failure-tolerance checks, and pinned-image live Kubernetes startup. Runtime integration checks run in GitHub Actions; packaging alone is not compatibility evidence.
+
+For the eBPF source feature, also verify that the `ebpf-obi` profile renders the
+exact declared source configuration, preserves Bering's security context, and
+hands a model produced through the source endpoint to Sheaft. Record the actual
+upstream collector acceptance evidence separately from the stack checks.
 
 ## Publishing
 

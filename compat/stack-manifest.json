@@ -3,32 +3,32 @@
   "schemaVersion": "1.1.0",
   "stack": {
     "name": "mb3r-stack",
-    "version": "1.2.0",
+    "version": "1.3.0",
     "status": "ga",
-    "releaseDate": "2026-10-15",
+    "releaseDate": "2026-10-28",
     "notes": [
-      "Generic integration and distribution layer; no upstream Procrustes, Bering, or Sheaft source code is vendored.",
-      "Verified three-tool bundle: source-pinned Procrustes v0.1.0 plus Bering v1.0.0 and Sheaft v1.3.1 with immutable published image digests.",
-      "OpenTelemetry Demo is packaged as an example profile, not as the core contract.",
-      "Bering v1.0.0 publishes the 1.3.0 stochastic connectivity contract line with reliability evidence, operation-aware edge identity, endpoint semantic hints, and Sheaft compatibility fixtures.",
-      "Sheaft v1.3.1 includes Birnbaum importance and required-call predicates with reachable callers; the Bering model/snapshot handoff remains 1.3.0.",
-      "The default analysis remains schema 1.0 and warn-only; an opt-in failure-tolerance overlay enables schema 1.2 for an explicitly selected endpoint and SLO.",
-      "Stack verification covers release dry-run, synthetic-otlp live smoke, the opt-in failure-tolerance e2e, pinned-image startup, and adapter e2e checks.",
-      "Capacity, queue, routing, and overload-feedback prediction remain outside this bundle claim.",
-      "The Procrustes launcher builds the exact source pin using Git and Go, then evaluates static inputs before trace collection. It is packaged in the asset archive and is not deployed as a service.",
-      "Integration evidence: https://github.com/MB3R-Lab/mb3r-stack/actions/runs/38727806505 (packaged preflight, Bering overlay, pinned-image runtime, adapters, failure tolerance, release dry-run)."
+      "Verified by https://github.com/MB3R-Lab/mb3r-stack/actions/runs/40640730443 at revision a456508ac1be4ccd34437d101ec7a4084b95f517; publication remains a separate step.",
+      "Pins Bering 1.1.1 and Sheaft 1.3.2 with a separately pinned Procrustes source revision.",
+      "Bering 1.1.1 commit and OCI digest match its published release manifest at https://github.com/MB3R-Lab/Bering/releases/tag/v1.1.1.",
+      "Sheaft 1.3.2 commit and OCI digest match its published release manifest at https://github.com/MB3R-Lab/Sheaft/releases/tag/v1.3.2.",
+      "The chart forwards bering.config.sources to Bering and provides an opt-in external OBI source profile.",
+      "OBI remains a separately deployed Linux collector; Bering and Sheaft retain their existing unprivileged installation.",
+      "Source domains separate collection context identities; agents in one collection deployment share a domain.",
+      "Application predicates, fault laws, replica configuration and physical resource identity remain explicit inputs.",
+      "Model/snapshot 1.3.0 handoff passed native and declared OBI runtime checks, including complete typed edges and actual Sheaft consumption.",
+      "Packaged preflight, adapters, failure tolerance, pinned-image Kubernetes startup and release dry-run passed on the recorded revision."
     ]
   },
   "artifacts": {
     "chart": {
       "name": "mb3r-stack",
-      "version": "1.2.0",
+      "version": "1.3.0",
       "ociRepository": "oci://ghcr.io/mb3r-lab/charts",
-      "package": "mb3r-stack-1.2.0.tgz"
+      "package": "mb3r-stack-1.3.0.tgz"
     },
     "assetPack": {
-      "version": "1.2.0",
-      "archive": "mb3r-assets-1.2.0.tgz",
+      "version": "1.3.0",
+      "archive": "mb3r-assets-1.3.0.tgz",
       "includes": [
         "collector/",
         "dashboards/",
@@ -44,7 +44,7 @@
     },
     "configPacks": {
       "collector": "1.0.0",
-      "examples": "1.2.0"
+      "examples": "1.3.0"
     }
   },
   "components": {
@@ -52,7 +52,7 @@
       "version": "0.1.0",
       "source": {
         "repository": "https://github.com/MB3R-Lab/Procrustes.git",
-        "commit": "378f35f242f25fda7392646bfbba66312b669144"
+        "commit": "39f76000f8a39c971155e08ebffde829b525911b"
       },
       "build": {
         "command": "go build -trimpath -o bin/procrustes ./cmd/procrustes"
@@ -61,15 +61,17 @@
         "goal": "0.1.0",
         "report": "0.1.0",
         "collectionPlan": "0.1.0",
+        "ebpfReport": "0.2.0",
+        "ebpfCollectionPlan": "0.2.0",
         "beringOverlay": "0.1.0"
       }
     },
     "bering": {
-      "version": "1.0.0",
+      "version": "1.1.1",
       "image": {
         "repository": "ghcr.io/mb3r-lab/bering",
-        "tag": "v1.0.0",
-        "digest": "sha256:1da482d2629f695e0109525fb9c27e1fd8c502da85af4bbae95ddb176969c3d5"
+        "tag": "v1.1.1",
+        "digest": "sha256:f39d2241d9631fec070ece4aa8e96687b16e1d480cef2a95d7a2f4db74da6cea"
       },
       "contracts": {
         "collectorExport": "v1alpha1",
@@ -77,15 +79,15 @@
       },
       "source": {
         "repository": "https://github.com/MB3R-Lab/Bering.git",
-        "commit": "86db92066a5284d52b87a1000af0a0ea7e925a91"
+        "commit": "dccd1bca39b6ee85a79e5e245bdd2e727f0da1a3"
       }
     },
     "sheaft": {
-      "version": "1.3.1",
+      "version": "1.3.2",
       "image": {
         "repository": "ghcr.io/mb3r-lab/sheaft",
-        "tag": "v1.3.1",
-        "digest": "sha256:3c6078ce04fc048a53847b51995fbd659ac25df611a0f8821a585221bb9503bb"
+        "tag": "v1.3.2",
+        "digest": "sha256:12e3999a87bf2cb8a472457c3f6534b40d2e3e84feefb250372abbe6a42a9187"
       },
       "contracts": {
         "gateDecision": "v1alpha1",
@@ -93,7 +95,7 @@
       },
       "source": {
         "repository": "https://github.com/MB3R-Lab/Sheaft.git",
-        "commit": "9248f50ccb1bc93dc26f1ca234b4f88b52880031"
+        "commit": "686a602f4e7b71f3612f1810885e29dd66c8733a"
       }
     }
   },

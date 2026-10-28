@@ -39,7 +39,21 @@ Required evidence:
 
 OpenTelemetry Demo can be part of the evidence set, but it is not sufficient by itself because it is a showcase profile rather than the core compatibility path.
 
-## Current Bundle
+## Verified 1.3.0 Bundle
+
+The verified `1.3.0` bundle pins Bering `1.1.1`, Sheaft `1.3.2` and an updated
+Procrustes source revision. Bering's
+commit and image digest match its published `1.1.1` release manifest; Sheaft pins
+match its published `1.3.2` manifest. [Complete stack CI passed](https://github.com/MB3R-Lab/mb3r-stack/actions/runs/40640730443)
+at revision `a456508ac1be4ccd34437d101ec7a4084b95f517`.
+Sheaft's own release checkpoint names Bering `1.1.0`; the stack independently
+checks the pinned `1.1.1` producer against the same unchanged `1.3.0` contracts.
+The [OBI source profile](../examples/profiles/ebpf-obi/README.md) passed
+source-enabled Helm rendering and runtime handoff checks alongside native OTLP,
+adapters, pinned-image Kubernetes startup, failure tolerance and release dry-run.
+Its external collector installation remains separate from stack wiring checks.
+
+## Published 1.2.0 Bundle
 
 `mb3r-stack` `1.2.0` is a verified stack entry for:
 
