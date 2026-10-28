@@ -41,8 +41,7 @@ For first-time evaluation, use this sequence:
 
 The expected product outcome is a visible Bering -> Sheaft handoff and a Sheaft posture report. The OTel Demo profile is a showcase path, not the first proof of generic readiness.
 
-The working `v1.3.0` candidate stages these assets during `make release-dry-run`;
-complete integration verification is still pending:
+The verified `v1.3.0` bundle stages these assets during `make release-dry-run`:
 
 - `dist/charts/mb3r-stack-1.3.0.tgz`
 - `dist/assets/mb3r-assets-1.3.0.tgz`

@@ -2,12 +2,12 @@
 
 [![release](https://img.shields.io/badge/release-v1.2.0-blue)](https://github.com/MB3R-Lab/mb3r-stack/releases/tag/v1.2.0)
 [![checks](https://img.shields.io/github/actions/workflow/status/MB3R-Lab/mb3r-stack/ci.yml?branch=main&label=checks)](https://github.com/MB3R-Lab/mb3r-stack/actions/workflows/ci.yml)
-[![bundle](https://img.shields.io/badge/bundle-1.3.0_candidate-orange)](https://github.com/MB3R-Lab/mb3r-stack/blob/main/compat/stack-manifest.json)
+[![bundle](https://img.shields.io/badge/bundle-1.3.0_verified-brightgreen)](https://github.com/MB3R-Lab/mb3r-stack/blob/main/compat/stack-manifest.json)
 
-The working `1.3.0` candidate targets Bering `1.1.1`, Sheaft `1.3.2`, and a new
+The verified `1.3.0` bundle pins Bering `1.1.1`, Sheaft `1.3.2`, and a new
 Procrustes source pin. Bering and Sheaft commits and image digests match their
-published release manifests. Complete stack verification and review are pending;
-this candidate is not a verified stack release.
+published release manifests. [Integration CI passed](https://github.com/MB3R-Lab/mb3r-stack/actions/runs/40640730443)
+on revision `a456508ac1be4ccd34437d101ec7a4084b95f517`; publication is a separate step.
 The latest published stack remains `1.2.0`.
 
 ## Related MB3R repositories
@@ -47,7 +47,7 @@ A stack release publishes:
 - application business logic
 - the canonical release cadence of upstream Bering or Sheaft artifacts
 
-Candidate bundle metadata is marked `todo-verify` for the target pairing. The
+Bundle metadata is marked `verified` with its exact integration CI evidence. The
 historical `1.2.0` entry retains its verified Procrustes `0.1.0`, Bering `1.0.0`
 and Sheaft `1.3.1` pins and evidence. Procrustes remains a separately source-pinned
 preflight stage; no OCI artifact is invented for its preview.
@@ -57,8 +57,9 @@ preflight stage; no OCI artifact is invented for its preview.
 The chart forwards `bering.config.sources` to Bering. The opt-in
 [OBI source profile](examples/profiles/ebpf-obi/README.md) documents the raw
 collector handoff, collection-domain semantics and capture storage. OBI runs
-separately on Linux; this chart keeps Bering unprivileged. The candidate profile
-awaits the finalized release pins and integration evidence.
+separately on Linux; this chart keeps Bering unprivileged. Source rendering and
+runtime handoff passed stack CI with synthetic raw OTLP inputs; collector
+attachment remains a separate upstream acceptance check.
 
 ## Static preflight
 
@@ -76,7 +77,7 @@ The [three-tool reproduction repository](https://github.com/MB3R-Lab/mb3r-softwa
 - DeathStarBench empirical anchor: [Model Discovery and Graph Simulation: A Lightweight Gateway to Chaos Engineering](https://www.alphaxiv.org/abs/2506.11176)
 - OpenTelemetry Demo async-semantics case study: [Evaluating Asynchronous Semantics in Trace-Discovered Resilience Models: A Case Study on the OpenTelemetry Demo](https://www.alphaxiv.org/abs/2512.12314v1)
 
-Planned packaged assets for the `1.3.0` candidate are:
+Packaged assets for the `1.3.0` bundle are:
 
 - `dist/charts/mb3r-stack-1.3.0.tgz`
 - `dist/assets/mb3r-assets-1.3.0.tgz`
@@ -139,11 +140,10 @@ python scripts/tasks.py e2e-adapters
 python scripts/tasks.py release-dry-run
 ```
 
-After release pins are finalized, `make k8s-smoke-generic` checks the live
+`make k8s-smoke-generic` checks the live
 generic runtime contract with the selected release binaries, and
 `make k8s-smoke-generic-pinned` checks the chart's immutable image references.
-The pending candidate must not be used for these checks until its TODO pins are
-resolved. The default pull path is anonymous; optional `MB3R_GHCR_USERNAME` and
+The default pull path is anonymous; optional `MB3R_GHCR_USERNAME` and
 `MB3R_GHCR_TOKEN` remain available for authenticated pulls.
 
 The default chart analysis remains schema `1.0` and warn-only. To opt into Sheaft `v1.3.1` confidence-certified sweeps and a minimum-boundary gate, layer [examples/profiles/failure-tolerance/values.yaml](examples/profiles/failure-tolerance/values.yaml) over a base profile. See [docs/profiles/failure-tolerance.md](docs/profiles/failure-tolerance.md).
@@ -151,9 +151,9 @@ The default chart analysis remains schema `1.0` and warn-only. To opt into Sheaf
 ## Compatibility Notes
 
 The compatibility files in `compat/` are the source of truth for stack-level
-assertions. The new `1.3.0` entry is `todo-verify`. The `1.2.0` entry and its
-published integration evidence remain historical verified records. The new
-source feature does not inherit that verification automatically.
+assertions. The `1.3.0` entry records its own passed integration CI and exact
+revision. The `1.2.0` entry and its published integration evidence remain
+historical verified records.
 
 ## License
 

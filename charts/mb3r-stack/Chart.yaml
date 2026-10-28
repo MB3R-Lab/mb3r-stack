@@ -15,4 +15,4 @@ home: https://github.com/MB3R-Lab/mb3r-stack
 sources:
   - https://github.com/MB3R-Lab/mb3r-stack
 annotations:
-  artifacthub.io/prerelease: "true"
+  artifacthub.io/prerelease: "false"

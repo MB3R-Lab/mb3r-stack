@@ -3,7 +3,7 @@
 The stack includes Procrustes as an optional operator-invoked stage before
 collection and Bering discovery. Its exact source revision comes from
 `compat/stack-manifest.json`; the launcher never follows upstream main. The
-`1.3.0` candidate pins merged revision `39f76000f8a39c971155e08ebffde829b525911b`
+`1.3.0` bundle pins merged revision `39f76000f8a39c971155e08ebffde829b525911b`
 of preview `0.1.0`. Procrustes is source-built; no OCI artifact is invented.
 
 ## Requirements and quick check
@@ -85,5 +85,5 @@ static assistance, and endpoint semantics come from the supplied operation
 goal. They do not establish observed edges, mandatory calls or actual coverage.
 
 Use the Sheaft version and immutable image pin recorded in the stack manifest
-for downstream analysis. The `1.3.0` candidate pins published Sheaft `1.3.2`;
-complete stack compatibility verification remains pending.
+for downstream analysis. The `1.3.0` bundle pins published Sheaft `1.3.2`;
+its packaged and runtime handoff passed [stack CI](https://github.com/MB3R-Lab/mb3r-stack/actions/runs/40640730443).

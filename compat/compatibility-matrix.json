@@ -8,8 +8,8 @@
       "beringVersion": "1.1.1",
       "sheaftVersion": "1.3.2",
       "chartVersion": "1.3.0",
-      "compatibilityState": "todo-verify",
-      "evidence": "Bering v1.1.1 and Sheaft v1.3.2 pins match their published release manifests. Stack integration CI remains pending; no verified stack compatibility claim.",
+      "compatibilityState": "verified",
+      "evidence": "Verified by https://github.com/MB3R-Lab/mb3r-stack/actions/runs/40640730443 at revision a456508ac1be4ccd34437d101ec7a4084b95f517: packaged Procrustes native/OBI handoff, Helm/source rendering, exact raw capture and typed graph runtime handoff into Sheaft, adapters, failure tolerance, pinned-image Kubernetes startup and release dry-run. Component pins match published Bering v1.1.1 and Sheaft v1.3.2 manifests.",
       "contracts": {
         "collectorExport": "v1alpha1",
         "discoveryReport": "v1alpha1",

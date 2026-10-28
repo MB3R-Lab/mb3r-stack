@@ -2,9 +2,9 @@
 
 These examples are intentionally small and operator-editable.
 
-They track the `mb3r-stack v1.3.0` candidate and the pinned runtime pair Bering
+They track the verified `mb3r-stack v1.3.0` bundle and the pinned runtime pair Bering
 `1.1.1` plus Sheaft `1.3.2`. External CI examples use the matching `v1.3.0`
-bundle tag, which becomes available when the candidate is published. The latest
+bundle tag, which becomes available when the bundle is published. The latest
 published bundle is still `v1.2.0`; use its released asset pack for that line.
 
 - `profiles/synthetic-otlp/` is the smallest generic profile and the non-OTel acceptance baseline.
