@@ -1,14 +1,16 @@
 # mb3r-stack
 
-[![release](https://img.shields.io/badge/release-v1.2.0-blue)](https://github.com/MB3R-Lab/mb3r-stack/releases/tag/v1.2.0)
+[![release](https://img.shields.io/badge/release-v1.3.0-blue)](https://github.com/MB3R-Lab/mb3r-stack/releases/tag/v1.3.0)
 [![checks](https://img.shields.io/github/actions/workflow/status/MB3R-Lab/mb3r-stack/ci.yml?branch=main&label=checks)](https://github.com/MB3R-Lab/mb3r-stack/actions/workflows/ci.yml)
 [![bundle](https://img.shields.io/badge/bundle-1.3.0_verified-brightgreen)](https://github.com/MB3R-Lab/mb3r-stack/blob/main/compat/stack-manifest.json)
 
 The verified `1.3.0` bundle pins Bering `1.1.1`, Sheaft `1.3.2`, and a new
 Procrustes source pin. Bering and Sheaft commits and image digests match their
 published release manifests. [Integration CI passed](https://github.com/MB3R-Lab/mb3r-stack/actions/runs/40640730443)
-on revision `a456508ac1be4ccd34437d101ec7a4084b95f517`; publication is a separate step.
-The latest published stack remains `1.2.0`.
+on revision `a456508ac1be4ccd34437d101ec7a4084b95f517`.
+The latest published stack is [1.3.0](https://github.com/MB3R-Lab/mb3r-stack/releases/tag/v1.3.0),
+released from tag revision `8a6dc136d67a55a8609cb9a82f6385895713603c` through
+[publication and public-download checks](https://github.com/MB3R-Lab/mb3r-stack/actions/runs/40642477259).
 
 ## Related MB3R repositories
 

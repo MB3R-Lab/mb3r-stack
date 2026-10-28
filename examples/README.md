@@ -4,8 +4,9 @@ These examples are intentionally small and operator-editable.
 
 They track the verified `mb3r-stack v1.3.0` bundle and the pinned runtime pair Bering
 `1.1.1` plus Sheaft `1.3.2`. External CI examples use the matching `v1.3.0`
-bundle tag, which becomes available when the bundle is published. The latest
-published bundle is still `v1.2.0`; use its released asset pack for that line.
+published bundle tag. The latest release is
+[v1.3.0](https://github.com/MB3R-Lab/mb3r-stack/releases/tag/v1.3.0).
+Historical release packs retain their own component pins.
 
 - `profiles/synthetic-otlp/` is the smallest generic profile and the non-OTel acceptance baseline.
 - `profiles/minimal-production-eval/` shows conservative pinning and external registry overrides.
