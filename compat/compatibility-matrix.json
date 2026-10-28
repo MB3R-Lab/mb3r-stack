@@ -20,7 +20,9 @@
         "stochasticConnectivity": "1.0.0",
         "procrustesGoal": "0.1.0",
         "procrustesReport": "0.1.0",
-        "procrustesCollectionPlan": "0.1.0"
+        "procrustesCollectionPlan": "0.1.0",
+        "procrustesEbpfReport": "0.2.0",
+        "procrustesEbpfCollectionPlan": "0.2.0"
       },
       "dashboards": {
         "bering": "1.0.0",
@@ -30,7 +32,7 @@
         "Targets a first-class declared OBI source in Bering; raw collector data enters Bering without external graph construction.",
         "The new ebpf-obi profile forwards a source ID, source type, collection domain and optional raw-capture path.",
         "No collector is installed and no eBPF privileges are added to Bering.",
-        "Procrustes source revision and source-aware report/collection-plan contract details await final upstream metadata.",
+        "Procrustes remains preview 0.1.0 at merged source revision 39f76000f8a39c971155e08ebffde829b525911b; native report/plan 0.1.0 and explicitly selected OBI report/plan 0.2.0 remain distinct.",
         "Historical verified entries retain their original component pairing and evidence."
       ],
       "procrustesVersion": "0.1.0"

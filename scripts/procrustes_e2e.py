@@ -62,7 +62,51 @@ def main() -> int:
         check(any(endpoint["id"] == "frontend:GET /checkout" for endpoint in model["endpoints"]),
               "Bering must preserve the preflight operation")
         check(bool(model["edges"]), "Bering must discover the observed runtime edge")
-    print("procrustes-stack-e2e-ok ready=EXPECTED missing-scenario=BLOCKED overlay=accepted")
+
+        ebpf_output = work / "ebpf-preflight"
+        subprocess.run([sys.executable, str(launcher), "--", "analyze",
+            "--source", f"ready={source / 'testdata' / 'ready'}",
+            "--goal", str(source / "testdata" / "ready" / "goal.yaml"),
+            "--collection-source", "ebpf-obi", "--source-domain", "stack-handoff",
+            "--out-dir", str(ebpf_output)], check=True)
+        ebpf_report = json.loads((ebpf_output / "report.json").read_text())
+        ebpf_plan = json.loads((ebpf_output / "collection-plan.json").read_text())
+        check(ebpf_report["goal_status"] == "PARTIAL", "declared OBI coverage must remain partial")
+        check(ebpf_report["contract"]["version"] == "0.2.0" and ebpf_plan["contract"]["version"] == "0.2.0",
+              "OBI handoff must use its explicit report and plan contracts")
+        check(len(ebpf_plan["trace_sources"]) == 1 and ebpf_plan["trace_sources"][0]["bering_input"] == "ebpf-obi"
+              and ebpf_plan["trace_sources"][0]["domain"] == "stack-handoff",
+              "collection source and domain must survive the packaged launcher")
+        ebpf_overlay = yaml.safe_load((ebpf_output / "bering.overlay.yaml").read_text())
+        check(not ebpf_overlay.get("edges"), "OBI preflight must not invent runtime edges")
+
+        # Synthetic collector-format input checks the handoff; actual kernel
+        # attachment is validated by the upstream Bering collector smoke.
+        raw_export = work / "raw-obi-export.json"
+        raw_export.write_text(json.dumps({"resourceSpans": [
+            {"resource": {"attributes": [{"key": "service.name", "value": {"stringValue": service}}]},
+             "scopeSpans": [{"spans": [{
+                 "traceId": "00000000000000000000000000000001", "spanId": span,
+                 **({"parentSpanId": "0000000000000001"} if service == "checkout" else {}),
+                 "kind": "SPAN_KIND_SERVER", "name": "GET /checkout" if service == "frontend" else "process",
+                 "attributes": ([{"key": "http.request.method", "value": {"stringValue": "GET"}},
+                                 {"key": "http.route", "value": {"stringValue": "/checkout"}}]
+                                if service == "frontend" else []),
+             }]}]}
+            for service, span in (("frontend", "0000000000000001"), ("checkout", "0000000000000002"))
+        ]}))
+        ebpf_model, ebpf_snapshot = work / "ebpf-model.json", work / "ebpf-snapshot.json"
+        subprocess.run([str(bering), "discover", "--input", str(raw_export), "--input-type", "ebpf-obi",
+            "--source-domain", "stack-handoff", "--overlay", str(ebpf_output / "bering.overlay.yaml"),
+            "--out", str(ebpf_model), "--snapshot-out", str(ebpf_snapshot)], check=True)
+        for artifact in (ebpf_model, ebpf_snapshot):
+            subprocess.run([str(bering), "validate", "--input", str(artifact)], check=True)
+        discovered = json.loads(ebpf_snapshot.read_text())
+        check(any(item.get("type") == "ebpf" and item.get("connector") == "obi"
+                  for item in discovered["sources"]), "Bering must retain declared collector provenance")
+        check(any(edge["from"] == "frontend" and edge["to"] == "checkout"
+                  for edge in discovered["model"]["edges"]), "Bering must recover the synthetic observed call")
+    print("procrustes-stack-e2e-ok ready=EXPECTED missing-scenario=BLOCKED overlay=accepted ebpf=PARTIAL source=accepted")
     return 0
 
 

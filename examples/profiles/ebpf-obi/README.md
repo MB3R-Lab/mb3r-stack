@@ -5,6 +5,31 @@ OpenTelemetry eBPF Instrumentation (OBI) collector. It targets Bering 1.1.0 and
 the stack 1.3.0 candidate. Upstream release pins and integration verification
 are pending; this candidate must not be published or installed with TODO pins.
 
+## Static collection handoff
+
+Prepare an explicit OBI collection plan using the merged Procrustes revision
+pinned in the stack manifest before collecting runtime observations:
+
+```bash
+python scripts/procrustes.py -- analyze \
+  --source deployment=./manifests --goal goal.yaml \
+  --collection-source ebpf-obi --source-domain production --out-dir preflight
+```
+
+The launcher forwards these arguments to the pinned CLI. The selected OBI mode
+emits report and collection-plan contract `0.2.0`; the goal and default native
+report/plan remain `0.1.0`. Kernel access, process coverage, export delivery and
+causal context remain `UNKNOWN`, so valid static inputs can produce `PARTIAL`.
+An explicit source selection does not establish runtime readiness. Identity
+conflicts and missing deployment or operation evidence remain visible.
+
+Inspect the emitted collection plan and overlay. Confirmed inventory facts and
+declared operation semantics are distinct from runtime-discovered dependencies.
+The profile does not automatically read the local `preflight` directory; apply
+an appropriate overlay through Bering's explicit file/configuration handoff.
+
+## Runtime source
+
 Once those pins are finalized, enable the profile with:
 
 ```bash
