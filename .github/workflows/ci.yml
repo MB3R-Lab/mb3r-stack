@@ -59,3 +59,13 @@ jobs:
 
       - name: Release dry run
         run: make release-dry-run
+
+      - name: Retain runtime handoff diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: stack-runtime-handoff
+          path: .tmp/acceptance-generic/**
+          include-hidden-files: true
+          if-no-files-found: warn
+          retention-days: 7
