@@ -1,7 +1,7 @@
 # External OBI source handoff
 
 This profile prepares the Bering source configuration for an external
-OpenTelemetry eBPF Instrumentation (OBI) collector. It targets Bering 1.1.0 and
+OpenTelemetry eBPF Instrumentation (OBI) collector. It targets Bering 1.1.1 and
 the stack 1.3.0 candidate. Both upstream release pins are finalized; complete
 stack integration verification remains pending. This profile supplies an
 explicit source configuration rather than a verified collector installation.

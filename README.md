@@ -4,7 +4,7 @@
 [![checks](https://img.shields.io/github/actions/workflow/status/MB3R-Lab/mb3r-stack/ci.yml?branch=main&label=checks)](https://github.com/MB3R-Lab/mb3r-stack/actions/workflows/ci.yml)
 [![bundle](https://img.shields.io/badge/bundle-1.3.0_candidate-orange)](https://github.com/MB3R-Lab/mb3r-stack/blob/main/compat/stack-manifest.json)
 
-The working `1.3.0` candidate targets Bering `1.1.0`, Sheaft `1.3.2`, and a new
+The working `1.3.0` candidate targets Bering `1.1.1`, Sheaft `1.3.2`, and a new
 Procrustes source pin. Bering and Sheaft commits and image digests match their
 published release manifests. Complete stack verification and review are pending;
 this candidate is not a verified stack release.

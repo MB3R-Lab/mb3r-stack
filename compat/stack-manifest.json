@@ -8,8 +8,8 @@
     "releaseDate": "2026-10-28",
     "notes": [
       "Candidate integration update with published upstream release pins; stack verification is pending.",
-      "Targets Bering 1.1.0 and Sheaft 1.3.2 with a separately pinned Procrustes source revision.",
-      "Bering 1.1.0 commit and OCI digest match its published release manifest at https://github.com/MB3R-Lab/Bering/releases/tag/v1.1.0.",
+      "Targets Bering 1.1.1 and Sheaft 1.3.2 with a separately pinned Procrustes source revision.",
+      "Bering 1.1.1 commit and OCI digest match its published release manifest at https://github.com/MB3R-Lab/Bering/releases/tag/v1.1.1.",
       "Sheaft 1.3.2 commit and OCI digest match its published release manifest at https://github.com/MB3R-Lab/Sheaft/releases/tag/v1.3.2.",
       "The chart forwards bering.config.sources to Bering and provides an opt-in external OBI source profile.",
       "OBI remains a separately deployed Linux collector; Bering and Sheaft retain their existing unprivileged installation.",
@@ -67,11 +67,11 @@
       }
     },
     "bering": {
-      "version": "1.1.0",
+      "version": "1.1.1",
       "image": {
         "repository": "ghcr.io/mb3r-lab/bering",
-        "tag": "v1.1.0",
-        "digest": "sha256:8357f1ab3262d32813dba3811a1c642ae2a659e9b1f1482ce071a82589ae5511"
+        "tag": "v1.1.1",
+        "digest": "sha256:f39d2241d9631fec070ece4aa8e96687b16e1d480cef2a95d7a2f4db74da6cea"
       },
       "contracts": {
         "collectorExport": "v1alpha1",
@@ -79,7 +79,7 @@
       },
       "source": {
         "repository": "https://github.com/MB3R-Lab/Bering.git",
-        "commit": "4f39af04f38e71f8c215a434adc3e3847ad86f21"
+        "commit": "dccd1bca39b6ee85a79e5e245bdd2e727f0da1a3"
       }
     },
     "sheaft": {
