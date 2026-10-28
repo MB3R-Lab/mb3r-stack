@@ -39,6 +39,9 @@ jobs:
       - name: Validate repository
         run: make validate
 
+      - name: Native and declared OBI source runtime handoff
+        run: make e2e-generic
+
       - name: Adapter end-to-end contracts
         run: make e2e-adapters
 
