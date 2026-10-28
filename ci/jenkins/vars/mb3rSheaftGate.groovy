@@ -16,7 +16,7 @@ def call(Map config = [:]) {
         [
             "MB3R_DISCOVERY_REPORT=${config.discoveryReport ?: '.mb3r/bering/bering-discovery.json'}",
             "MB3R_PAYLOAD_JSON=${payloadPath}",
-            "MB3R_IMAGE_REF=${config.imageRef ?: 'ghcr.io/mb3r-lab/sheaft@sha256:543771ca12722147578bf7a99dd07c5477c7fe15e7404cf6659a2a02f203a93b'}"
+            "MB3R_IMAGE_REF=${config.imageRef ?: 'ghcr.io/mb3r-lab/sheaft@TODO-SHEAFT-1.3.2-IMAGE-DIGEST'}"
         ]
     )
 
@@ -43,7 +43,7 @@ def call(Map config = [:]) {
         adapter: 'jenkins-shared-library',
         generatedAt: AdapterSupport.now(),
         discoveryReport: config.discoveryReport ?: '.mb3r/bering/bering-discovery.json',
-        imageRef: config.imageRef ?: 'ghcr.io/mb3r-lab/sheaft@sha256:543771ca12722147578bf7a99dd07c5477c7fe15e7404cf6659a2a02f203a93b',
+        imageRef: config.imageRef ?: 'ghcr.io/mb3r-lab/sheaft@TODO-SHEAFT-1.3.2-IMAGE-DIGEST',
         command: config.command ?: '',
         decision: decision,
         status: status,

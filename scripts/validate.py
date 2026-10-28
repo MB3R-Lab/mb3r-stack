@@ -78,10 +78,20 @@ def validate_chart() -> None:
             ROOT / "examples" / "profiles" / "synthetic-otlp" / "values.yaml",
             ROOT / "examples" / "profiles" / "minimal-production-eval" / "values.yaml",
             ROOT / "examples" / "profiles" / "otel-demo" / "mb3r-values.yaml",
+            ROOT / "examples" / "profiles" / "ebpf-obi" / "values.yaml",
         ):
             render = maybe_run_command(["helm", "template", "mb3r", str(chart_dir), "-f", str(values_path)])
             if render.returncode != 0:
                 raise ValueError((render.stdout + render.stderr).strip())
+            if values_path.parent.name == "ebpf-obi":
+                documents = [doc for doc in yaml.safe_load_all(render.stdout) if isinstance(doc, dict)]
+                config_maps = [doc for doc in documents if doc.get("kind") == "ConfigMap"
+                               and doc.get("metadata", {}).get("labels", {}).get("app.kubernetes.io/component") == "bering"]
+                check(len(config_maps) == 1, "eBPF profile must render one Bering ConfigMap")
+                bering_config = yaml.safe_load(config_maps[0]["data"]["serve.yaml"])
+                expected_sources = load_yaml(values_path)["bering"]["config"]["sources"]
+                check(bering_config.get("sources") == expected_sources,
+                      "eBPF source ID, type, domain and capture path must survive Helm rendering")
 
         failure_render = maybe_run_command(
             [
@@ -131,6 +141,7 @@ def validate_yaml_files() -> None:
         ROOT / "examples" / "profiles" / "failure-tolerance" / "values.yaml",
         ROOT / "examples" / "profiles" / "minimal-production-eval" / "values.yaml",
         ROOT / "examples" / "profiles" / "minimal-production-eval" / "collector-patch.yaml",
+        ROOT / "examples" / "profiles" / "ebpf-obi" / "values.yaml",
         ROOT / "examples" / "profiles" / "otel-demo" / "mb3r-values.yaml",
         ROOT / "examples" / "profiles" / "otel-demo" / "collector-patch.yaml",
         ROOT / "examples" / "profiles" / "otel-demo" / "opentelemetry-demo-values.yaml",

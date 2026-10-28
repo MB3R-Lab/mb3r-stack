@@ -39,7 +39,17 @@ Required evidence:
 
 OpenTelemetry Demo can be part of the evidence set, but it is not sufficient by itself because it is a showcase profile rather than the core compatibility path.
 
-## Current Bundle
+## Candidate Bundle
+
+The `1.3.0` candidate targets Bering `1.1.0`, Sheaft `1.3.2` and an updated
+Procrustes source revision. Its compatibility state is `todo-verify`; commits,
+published image digests and upstream source-aware contract details are pending.
+The new [OBI source profile](../examples/profiles/ebpf-obi/README.md) must pass
+source-enabled Helm rendering and runtime handoff checks before promotion.
+Existing native OTLP and adapter checks remain required. Upstream collector
+smoke evidence alone does not verify this stack's installation and handoff.
+
+## Published 1.2.0 Bundle
 
 `mb3r-stack` `1.2.0` is a verified stack entry for:
 

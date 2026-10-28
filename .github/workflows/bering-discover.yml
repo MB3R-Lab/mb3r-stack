@@ -14,7 +14,7 @@ on:
         default: ""
       image-ref:
         type: string
-        default: "ghcr.io/mb3r-lab/bering@sha256:ac960e908df7fb7defb4ce950d2e54ff8d8f65f7cd5e5f723d424cb425248bad"
+        default: "ghcr.io/mb3r-lab/bering@TODO-BERING-1.1.0-IMAGE-DIGEST"
       artifact-name:
         type: string
         default: "mb3r-bering-discovery"

@@ -1,8 +1,40 @@
 {
   "$schema": "../schemas/compatibility-matrix.schema.json",
   "schemaVersion": "1.0.0",
-  "generatedAt": "2026-10-15",
+  "generatedAt": "2026-10-28",
   "entries": [
+    {
+      "stackVersion": "1.3.0",
+      "beringVersion": "1.1.0",
+      "sheaftVersion": "1.3.2",
+      "chartVersion": "1.3.0",
+      "compatibilityState": "todo-verify",
+      "evidence": "Pending upstream release manifests, exact source revisions, image digests and stack integration CI; no verified compatibility claim.",
+      "contracts": {
+        "collectorExport": "v1alpha1",
+        "discoveryReport": "v1alpha1",
+        "gateDecision": "v1alpha1",
+        "reportPayload": "v1alpha1",
+        "beringModel": "1.3.0",
+        "beringSnapshot": "1.3.0",
+        "stochasticConnectivity": "1.0.0",
+        "procrustesGoal": "0.1.0",
+        "procrustesReport": "0.1.0",
+        "procrustesCollectionPlan": "0.1.0"
+      },
+      "dashboards": {
+        "bering": "1.0.0",
+        "sheaft": "1.0.0"
+      },
+      "notes": [
+        "Targets a first-class declared OBI source in Bering; raw collector data enters Bering without external graph construction.",
+        "The new ebpf-obi profile forwards a source ID, source type, collection domain and optional raw-capture path.",
+        "No collector is installed and no eBPF privileges are added to Bering.",
+        "Procrustes source revision and source-aware report/collection-plan contract details await final upstream metadata.",
+        "Historical verified entries retain their original component pairing and evidence."
+      ],
+      "procrustesVersion": "0.1.0"
+    },
     {
       "stackVersion": "1.2.0",
       "beringVersion": "1.0.0",
