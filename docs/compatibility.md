@@ -39,6 +39,10 @@ Required evidence:
 
 OpenTelemetry Demo can be part of the evidence set, but it is not sufficient by itself because it is a showcase profile rather than the core compatibility path.
 
+## Candidate 1.4.0 Bundle
+
+Current main pins published Bering `v1.2.0` and Sheaft `v1.3.2` with unchanged Bering model/snapshot `1.3.0` contracts. The chart exposes `bering.config.runtime.publicationMode` (default `windowed`) and `bering.config.runtime.reconciliation.enabled` (default `true`). To use Bering's opt-in `on_shutdown` publication, set both `publicationMode: on_shutdown` and `reconciliation.enabled: false`. This collects one batch until shutdown; the external orchestrator must permit finalization to complete. Full stack integration verification is pending. The `1.3.0` entry below retains its original pins and evidence.
+
 ## Verified 1.3.0 Bundle
 
 The verified `1.3.0` bundle pins Bering `1.1.1`, Sheaft `1.3.2` and an updated

@@ -13,6 +13,9 @@ data:
       grpc_listen_address: {{ include "mb3r-stack.beringGrpcListenAddress" . | quote }}
       max_request_bytes: {{ .Values.bering.config.server.maxRequestBytes | int }}
     runtime:
+      publication_mode: {{ .Values.bering.config.runtime.publicationMode | quote }}
+      reconciliation:
+        enabled: {{ .Values.bering.config.runtime.reconciliation.enabled }}
       flush_interval: {{ .Values.bering.config.runtime.flushInterval | quote }}
       window_size: {{ .Values.bering.config.runtime.windowSize | quote }}
       max_in_memory_spans: {{ .Values.bering.config.runtime.maxInMemorySpans }}

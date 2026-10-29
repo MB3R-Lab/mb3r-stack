@@ -74,6 +74,22 @@ def validate_chart() -> None:
         result = maybe_run_command(["helm", "lint", str(chart_dir)])
         if result.returncode != 0:
             raise ValueError((result.stdout + result.stderr).strip())
+        for mode, reconciliation in (("windowed", True), ("on_shutdown", False)):
+            command = ["helm", "template", "mb3r", str(chart_dir), "--set", "bering.enabled=true"]
+            if mode == "on_shutdown":
+                command += ["--set", "bering.config.runtime.publicationMode=on_shutdown",
+                            "--set", "bering.config.runtime.reconciliation.enabled=false"]
+            render = maybe_run_command(command)
+            if render.returncode != 0:
+                raise ValueError((render.stdout + render.stderr).strip())
+            documents = [doc for doc in yaml.safe_load_all(render.stdout) if isinstance(doc, dict)]
+            config_maps = [doc for doc in documents if doc.get("kind") == "ConfigMap"
+                           and doc.get("metadata", {}).get("labels", {}).get("app.kubernetes.io/component") == "bering"]
+            check(len(config_maps) == 1, "Bering profile must render one ConfigMap")
+            runtime = yaml.safe_load(config_maps[0]["data"]["serve.yaml"])["runtime"]
+            check(runtime.get("publication_mode") == mode, "Bering publication mode did not survive Helm rendering")
+            check(runtime.get("reconciliation", {}).get("enabled") is reconciliation,
+                  "Bering reconciliation setting did not survive Helm rendering")
         for values_path in (
             ROOT / "examples" / "profiles" / "synthetic-otlp" / "values.yaml",
             ROOT / "examples" / "profiles" / "minimal-production-eval" / "values.yaml",

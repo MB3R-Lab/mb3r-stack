@@ -2,9 +2,7 @@
 
 These examples are intentionally small and operator-editable.
 
-They track the verified `mb3r-stack v1.3.0` bundle and the pinned runtime pair Bering
-`1.1.1` plus Sheaft `1.3.2`. External CI examples use the matching `v1.3.0`
-published bundle tag. The latest release is
+The current Helm profile values track the `1.4.0` candidate with Bering `1.2.0` and Sheaft `1.3.2`. External CI examples still reference the published `v1.3.0` bundle tag until the new bundle is verified and released. The latest release is
 [v1.3.0](https://github.com/MB3R-Lab/mb3r-stack/releases/tag/v1.3.0).
 Historical release packs retain their own component pins.
 

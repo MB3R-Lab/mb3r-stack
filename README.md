@@ -12,6 +12,8 @@ The latest published stack is [1.3.0](https://github.com/MB3R-Lab/mb3r-stack/rel
 released from tag revision `8a6dc136d67a55a8609cb9a82f6385895713603c` through
 [publication and public-download checks](https://github.com/MB3R-Lab/mb3r-stack/actions/runs/40642477259).
 
+The current `1.4.0` candidate pins published Bering `v1.2.0` and Sheaft `v1.3.2`. Its Helm defaults preserve continuous `windowed` publication with reconciliation enabled. For one complete export, set `bering.config.runtime.publicationMode=on_shutdown` and `bering.config.runtime.reconciliation.enabled=false`; the orchestrator must allow shutdown finalization to finish. The candidate is not a published or verified stack release.
+
 ## Related MB3R repositories
 
 [Procrustes](https://github.com/MB3R-Lab/Procrustes) owns static preflight before trace collection; [Bering](https://github.com/MB3R-Lab/Bering) owns discovery and artifact publishing; [Sheaft v1.3.2](https://github.com/MB3R-Lab/Sheaft/releases/tag/v1.3.2) owns downstream resilience analysis and CI/CD gating. This repository integrates all three tools.

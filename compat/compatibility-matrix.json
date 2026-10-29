@@ -4,6 +4,38 @@
   "generatedAt": "2026-10-28",
   "entries": [
     {
+      "stackVersion": "1.4.0",
+      "beringVersion": "1.2.0",
+      "sheaftVersion": "1.3.2",
+      "chartVersion": "1.4.0",
+      "compatibilityState": "candidate",
+      "evidence": "Bering v1.2.0 and Sheaft v1.3.2 published pins are recorded; full stack integration CI and bundle publication are pending.",
+      "contracts": {
+        "collectorExport": "v1alpha1",
+        "discoveryReport": "v1alpha1",
+        "gateDecision": "v1alpha1",
+        "reportPayload": "v1alpha1",
+        "beringModel": "1.3.0",
+        "beringSnapshot": "1.3.0",
+        "stochasticConnectivity": "1.0.0",
+        "procrustesGoal": "0.1.0",
+        "procrustesReport": "0.1.0",
+        "procrustesCollectionPlan": "0.1.0",
+        "procrustesEbpfReport": "0.2.0",
+        "procrustesEbpfCollectionPlan": "0.2.0"
+      },
+      "dashboards": {
+        "bering": "1.0.0",
+        "sheaft": "1.0.0"
+      },
+      "notes": [
+        "Default windowed publication and reconciliation remain enabled. on_shutdown is opt-in and requires reconciliation.enabled=false.",
+        "Bering model/snapshot 1.3.0 and adapter envelope v1alpha1 contracts remain unchanged.",
+        "Historical verified 1.3.0 entry retains its original evidence and pins."
+      ],
+      "procrustesVersion": "0.1.0"
+    },
+    {
       "stackVersion": "1.3.0",
       "beringVersion": "1.1.1",
       "sheaftVersion": "1.3.2",
