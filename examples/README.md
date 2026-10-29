@@ -2,7 +2,7 @@
 
 These examples are intentionally small and operator-editable.
 
-The current Helm profile values track the unpublished `1.5.0` candidate with published Bering `1.3.0` and Sheaft `1.3.2`; final stack compatibility evidence is still pending. External CI examples continue to use the latest published `v1.4.0` tag. The latest release is
+The current Helm profile values track the unpublished `1.5.0` candidate with published Bering `1.3.0` and Sheaft `1.3.2`; final stack compatibility evidence is still pending. External CI examples use the planned `v1.5.0` bundle tag for release coherence, but that tag is not published yet and must not be treated as installable before release. The latest published release remains
 [v1.4.0](https://github.com/MB3R-Lab/mb3r-stack/releases/tag/v1.4.0).
 Historical release packs retain their own component pins.
 
