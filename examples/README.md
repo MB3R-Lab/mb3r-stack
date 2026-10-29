@@ -2,8 +2,8 @@
 
 These examples are intentionally small and operator-editable.
 
-The current Helm profile values track the verified `1.4.0` bundle with Bering `1.2.0` and Sheaft `1.3.2`. External CI examples stage `v1.4.0` references for integration validation; operators should use the published `v1.3.0` tag until `v1.4.0` is released. The latest release is
-[v1.3.0](https://github.com/MB3R-Lab/mb3r-stack/releases/tag/v1.3.0).
+The current Helm profile values track the published `1.4.0` bundle with Bering `1.2.0` and Sheaft `1.3.2`. External CI examples use the matching `v1.4.0` tag. The latest release is
+[v1.4.0](https://github.com/MB3R-Lab/mb3r-stack/releases/tag/v1.4.0).
 Historical release packs retain their own component pins.
 
 - `profiles/synthetic-otlp/` is the smallest generic profile and the non-OTel acceptance baseline.

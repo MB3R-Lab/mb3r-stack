@@ -1,18 +1,17 @@
 # mb3r-stack
 
-[![release](https://img.shields.io/badge/release-v1.3.0-blue)](https://github.com/MB3R-Lab/mb3r-stack/releases/tag/v1.3.0)
+[![release](https://img.shields.io/badge/release-v1.4.0-blue)](https://github.com/MB3R-Lab/mb3r-stack/releases/tag/v1.4.0)
 [![checks](https://img.shields.io/github/actions/workflow/status/MB3R-Lab/mb3r-stack/ci.yml?branch=main&label=checks)](https://github.com/MB3R-Lab/mb3r-stack/actions/workflows/ci.yml)
-[![bundle](https://img.shields.io/badge/bundle-1.3.0_verified-brightgreen)](https://github.com/MB3R-Lab/mb3r-stack/blob/main/compat/stack-manifest.json)
+[![bundle](https://img.shields.io/badge/bundle-1.4.0_verified-brightgreen)](https://github.com/MB3R-Lab/mb3r-stack/blob/main/compat/stack-manifest.json)
 
-The verified `1.3.0` bundle pins Bering `1.1.1`, Sheaft `1.3.2`, and a new
-Procrustes source pin. Bering and Sheaft commits and image digests match their
-published release manifests. [Integration CI passed](https://github.com/MB3R-Lab/mb3r-stack/actions/runs/40640730443)
-on revision `a456508ac1be4ccd34437d101ec7a4084b95f517`.
-The latest published stack is [1.3.0](https://github.com/MB3R-Lab/mb3r-stack/releases/tag/v1.3.0),
-released from tag revision `8a6dc136d67a55a8609cb9a82f6385895713603c` through
-[publication and public-download checks](https://github.com/MB3R-Lab/mb3r-stack/actions/runs/40642477259).
+The verified `1.4.0` bundle pins Bering `1.2.0`, Sheaft `1.3.2`, and an exact
+Procrustes source revision. [Integration CI passed](https://github.com/MB3R-Lab/mb3r-stack/actions/runs/40800490711)
+on the release-ready revision. The latest published stack is
+[v1.4.0](https://github.com/MB3R-Lab/mb3r-stack/releases/tag/v1.4.0), released
+from tag revision `06dc632c24771f91abf7472f9d73887757e7b603` through
+[publication and public-download checks](https://github.com/MB3R-Lab/mb3r-stack/actions/runs/40800899484).
 
-The verified `1.4.0` bundle pins published Bering `v1.2.0` and Sheaft `v1.3.2`. Its Helm defaults preserve continuous `windowed` publication with reconciliation enabled. For one complete export, set `bering.config.runtime.publicationMode=on_shutdown` and `bering.config.runtime.reconciliation.enabled=false`; the orchestrator must allow shutdown finalization to finish. The bundle has passed integration checks and is ready for publication; the latest published release is listed above.
+Its Helm defaults preserve continuous `windowed` publication with reconciliation enabled. For one complete export, set `bering.config.runtime.publicationMode=on_shutdown` and `bering.config.runtime.reconciliation.enabled=false`; the orchestrator must allow shutdown finalization to finish.
 
 ## Related MB3R repositories
 
@@ -81,10 +80,10 @@ The [three-tool reproduction repository](https://github.com/MB3R-Lab/mb3r-softwa
 - DeathStarBench empirical anchor: [Model Discovery and Graph Simulation: A Lightweight Gateway to Chaos Engineering](https://www.alphaxiv.org/abs/2506.11176)
 - OpenTelemetry Demo async-semantics case study: [Evaluating Asynchronous Semantics in Trace-Discovered Resilience Models: A Case Study on the OpenTelemetry Demo](https://www.alphaxiv.org/abs/2512.12314v1)
 
-Packaged assets for the `1.3.0` bundle are:
+Packaged assets for the `1.4.0` bundle are:
 
-- `dist/charts/mb3r-stack-1.3.0.tgz`
-- `dist/assets/mb3r-assets-1.3.0.tgz`
+- `dist/charts/mb3r-stack-1.4.0.tgz`
+- `dist/assets/mb3r-assets-1.4.0.tgz`
 - `dist/release-manifest.json`
 - `dist/SHA256SUMS.txt`
 - `dist/sbom.cdx.json`
