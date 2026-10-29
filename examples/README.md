@@ -2,7 +2,7 @@
 
 These examples are intentionally small and operator-editable.
 
-The current Helm profile values track the `1.4.0` candidate with Bering `1.2.0` and Sheaft `1.3.2`. External CI examples stage `v1.4.0` references for integration validation; operators should use the published `v1.3.0` tag until the candidate is verified and released. The latest release is
+The current Helm profile values track the `1.4.0` candidate with Bering `1.2.0` and Sheaft `1.3.2`. External CI examples stage `v1.4.0` references for integration validation; operators should use the published `v1.3.0` tag until the candidate is released. The latest release is
 [v1.3.0](https://github.com/MB3R-Lab/mb3r-stack/releases/tag/v1.3.0).
 Historical release packs retain their own component pins.
 
