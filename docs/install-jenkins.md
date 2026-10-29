@@ -24,6 +24,6 @@ Use the library by tag:
 @Library('mb3r-stack@v1.5.0') _
 ```
 
-The example is staged for the planned `v1.5.0` bundle tag. That tag is not
-published while this candidate remains `todo-verify`; use it only after the
-release is published.
+The example is staged for the planned `v1.5.0` bundle tag. The source is
+compatibility-verified and release-ready, but the tag is not published yet;
+use it only after the release is published.

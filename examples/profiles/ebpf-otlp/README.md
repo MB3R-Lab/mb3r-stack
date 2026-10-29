@@ -2,9 +2,9 @@
 
 This profile declares a producer-neutral eBPF OTLP boundary in Bering. The
 external producer is selected and operated separately; the stack neither asks
-for a vendor name nor deploys kernel instrumentation. The candidate targets
-Bering 1.3.0 at its published immutable image pin. The stack compatibility
-entry remains unverified until final integration CI evidence is recorded.
+for a vendor name nor deploys kernel instrumentation. The release-ready source
+targets Bering 1.3.0 at its published immutable image pin. Stack compatibility
+was verified at the exact revision recorded in the compatibility matrix.
 
 ## Static collection handoff
 
@@ -24,7 +24,7 @@ contains static inventory and operation facts but no invented runtime edges.
 
 ## Runtime source
 
-Render the candidate with:
+Render the release-ready source with:
 
 ```bash
 helm upgrade --install mb3r charts/mb3r-stack \

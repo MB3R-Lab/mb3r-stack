@@ -16,10 +16,10 @@ The reusable workflows are an integration wrapper. They do not ship Bering or Sh
 
 Use the example caller in `examples/github/example-caller.yml` or `.github/workflows/example-consumer.yml` as a starting point.
 
-The external example is staged for the planned `v1.5.0` bundle tag. That tag is
-not published while this candidate remains `todo-verify`; use it only after the
-release is published. The in-repository example continues to use local workflow
-references for candidate CI.
+The external example is staged for the planned `v1.5.0` bundle tag. The source
+is compatibility-verified and release-ready, but the tag is not published yet;
+use it only after the release is published. The in-repository example continues
+to use local workflow references for pre-release CI.
 
 Typical flow:
 
