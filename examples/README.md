@@ -2,9 +2,9 @@
 
 These examples are intentionally small and operator-editable.
 
-The current Helm profile values track the verified, release-ready `1.5.0` source with published Bering `1.3.0` and Sheaft `1.3.2`. External CI examples use the planned `v1.5.0` bundle tag for release coherence, but that tag is not published yet and must not be treated as installable before release. The latest published release remains
-[v1.4.0](https://github.com/MB3R-Lab/mb3r-stack/releases/tag/v1.4.0).
-Historical release packs retain their own component pins.
+The current Helm profile values track the published `v1.5.0` bundle with Bering `1.3.0` and Sheaft `1.3.2`. External CI examples use the published `v1.5.0` tag for release coherence. Historical release packs, including
+[v1.4.0](https://github.com/MB3R-Lab/mb3r-stack/releases/tag/v1.4.0),
+retain their own component pins.
 
 - `profiles/synthetic-otlp/` is the smallest generic profile and the non-OTel acceptance baseline.
 - `profiles/minimal-production-eval/` shows conservative pinning and external registry overrides.
