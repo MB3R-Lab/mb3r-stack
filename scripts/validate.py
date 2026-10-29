@@ -95,11 +95,12 @@ def validate_chart() -> None:
             ROOT / "examples" / "profiles" / "minimal-production-eval" / "values.yaml",
             ROOT / "examples" / "profiles" / "otel-demo" / "mb3r-values.yaml",
             ROOT / "examples" / "profiles" / "ebpf-obi" / "values.yaml",
+            ROOT / "examples" / "profiles" / "ebpf-otlp" / "values.yaml",
         ):
             render = maybe_run_command(["helm", "template", "mb3r", str(chart_dir), "-f", str(values_path)])
             if render.returncode != 0:
                 raise ValueError((render.stdout + render.stderr).strip())
-            if values_path.parent.name == "ebpf-obi":
+            if values_path.parent.name in {"ebpf-obi", "ebpf-otlp"}:
                 documents = [doc for doc in yaml.safe_load_all(render.stdout) if isinstance(doc, dict)]
                 config_maps = [doc for doc in documents if doc.get("kind") == "ConfigMap"
                                and doc.get("metadata", {}).get("labels", {}).get("app.kubernetes.io/component") == "bering"]
@@ -158,6 +159,7 @@ def validate_yaml_files() -> None:
         ROOT / "examples" / "profiles" / "minimal-production-eval" / "values.yaml",
         ROOT / "examples" / "profiles" / "minimal-production-eval" / "collector-patch.yaml",
         ROOT / "examples" / "profiles" / "ebpf-obi" / "values.yaml",
+        ROOT / "examples" / "profiles" / "ebpf-otlp" / "values.yaml",
         ROOT / "examples" / "profiles" / "otel-demo" / "mb3r-values.yaml",
         ROOT / "examples" / "profiles" / "otel-demo" / "collector-patch.yaml",
         ROOT / "examples" / "profiles" / "otel-demo" / "opentelemetry-demo-values.yaml",

@@ -4,6 +4,41 @@
   "generatedAt": "2026-10-29",
   "entries": [
     {
+      "stackVersion": "1.5.0",
+      "beringVersion": "1.3.0",
+      "sheaftVersion": "1.3.2",
+      "chartVersion": "1.5.0",
+      "compatibilityState": "todo-verify",
+      "evidence": "Candidate local checks cover the vendor-neutral ebpf-otlp configuration, Procrustes 0.3.0 handoff, exact raw capture, Bering artifact publication, and downstream Sheaft consumption. Component pins match the published Bering v1.3.0 and Sheaft v1.3.2 manifests. Final stack CI evidence is not recorded yet, so compatibility remains unverified.",
+      "contracts": {
+        "collectorExport": "v1alpha1",
+        "discoveryReport": "v1alpha1",
+        "gateDecision": "v1alpha1",
+        "reportPayload": "v1alpha1",
+        "beringModel": "1.3.0",
+        "beringSnapshot": "1.3.0",
+        "stochasticConnectivity": "1.0.0",
+        "procrustesGoal": "0.1.0",
+        "procrustesReport": "0.1.0",
+        "procrustesCollectionPlan": "0.1.0",
+        "procrustesEbpfReport": "0.2.0",
+        "procrustesEbpfCollectionPlan": "0.2.0",
+        "procrustesGenericEbpfReport": "0.3.0",
+        "procrustesGenericEbpfCollectionPlan": "0.3.0"
+      },
+      "dashboards": {
+        "bering": "1.0.0",
+        "sheaft": "1.0.0"
+      },
+      "notes": [
+        "The generic ebpf-otlp source declares only a logical source ID, source kind and deployment domain; it has no vendor parameter or collector fingerprint.",
+        "Bering retains accepted raw OTLP and owns runtime provenance, identity and causal evidence; source declaration alone is not eBPF-origin proof.",
+        "Bering model/snapshot 1.3.0, Sheaft 1.3.2 and adapter envelope v1alpha1 contracts remain unchanged.",
+        "The historical ebpf-obi source and all verified matrix entries remain unchanged."
+      ],
+      "procrustesVersion": "0.1.0"
+    },
+    {
       "stackVersion": "1.4.0",
       "beringVersion": "1.2.0",
       "sheaftVersion": "1.3.2",
