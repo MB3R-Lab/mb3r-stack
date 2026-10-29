@@ -39,8 +39,8 @@ bering:
   image:
     registry: ""
     repository: "ghcr.io/mb3r-lab/bering"
-    tag: "v1.2.0"
-    digest: "sha256:f706b79172a8322d53422de8d08a47d7779d0fbe2909511fa08385608b74c15b"
+    tag: "v1.3.0"
+    digest: "sha256:95c29e311edfb5297c8bc22da6201a122f07e9492770a384fe93d8fac7d0da9c"
     pullPolicy: IfNotPresent
   podLabels: {}
   podAnnotations: {}
@@ -92,8 +92,8 @@ bering:
       latestPath: /var/lib/mb3r/bering/latest.json
     logging:
       structured: true
-    # External Linux OBI collectors use these declared Bering source boundaries.
-    # The stack does not deploy OBI or grant eBPF privileges to Bering.
+    # External Linux eBPF OTLP producers use these declared Bering source boundaries.
+    # The stack does not deploy a producer or grant eBPF privileges to Bering.
     sources: []
     overlays: []
   prometheus:

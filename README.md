@@ -2,11 +2,14 @@
 
 [![release](https://img.shields.io/badge/release-v1.4.0-blue)](https://github.com/MB3R-Lab/mb3r-stack/releases/tag/v1.4.0)
 [![checks](https://img.shields.io/github/actions/workflow/status/MB3R-Lab/mb3r-stack/ci.yml?branch=main&label=checks)](https://github.com/MB3R-Lab/mb3r-stack/actions/workflows/ci.yml)
-[![bundle](https://img.shields.io/badge/bundle-1.4.0_verified-brightgreen)](https://github.com/MB3R-Lab/mb3r-stack/blob/main/compat/stack-manifest.json)
+[![bundle](https://img.shields.io/badge/bundle-1.5.0_verified-brightgreen)](https://github.com/MB3R-Lab/mb3r-stack/blob/main/compat/stack-manifest.json)
 
-The verified `1.4.0` bundle pins Bering `1.2.0`, Sheaft `1.3.2`, and an exact
-Procrustes source revision. [Integration CI passed](https://github.com/MB3R-Lab/mb3r-stack/actions/runs/40800490711)
-on the release-ready revision. The latest published stack is
+The release-ready `1.5.0` source advances to Bering `1.3.0`, keeps Sheaft
+`1.3.2`, and pins the merged Procrustes generic eBPF OTLP handoff. The Bering
+image uses its published immutable digest. Stack compatibility was verified by
+[CI run 40883389521](https://github.com/MB3R-Lab/mb3r-stack/actions/runs/40883389521)
+at revision `1d69e898be3ae40eeffd531ec294e864dd605a31`. The `v1.5.0` tag and bundle
+assets are not published by this source commit. The latest published stack is
 [v1.4.0](https://github.com/MB3R-Lab/mb3r-stack/releases/tag/v1.4.0), released
 from tag revision `06dc632c24771f91abf7472f9d73887757e7b603` through
 [publication and public-download checks](https://github.com/MB3R-Lab/mb3r-stack/actions/runs/40800899484).
@@ -58,11 +61,12 @@ preflight stage; no OCI artifact is invented for its preview.
 ## External eBPF source
 
 The chart forwards `bering.config.sources` to Bering. The opt-in
-[OBI source profile](examples/profiles/ebpf-obi/README.md) documents the raw
-collector handoff, collection-domain semantics and capture storage. OBI runs
-separately on Linux; this chart keeps Bering unprivileged. Source rendering and
-runtime handoff passed stack CI with synthetic raw OTLP inputs; collector
-attachment remains a separate upstream acceptance check.
+[generic eBPF OTLP profile](examples/profiles/ebpf-otlp/README.md) declares a
+producer-neutral source kind and logical domain without a vendor parameter.
+The historical [OBI profile](examples/profiles/ebpf-obi/README.md) remains
+available unchanged. External producers run separately on Linux; the chart
+keeps Bering unprivileged. Source declaration is not kernel-attachment or
+protocol-coverage evidence.
 
 ## Static preflight
 
@@ -80,10 +84,10 @@ The [three-tool reproduction repository](https://github.com/MB3R-Lab/mb3r-softwa
 - DeathStarBench empirical anchor: [Model Discovery and Graph Simulation: A Lightweight Gateway to Chaos Engineering](https://www.alphaxiv.org/abs/2506.11176)
 - OpenTelemetry Demo async-semantics case study: [Evaluating Asynchronous Semantics in Trace-Discovered Resilience Models: A Case Study on the OpenTelemetry Demo](https://www.alphaxiv.org/abs/2512.12314v1)
 
-Packaged assets for the `1.4.0` bundle are:
+Release asset names for `1.5.0` are:
 
-- `dist/charts/mb3r-stack-1.4.0.tgz`
-- `dist/assets/mb3r-assets-1.4.0.tgz`
+- `dist/charts/mb3r-stack-1.5.0.tgz`
+- `dist/assets/mb3r-assets-1.5.0.tgz`
 - `dist/release-manifest.json`
 - `dist/SHA256SUMS.txt`
 - `dist/sbom.cdx.json`

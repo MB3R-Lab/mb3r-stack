@@ -420,6 +420,7 @@ def exercise_local_handoff(
     sheaft_config: dict[str, Any],
     sheaft_analysis_text: str,
     source_id: str | None = None,
+    source_type: str = "ebpf-obi",
 ) -> dict[str, Any]:
     bering_bin = ensure_release_binary("bering", BERING_VERSION)
     sheaft_bin = ensure_release_binary("sheaft", SHEAFT_VERSION)
@@ -443,10 +444,13 @@ def exercise_local_handoff(
     local_bering_config["runtime"]["window_size"] = "5s"
     local_bering_config["sink"]["directory"] = snapshots_dir.as_posix()
     local_bering_config["sink"]["latest_path"] = (artifacts_dir / "latest.json").as_posix()
+    capture_name = "obi-capture" if source_type == "ebpf-obi" else "ebpf-capture"
     if source_id is not None:
+        check(source_type in {"ebpf-obi", "ebpf-otlp"}, f"unsupported eBPF source type: {source_type}")
         source = next((item for item in local_bering_config.get("sources", []) if item.get("id") == source_id), None)
-        check(source is not None and source.get("type") == "ebpf-obi", "OBI handoff requires its rendered source declaration")
-        source["capture_directory"] = (runtime_dir / "obi-capture").as_posix()
+        check(source is not None and source.get("type") == source_type,
+              f"{source_type} handoff requires its rendered source declaration")
+        source["capture_directory"] = (runtime_dir / capture_name).as_posix()
 
     local_sheaft_config["listen"] = f":{sheaft_port}"
     local_sheaft_config["artifact"]["path"] = local_bering_config["sink"]["latest_path"]
@@ -515,16 +519,17 @@ def exercise_local_handoff(
     run([str(bering_bin), "validate", "--input", str(latest_artifact)])
     if source_id is not None:
         snapshot = json.loads(latest_artifact.read_text(encoding="utf-8"))
-        check(any(item.get("type") == "ebpf" and item.get("connector") == "obi"
+        expected_connector = "obi" if source_type == "ebpf-obi" else "ebpf-otlp"
+        check(any(item.get("type") == "ebpf" and item.get("connector") == expected_connector
                   and item.get("observations") == 4 for item in snapshot["sources"]),
-              f"declared OBI source provenance/count must survive handoff: {snapshot['sources']}")
+              f"declared {source_type} provenance/count must survive handoff: {snapshot['sources']}")
         expected_edges = {("frontend", "checkout"), ("checkout", "inventory"), ("checkout", "payment")}
         check(len(snapshot["model"]["edges"]) == 3
               and {(edge["from"], edge["to"]) for edge in snapshot["model"]["edges"]} == expected_edges,
               "Bering must construct all three observed calls from raw source input")
-        captures = list((runtime_dir / "obi-capture").glob("*.json"))
+        captures = list((runtime_dir / capture_name).glob("*.json"))
         check(len(captures) == 1 and captures[0].read_bytes() == payload,
-              "configured OBI capture must preserve the exact submitted wire bytes")
+              f"configured {source_type} capture must preserve the exact submitted wire bytes")
 
     run(
         [

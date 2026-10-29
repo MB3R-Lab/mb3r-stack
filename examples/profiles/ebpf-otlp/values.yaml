@@ -1,0 +1,25 @@
+collector:
+  snippets:
+    enabled: false
+
+bering:
+  enabled: true
+  service:
+    publicName: bering-discovery
+  config:
+    sources:
+      - id: telemetry-main
+        type: ebpf-otlp
+        domain: production
+        capture_directory: /var/lib/mb3r/bering/ebpf-capture
+
+sheaft:
+  enabled: true
+  service:
+    publicName: sheaft-reports
+
+prometheusScrapeHooks:
+  enabled: false
+
+grafanaDashboards:
+  enabled: false

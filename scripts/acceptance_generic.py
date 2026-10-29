@@ -101,6 +101,22 @@ def run_acceptance(mode: str) -> None:
             sheaft_analysis_text=obi_sheaft["data"]["analysis.yaml"],
             source_id="obi-main",
         )
+        neutral_workdir = workdir / "generic-ebpf-source"
+        neutral_workdir.mkdir()
+        neutral_documents, _, _ = render_stack_chart(
+            neutral_workdir, ROOT / "examples" / "profiles" / "ebpf-otlp" / "values.yaml",
+            release_name=RELEASE_NAME,
+        )
+        neutral_bering = find_document(neutral_documents, "ConfigMap", f"{prefix}-bering-config")
+        neutral_sheaft = find_document(neutral_documents, "ConfigMap", f"{prefix}-sheaft-config")
+        exercise_local_handoff(
+            neutral_workdir,
+            bering_config=yaml.safe_load(neutral_bering["data"]["serve.yaml"]),
+            sheaft_config=yaml.safe_load(neutral_sheaft["data"]["sheaft.yaml"]),
+            sheaft_analysis_text=neutral_sheaft["data"]["analysis.yaml"],
+            source_id="telemetry-main",
+            source_type="ebpf-otlp",
+        )
 
 
 def main() -> int:

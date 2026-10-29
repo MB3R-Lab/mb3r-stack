@@ -106,7 +106,47 @@ def main() -> int:
                   for item in discovered["sources"]), "Bering must retain declared collector provenance")
         check(any(edge["from"] == "frontend" and edge["to"] == "checkout"
                   for edge in discovered["model"]["edges"]), "Bering must recover the synthetic observed call")
-    print("procrustes-stack-e2e-ok ready=EXPECTED missing-scenario=BLOCKED overlay=accepted ebpf=PARTIAL source=accepted")
+
+        generic_output = work / "generic-ebpf-preflight"
+        subprocess.run([sys.executable, str(launcher), "--", "analyze",
+            "--source", f"ready={source / 'testdata' / 'ready'}",
+            "--goal", str(source / "testdata" / "ready" / "goal.yaml"),
+            "--collection-source", "ebpf-otlp", "--source-domain", "stack-handoff",
+            "--out-dir", str(generic_output)], check=True)
+        generic_report = json.loads((generic_output / "report.json").read_text())
+        generic_plan = json.loads((generic_output / "collection-plan.json").read_text())
+        check(generic_report["goal_status"] == "PARTIAL",
+              "generic eBPF runtime capabilities must remain partial")
+        check(generic_report["contract"]["version"] == "0.3.0"
+              and generic_plan["contract"]["version"] == "0.3.0",
+              "generic eBPF handoff must use report and plan contracts 0.3.0")
+        check(len(generic_plan["trace_sources"]) == 1
+              and generic_plan["trace_sources"][0]["bering_input"] == "ebpf-otlp"
+              and generic_plan["trace_sources"][0]["domain"] == "stack-handoff",
+              "generic source kind and domain must survive the packaged launcher")
+        generic_serialized = json.dumps(generic_plan, sort_keys=True)
+        check('"collector"' not in generic_serialized and '"vendor"' not in generic_serialized,
+              "generic handoff must not add a collector or vendor parameter")
+        generic_overlay = yaml.safe_load((generic_output / "bering.overlay.yaml").read_text())
+        check(not generic_overlay.get("edges"), "generic preflight must not invent runtime edges")
+
+        generic_model = work / "generic-ebpf-model.json"
+        generic_snapshot = work / "generic-ebpf-snapshot.json"
+        subprocess.run([str(bering), "discover", "--input", str(raw_export),
+            "--input-type", "ebpf-otlp", "--source-id", "telemetry-main",
+            "--source-domain", "stack-handoff",
+            "--overlay", str(generic_output / "bering.overlay.yaml"),
+            "--out", str(generic_model), "--snapshot-out", str(generic_snapshot)], check=True)
+        for artifact in (generic_model, generic_snapshot):
+            subprocess.run([str(bering), "validate", "--input", str(artifact)], check=True)
+        generic_discovered = json.loads(generic_snapshot.read_text())
+        check(any(item.get("type") == "ebpf" and item.get("connector") == "ebpf-otlp"
+                  for item in generic_discovered["sources"]),
+              "Bering must retain generic eBPF OTLP source provenance")
+        check(any(edge["from"] == "frontend" and edge["to"] == "checkout"
+                  for edge in generic_discovered["model"]["edges"]),
+              "Bering must recover the synthetic generic observed call")
+    print("procrustes-stack-e2e-ok ready=EXPECTED missing-scenario=BLOCKED overlay=accepted ebpf-obi=PARTIAL ebpf-otlp=PARTIAL sources=accepted")
     return 0
 
 

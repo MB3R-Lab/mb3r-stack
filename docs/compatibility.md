@@ -39,9 +39,21 @@ Required evidence:
 
 OpenTelemetry Demo can be part of the evidence set, but it is not sufficient by itself because it is a showcase profile rather than the core compatibility path.
 
+## Verified, Release-Ready 1.5.0 Bundle
+
+Current main pins published Bering `v1.3.0`, Sheaft `v1.3.2`, and the exact
+Procrustes source revision recorded in the stack manifest. The producer-neutral
+`ebpf-otlp` profile and Procrustes generic report/collection-plan `0.3.0`
+handoff preserve the existing Bering model/snapshot `1.3.0` and adapter
+`v1alpha1` contracts. Complete stack CI passed in
+[run 40883389521](https://github.com/MB3R-Lab/mb3r-stack/actions/runs/40883389521)
+at exact revision `1d69e898be3ae40eeffd531ec294e864dd605a31`. The source is
+compatibility-verified and release-ready; the `v1.5.0` tag and its stack assets
+remain unpublished until the release workflow completes.
+
 ## Verified 1.4.0 Bundle
 
-Current main pins published Bering `v1.2.0` and Sheaft `v1.3.2` with unchanged Bering model/snapshot `1.3.0` contracts. The chart exposes `bering.config.runtime.publicationMode` (default `windowed`) and `bering.config.runtime.reconciliation.enabled` (default `true`). To use Bering's opt-in `on_shutdown` publication, set both `publicationMode: on_shutdown` and `reconciliation.enabled: false`. This collects one batch until shutdown; the external orchestrator must permit finalization to complete. Full stack integration checks passed in [the validation run](https://github.com/MB3R-Lab/mb3r-stack/actions/runs/40800490711), and [v1.4.0 publication checks](https://github.com/MB3R-Lab/mb3r-stack/actions/runs/40800899484) passed. The `1.3.0` entry below retains its original pins and evidence.
+The `1.4.0` release pins published Bering `v1.2.0` and Sheaft `v1.3.2` with unchanged Bering model/snapshot `1.3.0` contracts. The chart exposes `bering.config.runtime.publicationMode` (default `windowed`) and `bering.config.runtime.reconciliation.enabled` (default `true`). To use Bering's opt-in `on_shutdown` publication, set both `publicationMode: on_shutdown` and `reconciliation.enabled: false`. This collects one batch until shutdown; the external orchestrator must permit finalization to complete. Full stack integration checks passed in [the validation run](https://github.com/MB3R-Lab/mb3r-stack/actions/runs/40800490711), and [v1.4.0 publication checks](https://github.com/MB3R-Lab/mb3r-stack/actions/runs/40800899484) passed. The `1.3.0` entry below retains its original pins and evidence.
 
 ## Verified 1.3.0 Bundle
 
