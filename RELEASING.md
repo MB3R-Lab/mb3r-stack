@@ -20,7 +20,7 @@ Each stack release is expected to publish:
 
 ## Pre-Release Checklist
 
-The `1.4.0` candidate pins published upstream releases and an exact Procrustes
+The verified `1.4.0` bundle pins published upstream releases and an exact Procrustes
 source revision; its passed integration CI is recorded in the compatibility matrix. The strict
 source-pin schema rejects unresolved commits; never weaken it or invent a
 digest. Update chart/profile/adapter pins together from actual upstream release

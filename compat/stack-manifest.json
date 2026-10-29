@@ -4,7 +4,7 @@
   "stack": {
     "name": "mb3r-stack",
     "version": "1.4.0",
-    "status": "candidate",
+    "status": "ga",
     "releaseDate": "2026-10-29",
     "notes": [
       "Integration checks passed at revision 45ae9bc24e882cb9dbddac4342a8355b787a8921 in https://github.com/MB3R-Lab/mb3r-stack/actions/runs/40798522544; bundle publication remains separate.",
