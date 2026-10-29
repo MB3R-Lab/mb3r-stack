@@ -3,7 +3,7 @@
 The stack includes Procrustes as an optional operator-invoked stage before
 collection and Bering discovery. Its exact source revision comes from
 `compat/stack-manifest.json`; the launcher never follows upstream main. The
-release-ready `1.5.0` source pins merged revision `9648ae3fe9ef24725e665d008c79d0681ce40f85`
+published `1.5.0` bundle pins merged revision `9648ae3fe9ef24725e665d008c79d0681ce40f85`
 of preview `0.1.0`. Procrustes is source-built; no OCI artifact is invented.
 
 ## Requirements and quick check
@@ -103,6 +103,6 @@ For the generic source, use `--input-type ebpf-otlp` and the matching logical
 and publishes the same model/snapshot contracts consumed by Sheaft.
 
 Use the Sheaft version and immutable image pin recorded in the stack manifest
-for downstream analysis. The release-ready `1.5.0` source keeps published
+for downstream analysis. The published `1.5.0` bundle keeps published
 Sheaft `1.3.2`; its generic-source compatibility is verified by the exact stack
 CI revision recorded in the compatibility matrix.

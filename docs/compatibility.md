@@ -39,7 +39,7 @@ Required evidence:
 
 OpenTelemetry Demo can be part of the evidence set, but it is not sufficient by itself because it is a showcase profile rather than the core compatibility path.
 
-## Verified, Release-Ready 1.5.0 Bundle
+## Published 1.5.0 Bundle
 
 Current main pins published Bering `v1.3.0`, Sheaft `v1.3.2`, and the exact
 Procrustes source revision recorded in the stack manifest. The producer-neutral
@@ -48,8 +48,10 @@ handoff preserve the existing Bering model/snapshot `1.3.0` and adapter
 `v1alpha1` contracts. Complete stack CI passed in
 [run 40883389521](https://github.com/MB3R-Lab/mb3r-stack/actions/runs/40883389521)
 at exact revision `1d69e898be3ae40eeffd531ec294e864dd605a31`. The source is
-compatibility-verified and release-ready; the `v1.5.0` tag and its stack assets
-remain unpublished until the release workflow completes.
+compatibility-verified. It was published from tag revision
+`4ba1d790d66c47976dc6cc05dfeb6e812427eb58` by
+[release run 40886588360](https://github.com/MB3R-Lab/mb3r-stack/actions/runs/40886588360),
+including anonymous public-download and packaged-preflight checks.
 
 ## Verified 1.4.0 Bundle
 

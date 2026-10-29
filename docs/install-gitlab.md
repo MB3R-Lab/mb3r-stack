@@ -26,6 +26,4 @@ include:
 ```
 
 Keep the tag aligned with the `mb3r-stack` integration bundle release, not with any upstream Bering or Sheaft release number.
-The example is staged for the planned `v1.5.0` bundle tag. The source is
-compatibility-verified and release-ready, but the tag is not published yet;
-use it only after the release is published.
+The example is pinned to the published `v1.5.0` bundle tag.

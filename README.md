@@ -1,18 +1,18 @@
 # mb3r-stack
 
-[![release](https://img.shields.io/badge/release-v1.4.0-blue)](https://github.com/MB3R-Lab/mb3r-stack/releases/tag/v1.4.0)
+[![release](https://img.shields.io/badge/release-v1.5.0-blue)](https://github.com/MB3R-Lab/mb3r-stack/releases/tag/v1.5.0)
 [![checks](https://img.shields.io/github/actions/workflow/status/MB3R-Lab/mb3r-stack/ci.yml?branch=main&label=checks)](https://github.com/MB3R-Lab/mb3r-stack/actions/workflows/ci.yml)
 [![bundle](https://img.shields.io/badge/bundle-1.5.0_verified-brightgreen)](https://github.com/MB3R-Lab/mb3r-stack/blob/main/compat/stack-manifest.json)
 
-The release-ready `1.5.0` source advances to Bering `1.3.0`, keeps Sheaft
+The published `1.5.0` bundle advances to Bering `1.3.0`, keeps Sheaft
 `1.3.2`, and pins the merged Procrustes generic eBPF OTLP handoff. The Bering
 image uses its published immutable digest. Stack compatibility was verified by
 [CI run 40883389521](https://github.com/MB3R-Lab/mb3r-stack/actions/runs/40883389521)
-at revision `1d69e898be3ae40eeffd531ec294e864dd605a31`. The `v1.5.0` tag and bundle
-assets are not published by this source commit. The latest published stack is
-[v1.4.0](https://github.com/MB3R-Lab/mb3r-stack/releases/tag/v1.4.0), released
-from tag revision `06dc632c24771f91abf7472f9d73887757e7b603` through
-[publication and public-download checks](https://github.com/MB3R-Lab/mb3r-stack/actions/runs/40800899484).
+at revision `1d69e898be3ae40eeffd531ec294e864dd605a31`. The bundle was published from
+tag revision `4ba1d790d66c47976dc6cc05dfeb6e812427eb58` by
+[release run 40886588360](https://github.com/MB3R-Lab/mb3r-stack/actions/runs/40886588360),
+including anonymous public-download and packaged-preflight checks. Historical
+`v1.4.0` release evidence remains recorded in the compatibility documentation.
 
 Its Helm defaults preserve continuous `windowed` publication with reconciliation enabled. For one complete export, set `bering.config.runtime.publicationMode=on_shutdown` and `bering.config.runtime.reconciliation.enabled=false`; the orchestrator must allow shutdown finalization to finish.
 
